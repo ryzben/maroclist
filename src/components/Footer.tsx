@@ -36,14 +36,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-400 to-orange-600">
-                <span className="text-base font-black text-white">M</span>
-              </div>
-              <div className="leading-none">
-                <span className="text-lg font-black text-gray-900">Maroc</span>
-                <span className="text-lg font-black text-orange-500">list</span>
-              </div>
+            <Link href="/">
+              <img src="/maroclist-logo2.jpg" alt="Maroclist" className="h-10 w-auto object-contain" />
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-gray-400">
               {l(
