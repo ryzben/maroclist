@@ -3,7 +3,11 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { Inter, Noto_Sans_Arabic } from "next/font/google";
 import "../globals.css";
+
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
+const notoArabic = Noto_Sans_Arabic({ subsets: ["arabic"], display: "swap", variable: "--font-arabic" });
 
 export async function generateMetadata({
   params,
@@ -43,15 +47,7 @@ export default async function LocaleLayout({
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <html lang={locale} dir={dir}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang={locale} dir={dir} className={`${inter.variable} ${notoArabic.variable}`}>
       <body suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           {children}
