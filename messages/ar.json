@@ -116,7 +116,16 @@
     "signup": "تسجيل",
     "noAccount": "ليس لديك حساب؟",
     "hasAccount": "لديك حساب بالفعل؟",
-    "forgotPassword": "نسيت كلمة المرور؟"
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "forgotPasswordTitle": "إعادة تعيين كلمة المرور",
+    "forgotPasswordDesc": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين.",
+    "forgotPasswordSent": "تحقق من بريدك الإلكتروني — تم إرسال رابط إعادة التعيين.",
+    "sendResetLink": "إرسال الرابط",
+    "backToLogin": "العودة إلى تسجيل الدخول",
+    "resetPasswordTitle": "كلمة مرور جديدة",
+    "newPassword": "كلمة المرور الجديدة",
+    "resetPassword": "إعادة التعيين",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين."
   },
   "cities": {
     "casablanca": "الدار البيضاء",

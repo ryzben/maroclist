@@ -2,24 +2,28 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
 
-export default function LoginPage() {
+export default function ResetPasswordPage() {
   const t = useTranslations("auth");
   const router = useRouter();
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (password !== confirm) {
+      setError(t("passwordMismatch"));
+      return;
+    }
     setLoading(true);
     setError("");
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.updateUser({ password });
     if (error) {
       setError(error.message);
       setLoading(false);
@@ -34,38 +38,31 @@ export default function LoginPage() {
       <main className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
         <div className="w-full max-w-sm">
           <div className="mb-8 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600">
-              <span className="text-xl font-bold text-white">M</span>
-            </div>
-            <h1 className="mt-4 text-2xl font-bold text-gray-900">{t("loginTitle")}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{t("resetPasswordTitle")}</h1>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <div>
-              <label className="label">{t("email")}</label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input"
-                autoComplete="email"
-              />
-            </div>
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="label mb-0">{t("password")}</label>
-                <Link href="/forgot-password" className="text-xs text-orange-500 hover:text-orange-600">
-                  {t("forgotPassword")}
-                </Link>
-              </div>
+              <label className="label">{t("newPassword")}</label>
               <input
                 type="password"
                 required
+                minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input"
-                autoComplete="current-password"
+                autoComplete="new-password"
+              />
+            </div>
+            <div>
+              <label className="label">{t("confirmPassword")}</label>
+              <input
+                type="password"
+                required
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                className="input"
+                autoComplete="new-password"
               />
             </div>
 
@@ -74,16 +71,9 @@ export default function LoginPage() {
             )}
 
             <button type="submit" disabled={loading} className="btn-primary w-full py-2.5">
-              {loading ? "..." : t("login")}
+              {loading ? "..." : t("resetPassword")}
             </button>
           </form>
-
-          <p className="mt-4 text-center text-sm text-gray-600">
-            {t("noAccount")}{" "}
-            <Link href="/signup" className="font-medium text-brand-600 hover:text-brand-700">
-              {t("signup")}
-            </Link>
-          </p>
         </div>
       </main>
     </>

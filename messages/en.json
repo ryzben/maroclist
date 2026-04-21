@@ -116,7 +116,16 @@
     "signup": "Sign up",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
-    "forgotPassword": "Forgot your password?"
+    "forgotPassword": "Forgot your password?",
+    "forgotPasswordTitle": "Reset your password",
+    "forgotPasswordDesc": "Enter your email and we'll send you a reset link.",
+    "forgotPasswordSent": "Check your email — a reset link has been sent.",
+    "sendResetLink": "Send reset link",
+    "backToLogin": "Back to login",
+    "resetPasswordTitle": "New password",
+    "newPassword": "New password",
+    "resetPassword": "Reset password",
+    "passwordMismatch": "Passwords do not match."
   },
   "cities": {
     "casablanca": "Casablanca",
