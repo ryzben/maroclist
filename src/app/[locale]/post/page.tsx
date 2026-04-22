@@ -118,7 +118,7 @@ export default function PostPage() {
 
       if (insertError) throw insertError;
 
-      router.push("/listings");
+      router.push("/my-listings");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue");
     } finally {
