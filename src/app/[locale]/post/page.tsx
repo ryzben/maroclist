@@ -24,6 +24,7 @@ interface FormState {
   bathrooms: string;
   contact_phone: string;
   contact_email: string;
+  video_url: string;
 }
 
 const INITIAL: FormState = {
@@ -41,6 +42,7 @@ const INITIAL: FormState = {
   bathrooms: "",
   contact_phone: "",
   contact_email: "",
+  video_url: "",
 };
 
 export default function PostPage() {
@@ -112,6 +114,7 @@ export default function PostPage() {
         bedrooms: form.bedrooms ? Number(form.bedrooms) : null,
         bathrooms: form.bathrooms ? Number(form.bathrooms) : null,
         images: imageUrls,
+        video_url: form.video_url || null,
         contact_phone: form.contact_phone || null,
         contact_email: form.contact_email || null,
       });
@@ -268,6 +271,19 @@ export default function PostPage() {
                 ))}
               </div>
             )}
+          </div>
+
+          {/* Video */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
+            <h2 className="font-semibold text-gray-900">{t("post.video")}</h2>
+            <p className="text-sm text-gray-500">{t("post.videoDesc")}</p>
+            <input
+              type="url"
+              value={form.video_url}
+              onChange={(e) => set("video_url", e.target.value)}
+              placeholder="https://www.youtube.com/watch?v=..."
+              className="input"
+            />
           </div>
 
           {/* Contact */}

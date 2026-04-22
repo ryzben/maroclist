@@ -93,7 +93,9 @@
     "submit": "Publier l'annonce",
     "success": "Votre annonce a été publiée avec succès !",
     "basicInfo": "Informations principales",
-    "addPhotos": "Cliquez pour ajouter des photos"
+    "addPhotos": "Cliquez pour ajouter des photos",
+    "video": "Vidéo",
+    "videoDesc": "Ajoutez un lien YouTube pour une visite virtuelle (optionnel)."
   },
   "contact": {
     "title": "Contacter le propriétaire",

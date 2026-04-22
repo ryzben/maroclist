@@ -46,6 +46,7 @@ export interface Property {
   bedrooms: number | null;
   bathrooms: number | null;
   images: string[];
+  video_url: string | null;
   contact_phone: string | null;
   contact_email: string | null;
   is_active: boolean;

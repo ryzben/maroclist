@@ -55,6 +55,21 @@ async function getSimilarListings(id: string, city: string, propertyType: string
   return data ?? [];
 }
 
+function getYouTubeEmbedUrl(url: string): string | null {
+  try {
+    const u = new URL(url);
+    let videoId: string | null = null;
+    if (u.hostname === "youtu.be") {
+      videoId = u.pathname.slice(1);
+    } else if (u.hostname.includes("youtube.com")) {
+      videoId = u.searchParams.get("v");
+    }
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function generateMetadata({ params }: PropertyDetailPageProps): Promise<Metadata> {
   const { id, locale } = await params;
   const property = await getProperty(id);
@@ -108,6 +123,21 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
             ) : (
               <div className="flex h-80 items-center justify-center rounded-xl bg-gray-100">
                 <span className="text-gray-400">{t("property.noPhoto")}</span>
+              </div>
+            )}
+
+            {/* Video */}
+            {property.video_url && getYouTubeEmbedUrl(property.video_url) && (
+              <div className="rounded-xl border border-gray-200 overflow-hidden">
+                <iframe
+                  title="video"
+                  width="100%"
+                  height="360"
+                  src={getYouTubeEmbedUrl(property.video_url)!}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="block"
+                />
               </div>
             )}
 

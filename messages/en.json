@@ -93,7 +93,9 @@
     "submit": "Publish listing",
     "success": "Your listing has been published successfully!",
     "basicInfo": "Basic information",
-    "addPhotos": "Click to add photos"
+    "addPhotos": "Click to add photos",
+    "video": "Video",
+    "videoDesc": "Add a YouTube link for a virtual tour (optional)."
   },
   "contact": {
     "title": "Contact the owner",
