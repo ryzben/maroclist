@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
 import { CITIES, PROPERTY_TYPES } from "@/types/property";
+import { normalizePhone } from "@/lib/utils";
 
 interface FormState {
   title: string;
@@ -115,7 +116,7 @@ export default function PostPage() {
         bathrooms: form.bathrooms ? Number(form.bathrooms) : null,
         images: imageUrls,
         video_url: form.video_url || null,
-        contact_phone: form.contact_phone || null,
+        contact_phone: form.contact_phone ? normalizePhone(form.contact_phone) : null,
         contact_email: form.contact_email || null,
       });
 

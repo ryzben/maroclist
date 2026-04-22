@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Send, CheckCircle } from "lucide-react";
+import { normalizePhone } from "@/lib/utils";
 
 interface ContactFormProps {
   propertyId: string;
@@ -61,7 +62,7 @@ export default function ContactForm({ propertyId, propertyTitle, ownerEmail, own
 
       {ownerPhone && (
         <a
-          href={`https://wa.me/${ownerPhone.replace(/\D/g, "")}`}
+          href={`https://wa.me/${normalizePhone(ownerPhone).replace(/\D/g, "")}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 rounded-lg bg-green-500 py-2.5 text-sm font-semibold text-white hover:bg-green-600"

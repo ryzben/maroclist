@@ -13,6 +13,17 @@ export function formatPrice(price: number, currency = "MAD", locale = "fr-MA") {
   }).format(price);
 }
 
+export function normalizePhone(phone: string): string {
+  const digits = phone.replace(/\s/g, "");
+  if (digits.startsWith("0") && !digits.startsWith("00")) {
+    return "+212" + digits.slice(1);
+  }
+  if (digits.startsWith("212") && !digits.startsWith("+")) {
+    return "+" + digits;
+  }
+  return digits;
+}
+
 export function formatArea(area: number, locale = "fr") {
   return `${new Intl.NumberFormat(locale).format(area)} m²`;
 }
