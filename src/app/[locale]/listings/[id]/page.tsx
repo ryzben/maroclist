@@ -19,7 +19,7 @@ async function getProperty(id: string) {
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("properties")
-    .select("*, profiles(full_name, phone)")
+    .select("*")
     .eq("id", id)
     .eq("is_active", true)
     .single();

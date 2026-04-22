@@ -53,10 +53,6 @@ export interface Property {
   is_featured: boolean;
   created_at: string;
   updated_at: string;
-  profiles?: {
-    full_name: string | null;
-    phone: string | null;
-  };
 }
 
 export interface PropertyFilters {
