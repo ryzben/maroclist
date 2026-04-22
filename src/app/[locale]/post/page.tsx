@@ -98,6 +98,7 @@ export default function PostPage() {
 
       const { error: insertError } = await supabase.from("properties").insert({
         user_id: user.id,
+        is_active: true,
         title: form.title,
         title_ar: form.title_ar || null,
         description: form.description || null,
