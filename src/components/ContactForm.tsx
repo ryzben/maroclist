@@ -6,11 +6,12 @@ import { Send, CheckCircle } from "lucide-react";
 
 interface ContactFormProps {
   propertyId: string;
+  propertyTitle: string;
   ownerEmail: string | null;
   ownerPhone: string | null;
 }
 
-export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps) {
+export default function ContactForm({ propertyId, propertyTitle, ownerEmail, ownerPhone }: ContactFormProps) {
   const t = useTranslations("contact");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,9 +20,21 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    // TODO: wire to Supabase edge function or email service
-    await new Promise((r) => setTimeout(r, 800));
-    setSent(true);
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        propertyId,
+        propertyTitle,
+        ownerEmail,
+        senderName: form.name,
+        senderPhone: form.phone,
+        message: form.message,
+      }),
+    });
+    if (res.ok) {
+      setSent(true);
+    }
     setLoading(false);
   }
 

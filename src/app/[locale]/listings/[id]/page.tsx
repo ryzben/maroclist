@@ -250,6 +250,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
             <ContactForm
               propertyId={property.id}
+              propertyTitle={title}
               ownerEmail={property.contact_email}
               ownerPhone={property.contact_phone}
             />
