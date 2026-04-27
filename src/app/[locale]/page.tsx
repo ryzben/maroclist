@@ -97,7 +97,7 @@ function HeroSection() {
 
           <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
             {t("hero.title")}
-            <span className="mt-2 block text-3xl font-bold text-orange-400 sm:text-4xl md:text-5xl">
+            <span className="mt-2 block text-3xl font-bold text-white sm:text-4xl md:text-5xl">
               {t("hero.titleLine2")}
             </span>
           </h1>
