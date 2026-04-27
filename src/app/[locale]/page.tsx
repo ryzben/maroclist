@@ -91,7 +91,7 @@ function HeroSection() {
       <div className="container-page relative">
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm">
-            <Star className="h-3.5 w-3.5 text-amber-300" fill="currentColor" />
+            <Star className="h-3.5 w-3.5" style={{ color: "#f97316" }} fill="currentColor" />
             {t("home.badgeLabel")}
           </div>
 
@@ -111,6 +111,7 @@ function HeroSection() {
             { icon: <CheckCircle className="h-4 w-4 text-green-400" />, label: t("home.trustFree") },
             { icon: <ShieldCheck className="h-4 w-4 text-blue-400" />, label: t("home.trustVerified") },
             { icon: <MessageCircle className="h-4 w-4 text-orange-400" />, label: t("home.trustContact") },
+            { icon: <span className="text-sm leading-none">🇺🇸🇨🇦</span>, label: t("home.trustNorthAmerica") },
           ].map(({ icon, label }) => (
             <span key={label} className="flex items-center gap-1.5 text-sm text-white/75">
               {icon}
@@ -208,6 +209,7 @@ function WhyUsSection() {
     { icon: "✅", title: t("home.feat2Title"), desc: t("home.feat2Desc") },
     { icon: "📱", title: t("home.feat3Title"), desc: t("home.feat3Desc") },
     { icon: "🆓", title: t("home.feat4Title"), desc: t("home.feat4Desc") },
+    { icon: "🇺🇸", title: t("home.feat5Title"), desc: t("home.feat5Desc") },
   ];
 
   return (
@@ -219,7 +221,7 @@ function WhyUsSection() {
           </p>
           <h2 className="section-title">{t("home.whyTitle")}</h2>
         </div>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {features.map(({ icon, title, desc }) => (
             <div key={title} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="mb-4 text-3xl">{icon}</div>

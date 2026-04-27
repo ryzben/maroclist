@@ -42,9 +42,9 @@ export default function Footer() {
             <p className="mt-3 text-sm leading-relaxed text-gray-400">
               {l(
                 locale,
-                "Morocco's real estate platform — buy, rent, holiday.",
-                "La plateforme immobilière au Maroc — vente, location, vacances.",
-                "منصة العقارات في المغرب — بيع، إيجار، إيجار موسمي."
+                "Morocco's real estate marketplace — trusted by Moroccans in the US, Canada & beyond.",
+                "La plateforme immobilière au Maroc — pour les Marocains aux États-Unis, Canada et partout dans le monde.",
+                "منصة العقارات في المغرب للمغاربة في أمريكا وكندا وحول العالم."
               )}
             </p>
           </div>
