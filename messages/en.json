@@ -15,8 +15,9 @@
     "listingCount": "{count} listing(s)"
   },
   "hero": {
-    "title": "Find your dream home in Morocco",
-    "subtitle": "Properties for sale and rent across Morocco",
+    "title": "Buy property in Morocco",
+    "titleLine2": "From the US or Canada",
+    "subtitle": "Explore homes, villas, and land across Morocco — designed for buyers abroad",
     "searchPlaceholder": "City, neighborhood...",
     "search": "Search",
     "forSale": "For sale",

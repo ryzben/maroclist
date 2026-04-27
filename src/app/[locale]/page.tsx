@@ -97,6 +97,9 @@ function HeroSection() {
 
           <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
             {t("hero.title")}
+            <span className="mt-2 block text-3xl font-bold text-orange-400 sm:text-4xl md:text-5xl">
+              {t("hero.titleLine2")}
+            </span>
           </h1>
           <p className="mt-5 text-lg text-white/80 sm:text-xl">
             {t("hero.subtitle")}
@@ -119,9 +122,9 @@ function HeroSection() {
           ))}
         </div>
 
-        {/* Diaspora message */}
-        <p className="mt-5 mx-auto max-w-2xl text-center text-base leading-relaxed text-white/85 sm:text-lg">
-          {t("home.heroMsg")}
+        {/* Trust line */}
+        <p className="mt-4 text-center text-sm font-semibold text-white/70 tracking-wide">
+          ✓ {t("home.trustInternational")}
         </p>
       </div>
     </section>

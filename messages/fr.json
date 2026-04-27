@@ -15,8 +15,9 @@
     "listingCount": "{count} annonce(s)"
   },
   "hero": {
-    "title": "Trouvez la maison de vos rêves au Maroc",
-    "subtitle": "Des propriétés à vendre et à louer dans tout le Maroc",
+    "title": "Achetez un bien au Maroc",
+    "titleLine2": "Depuis les États-Unis ou le Canada",
+    "subtitle": "Explorez maisons, villas et terrains au Maroc — conçu pour les acheteurs à l'étranger",
     "searchPlaceholder": "Ville, quartier...",
     "search": "Rechercher",
     "forSale": "À vendre",
