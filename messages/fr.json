@@ -15,8 +15,8 @@
     "listingCount": "{count} annonce(s)"
   },
   "hero": {
-    "title": "Achetez un bien au Maroc — depuis les États-Unis ou le Canada",
-    "subtitle": "Explorez maisons, villas et terrains à vendre ou à louer au Maroc — que vous soyez sur place ou à l'étranger.",
+    "title": "Trouvez la maison de vos rêves au Maroc",
+    "subtitle": "Des propriétés à vendre et à louer dans tout le Maroc",
     "searchPlaceholder": "Ville, quartier...",
     "search": "Rechercher",
     "forSale": "À vendre",
@@ -172,6 +172,7 @@
     "diasporaPoint2": "Contactez les propriétaires directement — sans intermédiaire",
     "diasporaPoint3": "Pas besoin de voyager pour commencer",
     "quickSearch": "Recherches populaires",
+    "heroMsg": "Maroclist vous permet de rechercher, comparer et contacter des propriétaires au Maroc. Même depuis l'étranger. Notre plateforme est conçue pour aider les acheteurs internationaux à investir en toute confiance.",
     "cityListings": "annonces",
     "searchCity": "Ville",
     "searchType": "Type de bien",

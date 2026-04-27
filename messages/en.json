@@ -15,8 +15,8 @@
     "listingCount": "{count} listing(s)"
   },
   "hero": {
-    "title": "Buy property in Morocco — from the US or Canada",
-    "subtitle": "Explore homes, villas, and land for sale or rent across Morocco — whether you're local or living abroad.",
+    "title": "Find your dream home in Morocco",
+    "subtitle": "Properties for sale and rent across Morocco",
     "searchPlaceholder": "City, neighborhood...",
     "search": "Search",
     "forSale": "For sale",
@@ -172,6 +172,7 @@
     "diasporaPoint2": "Contact owners directly — no middleman",
     "diasporaPoint3": "No travel required to get started",
     "quickSearch": "Popular searches",
+    "heroMsg": "Maroclist makes it easy to search, compare, and connect with property owners in Morocco. Even if you are abroad. Our platform is designed to help international buyers invest with confidence.",
     "cityListings": "listings",
     "searchCity": "City",
     "searchType": "Property type",

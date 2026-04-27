@@ -125,24 +125,10 @@ function HeroSection() {
           ))}
         </div>
 
-        {/* Quick search suggestions */}
-        <div className="mt-4 flex flex-wrap justify-center gap-2">
-          <span className="self-center text-xs text-white/45">{t("home.quickSearch")} :</span>
-          {[
-            { href: "/listings?city=casablanca&property_type=apartment", label: `${t("property.types.apartment")} · ${t("cities.casablanca")}` },
-            { href: "/listings?city=marrakech&property_type=villa",      label: `${t("property.types.villa")} · ${t("cities.marrakech")}` },
-            { href: "/listings?city=agadir&property_type=land",          label: `${t("property.types.land")} · ${t("cities.agadir")}` },
-            { href: "/listings?city=rabat&transaction_type=rent",        label: `${t("hero.forRent")} · ${t("cities.rabat")}` },
-          ].map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white/80 backdrop-blur-sm transition hover:bg-white/20 hover:text-white"
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
+        {/* Diaspora message */}
+        <p className="mt-5 mx-auto max-w-2xl text-center text-sm leading-relaxed text-white/75">
+          {t("home.heroMsg")}
+        </p>
       </div>
     </section>
   );
