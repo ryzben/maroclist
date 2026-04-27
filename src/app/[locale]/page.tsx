@@ -105,18 +105,12 @@ function HeroSection() {
 
         <HeroSearchForm />
 
-        {/* Trust line near search bar */}
-        <p className="mt-3 text-center text-xs font-semibold text-white/70 tracking-wide">
-          ✓ {t("home.trustInternational")}
-        </p>
-
         {/* Trust signals */}
         <div className="mt-6 flex flex-wrap justify-center gap-x-7 gap-y-2">
           {[
             { icon: <CheckCircle className="h-4 w-4 text-green-400" />, label: t("home.trustFree") },
             { icon: <ShieldCheck className="h-4 w-4 text-blue-400" />, label: t("home.trustVerified") },
             { icon: <MessageCircle className="h-4 w-4 text-orange-400" />, label: t("home.trustContact") },
-            { icon: <span className="text-sm leading-none">🇺🇸🇨🇦</span>, label: t("home.trustNorthAmerica") },
           ].map(({ icon, label }) => (
             <span key={label} className="flex items-center gap-1.5 text-sm text-white/75">
               {icon}
@@ -126,7 +120,7 @@ function HeroSection() {
         </div>
 
         {/* Diaspora message */}
-        <p className="mt-5 mx-auto max-w-2xl text-center text-sm leading-relaxed text-white/75">
+        <p className="mt-5 mx-auto max-w-2xl text-center text-base leading-relaxed text-white/85 sm:text-lg">
           {t("home.heroMsg")}
         </p>
       </div>
@@ -143,46 +137,6 @@ const POPULAR_CITIES = [
   { key: "fes",        photo: "/cities/Fes_Karawiyin.jpg" },
 ];
 
-function DiasporaBannerSection() {
-  const t = useTranslations("home");
-
-  const points = [
-    t("diasporaPoint1"),
-    t("diasporaPoint2"),
-    t("diasporaPoint3"),
-  ];
-
-  return (
-    <section className="bg-orange-50 border-y border-orange-100 py-10">
-      <div className="container-page">
-        <div className="flex flex-col gap-8 md:flex-row md:items-center md:gap-12">
-          {/* Text */}
-          <div className="flex-1">
-            <p className="text-xs font-bold uppercase tracking-wider text-orange-500 mb-2">
-              {t("diasporaLabel")}
-            </p>
-            <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
-              {t("diasporaTitle")}
-            </h2>
-            <p className="mt-3 text-gray-600 leading-relaxed max-w-lg">
-              {t("diasporaDesc")}
-            </p>
-          </div>
-
-          {/* Points */}
-          <div className="flex flex-col gap-3 md:w-72 shrink-0">
-            {points.map((point) => (
-              <div key={point} className="flex items-start gap-3 rounded-xl bg-white border border-orange-100 px-4 py-3 shadow-sm">
-                <CheckCircle className="h-5 w-5 shrink-0 text-orange-500 mt-0.5" />
-                <span className="text-sm font-medium text-gray-700">{point}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function PopularCitiesSection({ cityCounts }: { cityCounts: Record<string, number> }) {
   const t = useTranslations();
@@ -381,7 +335,6 @@ export default async function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
-        <DiasporaBannerSection />
         <PopularCitiesSection cityCounts={cityCounts} />
         <SponsoredBannersSection />
 
