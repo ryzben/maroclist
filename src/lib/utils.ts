@@ -24,6 +24,23 @@ export function normalizePhone(phone: string): string {
   return digits;
 }
 
+// 1 USD ≈ 10 MAD (indicative rate for display purposes)
+const MAD_TO_USD = 0.1;
+
+export function madToUsd(madAmount: number): string {
+  const usd = Math.round(madAmount * MAD_TO_USD);
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(usd);
+}
+
+export function whatsappUrl(phone: string, message: string): string {
+  const cleaned = normalizePhone(phone).replace("+", "");
+  return `https://wa.me/${cleaned}?text=${encodeURIComponent(message)}`;
+}
+
 export function formatArea(area: number, locale = "fr") {
   return `${new Intl.NumberFormat(locale).format(area)} m²`;
 }

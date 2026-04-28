@@ -41,6 +41,8 @@
     "price": "Prix",
     "perMonth": "/ mois",
     "contact": "Contacter le vendeur",
+    "whatsapp": "Contacter sur WhatsApp",
+    "priceUsd": "≈ {usd} USD (indicatif)",
     "description": "Description",
     "details": "Détails",
     "location": "Localisation",

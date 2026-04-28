@@ -41,6 +41,8 @@
     "price": "السعر",
     "perMonth": "/ شهر",
     "contact": "تواصل مع البائع",
+    "whatsapp": "تواصل عبر واتساب",
+    "priceUsd": "≈ {usd} دولار (تقريبي)",
     "description": "الوصف",
     "details": "التفاصيل",
     "location": "الموقع",

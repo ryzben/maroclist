@@ -3,7 +3,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { MapPin, BedDouble, Bath, Maximize2 } from "lucide-react";
 import { Property } from "@/types/property";
-import { formatPrice, timeAgo } from "@/lib/utils";
+import { formatPrice, timeAgo, madToUsd } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 interface PropertyCardProps {
@@ -89,14 +89,19 @@ export default function PropertyCard({ property }: PropertyCardProps) {
       <div className="p-4">
         {/* Price */}
         <div className="flex items-baseline justify-between gap-2">
-          <p className="text-xl font-bold text-rose-600">
-            {formatPrice(property.price, property.currency)}
-            {property.transaction_type !== "sale" && (
-              <span className="text-sm font-normal text-gray-400">
-                {property.transaction_type === "holiday_rental" ? "/nuit" : t("property.perMonth")}
-              </span>
+          <div>
+            <p className="text-xl font-bold text-rose-600">
+              {formatPrice(property.price, property.currency)}
+              {property.transaction_type !== "sale" && (
+                <span className="text-sm font-normal text-gray-400">
+                  {property.transaction_type === "holiday_rental" ? "/nuit" : t("property.perMonth")}
+                </span>
+              )}
+            </p>
+            {(!property.currency || property.currency === "MAD") && property.transaction_type === "sale" && (
+              <p className="text-xs text-gray-400">≈ {madToUsd(property.price)}</p>
             )}
-          </p>
+          </div>
         </div>
 
         {/* Title */}
