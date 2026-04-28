@@ -100,9 +100,15 @@ export default function Footer() {
           <p className="text-xs text-gray-400">
             © {new Date().getFullYear()} Maroclist. {l(locale, "All rights reserved.", "Tous droits réservés.", "جميع الحقوق محفوظة.")}
           </p>
-          <p className="text-xs text-gray-400">
-            contact@maroclist.com
-          </p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="text-xs text-gray-400 hover:text-orange-500 transition-colors">
+              {l(locale, "Privacy Policy", "Politique de confidentialité", "سياسة الخصوصية")}
+            </Link>
+            <Link href="/terms" className="text-xs text-gray-400 hover:text-orange-500 transition-colors">
+              {l(locale, "Terms of Service", "Conditions d'utilisation", "شروط الاستخدام")}
+            </Link>
+            <p className="text-xs text-gray-400">contact@maroclist.com</p>
+          </div>
         </div>
       </div>
     </footer>
