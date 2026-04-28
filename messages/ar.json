@@ -11,6 +11,7 @@
     "active": "نشط",
     "inactive": "غير نشط",
     "view": "عرض",
+    "edit": "تعديل",
     "delete": "حذف",
     "listingCount": "{count} إعلان"
   },
@@ -94,6 +95,10 @@
     "photosDesc": "أضف حتى 10 صور. ستكون الأولى الصورة الرئيسية.",
     "phone": "رقم الهاتف",
     "submit": "نشر الإعلان",
+    "editTitle": "تعديل الإعلان",
+    "editSubtitle": "حدّث تفاصيل عقارك",
+    "saveChanges": "حفظ التغييرات",
+    "currentPhotos": "الصور الحالية",
     "success": "تم نشر إعلانك بنجاح!",
     "basicInfo": "المعلومات الأساسية",
     "addPhotos": "انقر لإضافة الصور",

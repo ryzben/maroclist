@@ -11,6 +11,7 @@
     "active": "Active",
     "inactive": "Inactive",
     "view": "View",
+    "edit": "Edit",
     "delete": "Delete",
     "listingCount": "{count} listing(s)"
   },
@@ -94,6 +95,10 @@
     "photosDesc": "Add up to 10 photos. The first will be the main image.",
     "phone": "Contact phone",
     "submit": "Publish listing",
+    "editTitle": "Edit listing",
+    "editSubtitle": "Update your property details",
+    "saveChanges": "Save changes",
+    "currentPhotos": "Current photos",
     "success": "Your listing has been published successfully!",
     "basicInfo": "Basic information",
     "addPhotos": "Click to add photos",

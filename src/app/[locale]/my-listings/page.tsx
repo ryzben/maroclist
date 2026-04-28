@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
-import { PlusCircle, Pencil, Trash2, MapPin, BedDouble, Bath, Maximize2 } from "lucide-react";
+import { PlusCircle, Pencil, Trash2, Eye, MapPin, BedDouble, Bath, Maximize2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
@@ -128,8 +128,15 @@ export default function MyListingsPage() {
                           href={`/listings/${listing.id}`}
                           className="flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 transition"
                         >
-                          <Pencil className="h-3.5 w-3.5" />
+                          <Eye className="h-3.5 w-3.5" />
                           {t("nav.view")}
+                        </Link>
+                        <Link
+                          href={`/my-listings/${listing.id}/edit`}
+                          className="flex items-center gap-1 rounded-lg border border-orange-200 px-3 py-1.5 text-xs font-medium text-orange-600 hover:bg-orange-50 transition"
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                          {t("nav.edit")}
                         </Link>
                         <button
                           onClick={() => handleDelete(listing.id)}

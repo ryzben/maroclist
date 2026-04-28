@@ -11,6 +11,7 @@
     "active": "Actif",
     "inactive": "Inactif",
     "view": "Voir",
+    "edit": "Modifier",
     "delete": "Supprimer",
     "listingCount": "{count} annonce(s)"
   },
@@ -94,6 +95,10 @@
     "photosDesc": "Ajoutez jusqu'à 10 photos. La première sera l'image principale.",
     "phone": "Téléphone de contact",
     "submit": "Publier l'annonce",
+    "editTitle": "Modifier l'annonce",
+    "editSubtitle": "Mettez à jour les informations de votre bien",
+    "saveChanges": "Enregistrer les modifications",
+    "currentPhotos": "Photos actuelles",
     "success": "Votre annonce a été publiée avec succès !",
     "basicInfo": "Informations principales",
     "addPhotos": "Cliquez pour ajouter des photos",
