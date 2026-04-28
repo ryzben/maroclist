@@ -8,11 +8,11 @@ import { CITIES, PROPERTY_TYPES } from "@/types/property";
 import { cn } from "@/lib/utils";
 
 const PRICE_OPTIONS = [
-  { value: "200000",  label: "200 000" },
-  { value: "500000",  label: "500 000" },
-  { value: "1000000", label: "1 000 000" },
-  { value: "2000000", label: "2 000 000" },
-  { value: "5000000", label: "5 000 000" },
+  { value: "200000",  label: "200 000 DH (~$20K)" },
+  { value: "500000",  label: "500 000 DH (~$50K)" },
+  { value: "1000000", label: "1 000 000 DH (~$100K)" },
+  { value: "2000000", label: "2 000 000 DH (~$200K)" },
+  { value: "5000000", label: "5 000 000 DH (~$500K)" },
 ];
 
 export default function HeroSearchForm() {

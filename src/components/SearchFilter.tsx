@@ -101,7 +101,10 @@ export default function SearchFilter({ filters, total }: SearchFilterProps) {
 
       {/* Price range */}
       <div>
-        <label className="label">{t("filter.priceMin")} – {t("filter.priceMax")}</label>
+        <div className="flex items-baseline justify-between mb-1">
+          <label className="label mb-0">{t("filter.priceMin")} – {t("filter.priceMax")}</label>
+          <span className="text-[10px] text-gray-400">MAD · 10 DH ≈ $1</span>
+        </div>
         <div className="flex gap-2">
           <input
             type="number"
