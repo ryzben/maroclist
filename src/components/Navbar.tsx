@@ -43,8 +43,10 @@ export default function Navbar() {
     router.push("/");
   }
 
+  const tSell = useTranslations("sell");
   const navLinks = [
     { href: "/listings", label: t("listings") },
+    { href: "/sell",     label: tSell("navLink") },
   ];
 
   return (
