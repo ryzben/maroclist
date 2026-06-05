@@ -124,7 +124,14 @@ export default function PostPage() {
 
       router.push("/my-listings");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+      console.error("Post listing error:", err);
+      const message =
+        err instanceof Error
+          ? err.message
+          : typeof err === "object" && err !== null && "message" in err
+          ? String((err as { message: unknown }).message)
+          : "Une erreur est survenue";
+      setError(message);
     } finally {
       setLoading(false);
     }
