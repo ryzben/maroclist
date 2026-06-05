@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { propertyId, propertyTitle, ownerEmail, senderName, senderPhone, message } =
@@ -11,6 +20,16 @@ export async function POST(req: NextRequest) {
     }
 
     const supabase = await createSupabaseServerClient();
+
+    // Rate limit: max 5 messages per property per hour
+    const { count: recentCount } = await supabase
+      .from("messages")
+      .select("id", { count: "exact", head: true })
+      .eq("property_id", propertyId)
+      .gte("created_at", new Date(Date.now() - 60 * 60 * 1000).toISOString());
+    if ((recentCount ?? 0) >= 5) {
+      return NextResponse.json({ error: "Too many messages. Try again later." }, { status: 429 });
+    }
 
     const { error: dbError } = await supabase.from("messages").insert({
       property_id: propertyId,
@@ -38,24 +57,24 @@ export async function POST(req: NextRequest) {
           html: `
             <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
               <h2 style="color:#f97316">Nouveau message reçu</h2>
-              <p><strong>Annonce :</strong> ${propertyTitle}</p>
+              <p><strong>Annonce :</strong> ${escapeHtml(propertyTitle ?? "")}</p>
               <hr style="border:none;border-top:1px solid #eee;margin:16px 0"/>
-              <p><strong>De :</strong> ${senderName}</p>
-              ${senderPhone ? `<p><strong>Téléphone :</strong> ${senderPhone}</p>` : ""}
+              <p><strong>De :</strong> ${escapeHtml(senderName)}</p>
+              ${senderPhone ? `<p><strong>Téléphone :</strong> ${escapeHtml(senderPhone)}</p>` : ""}
               <p><strong>Message :</strong></p>
-              <p style="background:#f9f9f9;padding:12px;border-radius:8px">${message.replace(/\n/g, "<br/>")}</p>
+              <p style="background:#f9f9f9;padding:12px;border-radius:8px">${escapeHtml(message).replace(/\n/g, "<br/>")}</p>
               <hr style="border:none;border-top:1px solid #eee;margin:16px 0"/>
               <p style="color:#999;font-size:12px">Maroclist.com</p>
             </div>
           `,
         });
       } catch (emailErr) {
-        // Email failure is non-fatal — message is already saved to DB
         console.error("Email send error:", emailErr);
+        return NextResponse.json({ ok: true, emailSent: false });
       }
     }
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, emailSent: true });
   } catch (err) {
     console.error("Contact route error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

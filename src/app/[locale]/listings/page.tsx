@@ -17,7 +17,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "nav" });
-  return { title: t("listings") };
+  return {
+    title: t("listings"),
+    alternates: {
+      canonical: `https://maroclist.com/${locale}/listings`,
+      languages: {
+        en: "https://maroclist.com/en/listings",
+        fr: "https://maroclist.com/fr/listings",
+        ar: "https://maroclist.com/ar/listings",
+      },
+    },
+  };
 }
 
 interface ListingsPageProps {
@@ -42,7 +52,13 @@ async function getProperties(filters: PropertyFilters, page: number, sort: strin
   if (filters.price_max) query = query.lte("price", filters.price_max);
   if (filters.bedrooms) query = query.gte("bedrooms", filters.bedrooms);
   if (filters.search) {
-    query = query.or(`title.ilike.%${filters.search}%,title_ar.ilike.%${filters.search}%`);
+    // Escape LIKE wildcards and PostgREST filter special chars to prevent injection
+    const safe = filters.search
+      .replace(/\\/g, "\\\\")
+      .replace(/%/g, "\\%")
+      .replace(/_/g, "\\_")
+      .replace(/[(),]/g, "");
+    query = query.or(`title.ilike.%${safe}%,title_ar.ilike.%${safe}%`);
   }
 
   // Sort

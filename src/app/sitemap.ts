@@ -30,14 +30,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .select("id, updated_at")
     .eq("is_active", true);
 
-  const listingEntries: MetadataRoute.Sitemap = (properties ?? []).flatMap((p) =>
-    LOCALES.map((locale) => ({
-      url: `${BASE}/${locale}/listings/${p.id}`,
-      lastModified: new Date(p.updated_at),
-      changeFrequency: "weekly" as const,
-      priority: 0.6,
-    }))
-  );
+  // One canonical entry per listing (English) with hreflang alternates — avoids 3× duplication
+  const listingEntries: MetadataRoute.Sitemap = (properties ?? []).map((p) => ({
+    url: `${BASE}/en/listings/${p.id}`,
+    lastModified: new Date(p.updated_at),
+    changeFrequency: "weekly" as const,
+    priority: 0.6,
+    alternates: {
+      languages: {
+        en: `${BASE}/en/listings/${p.id}`,
+        fr: `${BASE}/fr/listings/${p.id}`,
+        ar: `${BASE}/ar/listings/${p.id}`,
+      },
+    },
+  }));
 
   return [...staticEntries, ...listingEntries];
 }

@@ -15,6 +15,7 @@ interface ContactFormProps {
 export default function ContactForm({ propertyId, propertyTitle, ownerEmail, ownerPhone }: ContactFormProps) {
   const t = useTranslations("contact");
   const [sent, setSent] = useState(false);
+  const [emailSent, setEmailSent] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
@@ -37,6 +38,8 @@ export default function ContactForm({ propertyId, propertyTitle, ownerEmail, own
         }),
       });
       if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setEmailSent(data.emailSent !== false);
         setSent(true);
       } else {
         const data = await res.json().catch(() => ({}));
@@ -58,6 +61,11 @@ export default function ContactForm({ propertyId, propertyTitle, ownerEmail, own
         <div>
           <p className="font-semibold text-emerald-800">{t("success")}</p>
           <p className="mt-1 text-xs text-emerald-600">Le vendeur vous répondra dès que possible.</p>
+          {!emailSent && (
+            <p className="mt-2 text-xs text-amber-600">
+              Votre message a été enregistré mais l&apos;email au vendeur n&apos;a pas pu être envoyé. Contactez-le directement par téléphone.
+            </p>
+          )}
         </div>
         {ownerPhone && (
           <a href={`tel:${ownerPhone}`} className="btn-primary mt-2">

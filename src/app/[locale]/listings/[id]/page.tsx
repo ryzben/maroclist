@@ -28,30 +28,17 @@ async function getProperty(id: string) {
 
 async function getSimilarListings(id: string, city: string, propertyType: string) {
   const supabase = await createSupabaseServerClient();
+  // Fetch up to 6 from same city, then prioritise same type — single query, no fallback
   const { data } = await supabase
     .from("properties")
     .select("*")
     .eq("is_active", true)
     .eq("city", city)
-    .eq("property_type", propertyType)
     .neq("id", id)
-    .limit(3);
-  if ((data?.length ?? 0) < 3) {
-    const { data: cityData } = await supabase
-      .from("properties")
-      .select("*")
-      .eq("is_active", true)
-      .eq("city", city)
-      .neq("id", id)
-      .limit(3);
-    const merged = [...(data ?? [])];
-    for (const item of cityData ?? []) {
-      if (!merged.find((m) => m.id === item.id)) merged.push(item);
-      if (merged.length >= 3) break;
-    }
-    return merged;
-  }
-  return data ?? [];
+    .limit(6);
+  const sameType = (data ?? []).filter((p) => p.property_type === propertyType);
+  const others   = (data ?? []).filter((p) => p.property_type !== propertyType);
+  return [...sameType, ...others].slice(0, 3);
 }
 
 function getYouTubeEmbedUrl(url: string): string | null {
@@ -80,6 +67,14 @@ export async function generateMetadata({ params }: PropertyDetailPageProps): Pro
   return {
     title,
     description: property.description ?? undefined,
+    alternates: {
+      canonical: `https://maroclist.com/${locale}/listings/${id}`,
+      languages: {
+        en: `https://maroclist.com/en/listings/${id}`,
+        fr: `https://maroclist.com/fr/listings/${id}`,
+        ar: `https://maroclist.com/ar/listings/${id}`,
+      },
+    },
     openGraph: {
       title,
       images: property.images?.[0] ? [property.images[0]] : [],
@@ -109,8 +104,31 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
     `${property.neighborhood ? property.neighborhood + ", " : ""}${cityLabel}, Maroc`
   );
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: title,
+    description: description ?? undefined,
+    url: `https://maroclist.com/${locale}/listings/${id}`,
+    image: property.images ?? [],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: cityLabel,
+      addressCountry: "MA",
+      ...(property.neighborhood ? { streetAddress: property.neighborhood } : {}),
+    },
+    offers: {
+      "@type": "Offer",
+      price: property.price,
+      priceCurrency: property.currency ?? "MAD",
+    },
+    ...(property.area_sqm ? { floorSize: { "@type": "QuantitativeValue", value: property.area_sqm, unitCode: "MTK" } } : {}),
+    ...(property.bedrooms ? { numberOfRooms: property.bedrooms } : {}),
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">

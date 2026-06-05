@@ -16,7 +16,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "hero" });
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    alternates: {
+      canonical: `https://maroclist.com/${locale}`,
+      languages: { en: "https://maroclist.com/en", fr: "https://maroclist.com/fr", ar: "https://maroclist.com/ar" },
+    },
+  };
 }
 
 async function getFeaturedProperties() {
@@ -33,15 +39,8 @@ async function getFeaturedProperties() {
 
 async function getCityCounts(): Promise<Record<string, number>> {
   const supabase = await createSupabaseServerClient();
-  const { data } = await supabase
-    .from("properties")
-    .select("city")
-    .eq("is_active", true);
-  const counts: Record<string, number> = {};
-  for (const { city } of data ?? []) {
-    counts[city] = (counts[city] ?? 0) + 1;
-  }
-  return counts;
+  const { data } = await supabase.rpc("get_city_counts");
+  return Object.fromEntries((data ?? []).map(({ city, count }: { city: string; count: number }) => [city, count]));
 }
 
 async function getRecentProperties() {

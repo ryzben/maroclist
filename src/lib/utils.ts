@@ -24,8 +24,9 @@ export function normalizePhone(phone: string): string {
   return digits;
 }
 
-// 1 USD ≈ 10 MAD (indicative rate for display purposes)
-const MAD_TO_USD = 0.1;
+// Configurable via NEXT_PUBLIC_MAD_TO_USD_RATE env var — update when rate drifts significantly
+// Current interbank rate: ~0.099 (10.1 MAD = 1 USD). Source: Google Finance
+const MAD_TO_USD = Number(process.env.NEXT_PUBLIC_MAD_TO_USD_RATE) || 0.099;
 
 export function madToUsd(madAmount: number): string {
   const usd = Math.round(madAmount * MAD_TO_USD);

@@ -84,6 +84,18 @@ export default function PostPage() {
         return;
       }
 
+      // Validate images before uploading
+      const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+      const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
+      for (const file of images) {
+        if (!ALLOWED_TYPES.includes(file.type)) {
+          throw new Error(`Invalid file type: ${file.name}. Only JPEG, PNG, WebP and GIF are allowed.`);
+        }
+        if (file.size > MAX_SIZE) {
+          throw new Error(`File too large: ${file.name}. Maximum size is 10 MB.`);
+        }
+      }
+
       // Upload images
       const imageUrls: string[] = [];
       for (const file of images) {
@@ -232,7 +244,7 @@ export default function PostPage() {
           {/* Property details */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
             <h2 className="font-semibold text-gray-900">{t("property.details")}</h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <div>
                 <label className="label">{t("post.price")} *</label>
                 <input required type="number" min="0" value={form.price} onChange={(e) => set("price", e.target.value)} className="input" />
