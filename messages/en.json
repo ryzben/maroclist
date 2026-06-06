@@ -199,8 +199,9 @@
   "home": {
     "badgeLabel": "The real estate platform for Moroccans worldwide",
     "trustFree": "Free to list",
-    "trustVerified": "Verified accounts",
+    "trustVerified": "Verified sellers",
     "trustContact": "Direct contact",
+    "trustPrice": "Prices in MAD & USD",
     "trustNorthAmerica": "Serving Moroccans in the US & Canada",
     "trustInternational": "Trusted by buyers in the US & Canada",
     "diasporaLabel": "For international buyers",

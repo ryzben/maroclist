@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Star, ArrowRight, CheckCircle, ShieldCheck, MessageCircle } from "lucide-react";
+import { Star, ArrowRight, CheckCircle, ShieldCheck, MessageCircle, BadgeDollarSign } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
@@ -141,9 +141,10 @@ function HeroSection({ listingsCount }: { listingsCount: number }) {
         {/* Trust signals */}
         <div className="mt-6 flex flex-wrap justify-center gap-x-7 gap-y-2">
           {[
-            { icon: <CheckCircle className="h-4 w-4 text-green-400" />, label: t("home.trustFree") },
-            { icon: <ShieldCheck className="h-4 w-4 text-blue-400" />, label: t("home.trustVerified") },
-            { icon: <MessageCircle className="h-4 w-4 text-orange-400" />, label: t("home.trustContact") },
+            { icon: <CheckCircle className="h-4 w-4 text-green-400" />,       label: t("home.trustFree") },
+            { icon: <ShieldCheck className="h-4 w-4 text-blue-400" />,        label: t("home.trustVerified") },
+            { icon: <MessageCircle className="h-4 w-4 text-orange-400" />,    label: t("home.trustContact") },
+            { icon: <BadgeDollarSign className="h-4 w-4 text-yellow-400" />,  label: t("home.trustPrice") },
           ].map(({ icon, label }) => (
             <span key={label} className="flex items-center gap-1.5 text-sm text-white/75">
               {icon}

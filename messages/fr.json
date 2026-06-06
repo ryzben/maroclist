@@ -199,8 +199,9 @@
   "home": {
     "badgeLabel": "La plateforme immobilière des Marocains du monde",
     "trustFree": "Publication gratuite",
-    "trustVerified": "Comptes vérifiés",
+    "trustVerified": "Vendeurs vérifiés",
     "trustContact": "Contact direct",
+    "trustPrice": "Prix en MAD et en USD",
     "trustNorthAmerica": "Pour les Marocains aux États-Unis et Canada",
     "trustInternational": "Choisi par des acheteurs aux États-Unis et au Canada",
     "diasporaLabel": "Pour les acheteurs internationaux",
