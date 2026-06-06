@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
 import HeroSearchForm from "@/components/HeroSearchForm";
+import ListingsCounter from "@/components/ListingsCounter";
+import TrustBar from "@/components/TrustBar";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import type { Metadata } from "next";
 
@@ -35,6 +37,15 @@ async function getFeaturedProperties() {
     .order("created_at", { ascending: false })
     .limit(6);
   return data ?? [];
+}
+
+async function getListingsCount(): Promise<number> {
+  const supabase = await createSupabaseServerClient();
+  const { count } = await supabase
+    .from("properties")
+    .select("id", { count: "exact", head: true })
+    .eq("is_active", true);
+  return count ?? 0;
 }
 
 async function getCityCounts(): Promise<Record<string, number>> {
@@ -74,7 +85,7 @@ function ZelligePattern() {
   );
 }
 
-function HeroSection() {
+function HeroSection({ listingsCount }: { listingsCount: number }) {
   const t = useTranslations();
 
   return (
@@ -106,6 +117,7 @@ function HeroSection() {
         </div>
 
         <HeroSearchForm />
+        <ListingsCounter count={listingsCount} label={t("home.counter")} />
 
         {/* Trust signals */}
         <div className="mt-6 flex flex-wrap justify-center gap-x-7 gap-y-2">
@@ -223,70 +235,6 @@ function WhyUsSection() {
   );
 }
 
-const ADS = [
-  {
-    name: "Deep Drive Digital",
-    tagline: "Smarter Decisions. Measurable Impact.",
-    url: "https://deepdrivedigital.com",
-    logo: "/logos/deep-drive-digital.png",
-    bg: "bg-gray-900",
-    accent: "text-orange-400",
-    border: "border-gray-700",
-    taglineColor: "text-gray-300",
-    btnClass: "bg-orange-500 hover:bg-orange-400 text-white",
-    logoBg: "bg-black",
-  },
-  {
-    name: "Xenova Studio",
-    tagline: "Designed for your vision. Engineered to perform.",
-    url: "https://xenovastudio.com",
-    logo: "/logos/xenova-studio.jpg",
-    bg: "bg-white",
-    accent: "text-orange-600",
-    border: "border-gray-200",
-    taglineColor: "text-gray-500",
-    btnClass: "bg-orange-500 hover:bg-orange-600 text-white",
-    logoBg: "bg-gray-900",
-  },
-];
-
-function SponsoredBannersSection() {
-  return (
-    <section className="bg-gray-50 py-6">
-      <div className="container-page">
-        <div className="mb-4 flex items-center gap-2">
-          <span className="rounded border border-gray-300 bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-            Sponsored
-          </span>
-          <div className="h-px flex-1 bg-gray-200" />
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {ADS.map(({ name, tagline, url, logo, bg, accent, border, taglineColor, btnClass, logoBg }) => (
-            <a
-              key={name}
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`group flex items-center gap-5 rounded-2xl border ${border} ${bg} p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md`}
-            >
-              <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${logoBg} overflow-hidden shadow-sm`}>
-                <img src={logo} alt={name} className="h-full w-full object-contain p-1.5" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className={`font-bold text-sm ${accent}`}>{name}</p>
-                <p className={`mt-0.5 text-sm leading-snug ${taglineColor}`}>{tagline}</p>
-              </div>
-              <span className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${btnClass}`}>
-                Visit →
-              </span>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function CTABanner() {
   const t = useTranslations();
@@ -325,10 +273,11 @@ function CTABanner() {
 }
 
 export default async function HomePage() {
-  const [featured, recent, cityCounts] = await Promise.all([
+  const [featured, recent, cityCounts, listingsCount] = await Promise.all([
     getFeaturedProperties(),
     getRecentProperties(),
     getCityCounts(),
+    getListingsCount(),
   ]);
   const t = await getTranslations("home");
 
@@ -336,9 +285,9 @@ export default async function HomePage() {
     <>
       <Navbar />
       <main>
-        <HeroSection />
+        <HeroSection listingsCount={listingsCount} />
+        <TrustBar />
         <PopularCitiesSection cityCounts={cityCounts} />
-        <SponsoredBannersSection />
 
         {featured.length > 0 && (
           <section className="py-14 bg-white">

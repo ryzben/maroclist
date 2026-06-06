@@ -6,25 +6,39 @@ import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
 import SearchFilter from "@/components/SearchFilter";
 import SortSelect from "@/components/SortSelect";
+import CityEmptyState from "@/components/CityEmptyState";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { PropertyFilters, City, PropertyType, TransactionType } from "@/types/property";
+import { CITY_DATA, type CityKey } from "@/lib/cityData";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string>>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "nav" });
+  const sp = await searchParams;
+  const t = await getTranslations({ locale });
+  const city = sp?.city as string | undefined;
+  const cityLabel = city ? t(`cities.${city}`) : null;
+  const title = cityLabel
+    ? `Immobilier à ${cityLabel} — Acheter au Maroc depuis les USA | Maroclist`
+    : t("nav.listings");
+  const description = cityLabel
+    ? `Trouvez des appartements, villas et terrains à ${cityLabel} au Maroc. Plateforme immobilière dédiée à la diaspora marocaine aux États-Unis et au Canada.`
+    : undefined;
   return {
-    title: t("listings"),
+    title,
+    description,
     alternates: {
-      canonical: `https://maroclist.com/${locale}/listings`,
+      canonical: `https://maroclist.com/${locale}/listings${city ? `?city=${city}` : ""}`,
       languages: {
-        en: "https://maroclist.com/en/listings",
-        fr: "https://maroclist.com/fr/listings",
-        ar: "https://maroclist.com/ar/listings",
+        en: `https://maroclist.com/en/listings${city ? `?city=${city}` : ""}`,
+        fr: `https://maroclist.com/fr/listings${city ? `?city=${city}` : ""}`,
+        ar: `https://maroclist.com/ar/listings${city ? `?city=${city}` : ""}`,
       },
     },
   };
@@ -73,7 +87,7 @@ async function getProperties(filters: PropertyFilters, page: number, sort: strin
 }
 
 export default async function ListingsPage({ params, searchParams }: ListingsPageProps) {
-  const [, sp] = await Promise.all([params, searchParams]);
+  const [{ locale }, sp] = await Promise.all([params, searchParams]);
 
   const page = Math.max(1, Number(sp.page) || 1);
   const sort = sp.sort || "newest";
@@ -101,8 +115,20 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
     return `/listings?${p.toString()}`;
   }
 
+  const cityLabel = filters.city ? t(`cities.${filters.city}`) : null;
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: t("nav.home"), item: `https://maroclist.com/${locale}` },
+      { "@type": "ListItem", position: 2, name: t("nav.listings"), item: `https://maroclist.com/${locale}/listings` },
+      ...(cityLabel ? [{ "@type": "ListItem", position: 3, name: cityLabel, item: `https://maroclist.com/${locale}/listings?city=${filters.city}` }] : []),
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Navbar />
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex gap-8">
@@ -122,13 +148,44 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
             </div>
 
             {properties.length === 0 ? (
+              filters.city && CITY_DATA[filters.city as CityKey] ? (
+                (() => {
+                  const data = CITY_DATA[filters.city as CityKey];
+                  const loc = locale as "fr" | "en" | "ar";
+                  const cityLabel = t(`cities.${filters.city}`);
+                  return (
+                    <CityEmptyState
+                      city={filters.city as CityKey}
+                      cityLabel={cityLabel}
+                      desc={data.desc[loc] ?? data.desc.fr}
+                      prices={data.prices[loc] ?? data.prices.fr}
+                      neighborhoods={data.neighborhoods}
+                      locale={locale}
+                      t={{
+                        title: t("cityEmpty.title", { city: cityLabel }),
+                        subtitle: t("cityEmpty.subtitle"),
+                        postCta: t("cityEmpty.postCta"),
+                        browseCta: t("cityEmpty.browseCta"),
+                        marketTitle: t("cityEmpty.marketTitle", { city: cityLabel }),
+                        pricesTitle: t("cityEmpty.pricesTitle"),
+                        neighborhoodsTitle: t("cityEmpty.neighborhoodsTitle"),
+                        alertTitle: t("cityEmpty.alertTitle"),
+                        alertDesc: t("cityEmpty.alertDesc", { city: cityLabel }),
+                        alertPlaceholder: t("cityEmpty.alertPlaceholder"),
+                        alertSubmit: t("cityEmpty.alertSubmit"),
+                        alertSuccess: t("cityEmpty.alertSuccess"),
+                      }}
+                    />
+                  );
+                })()
+              ) : (
               <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 py-20 text-center">
                 <svg className="h-16 w-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <h3 className="mt-4 font-semibold text-gray-900">{t("property.noResults")}</h3>
                 <p className="mt-1 text-sm text-gray-500">{t("property.noResultsDesc")}</p>
-              </div>
+              </div>)
             ) : (
               <>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">

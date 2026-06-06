@@ -97,9 +97,14 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-gray-100 pt-6 sm:flex-row">
-          <p className="text-xs text-gray-400">
-            © {new Date().getFullYear()} Maroclist. {l(locale, "All rights reserved.", "Tous droits réservés.", "جميع الحقوق محفوظة.")}
-          </p>
+          <div>
+            <p className="text-xs text-gray-400">
+              © {new Date().getFullYear()} Maroclist. {l(locale, "All rights reserved.", "Tous droits réservés.", "جميع الحقوق محفوظة.")}
+            </p>
+            <p className="mt-1 text-[11px] text-gray-300">
+              Plateforme développée par Xenova Studio · RFALA Groupe
+            </p>
+          </div>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="text-xs text-gray-400 hover:text-orange-500 transition-colors">
               {l(locale, "Privacy Policy", "Politique de confidentialité", "سياسة الخصوصية")}
