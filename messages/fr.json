@@ -18,8 +18,8 @@
   },
   "hero": {
     "title": "Achetez un bien au Maroc",
-    "titleLine2": "Depuis USA ou le Canada",
-    "subtitle": "Explorez maisons, villas et terrains au Maroc. Pour les acheteurs locaux et internationaux",
+    "titleLine2": "Depuis les États-Unis, le Canada ou l'Europe",
+    "subtitle": "Trouvez votre appartement, villa ou terrain au Maroc depuis l'étranger — en toute confiance, sans intermédiaire",
     "searchPlaceholder": "Ville, quartier...",
     "search": "Rechercher",
     "forSale": "À vendre",
@@ -197,7 +197,7 @@
     "navLink": "Vendre"
   },
   "home": {
-    "badgeLabel": "La nouvelle plateforme immobilière au Maroc",
+    "badgeLabel": "La plateforme immobilière des Marocains du monde",
     "trustFree": "Publication gratuite",
     "trustVerified": "Comptes vérifiés",
     "trustContact": "Contact direct",
