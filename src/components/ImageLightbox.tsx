@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { imgCard, imgThumb, imgFull } from "@/lib/imageUrl";
 
 interface ImageLightboxProps {
   images: string[];
@@ -35,7 +36,7 @@ export default function ImageLightbox({ images, alt }: ImageLightboxProps) {
           onClick={() => setLightboxOpen(true)}
         >
           <img
-            src={images[activeIndex]}
+            src={imgCard(images[activeIndex])}
             alt={alt}
             className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
           />
@@ -56,7 +57,7 @@ export default function ImageLightbox({ images, alt }: ImageLightboxProps) {
                   activeIndex === i ? "border-orange-500" : "border-transparent hover:border-gray-300"
                 }`}
               >
-                <img src={img} alt={`${alt} ${i + 1}`} className="h-full w-full object-cover" />
+                <img src={imgThumb(img)} alt={`${alt} ${i + 1}`} className="h-full w-full object-cover" loading="lazy" />
                 {i === 4 && images.length > 5 && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-sm font-bold text-white">
                     +{images.length - 5}
@@ -99,7 +100,7 @@ export default function ImageLightbox({ images, alt }: ImageLightboxProps) {
           )}
 
           <img
-            src={images[activeIndex]}
+            src={imgFull(images[activeIndex])}
             alt={alt}
             onClick={(e) => e.stopPropagation()}
             className="max-h-[90vh] max-w-[90vw] rounded-xl object-contain shadow-2xl"

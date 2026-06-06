@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
 import { formatPrice, timeAgo } from "@/lib/utils";
+import { imgThumb } from "@/lib/imageUrl";
 import type { Property } from "@/types/property";
 
 export default function MyListingsPage() {
@@ -80,7 +81,7 @@ export default function MyListingsPage() {
                   {/* Thumbnail */}
                   <Link href={`/listings/${listing.id}`} className="shrink-0">
                     {mainImage ? (
-                      <img src={mainImage} alt={title} className="h-24 w-32 rounded-xl object-cover sm:h-28 sm:w-40" />
+                      <img src={imgThumb(mainImage)} alt={title} className="h-24 w-32 rounded-xl object-cover sm:h-28 sm:w-40" loading="lazy" />
                     ) : (
                       <div className="flex h-24 w-32 items-center justify-center rounded-xl bg-gray-100 sm:h-28 sm:w-40">
                         <span className="text-xs text-gray-400">{t("property.noPhoto")}</span>

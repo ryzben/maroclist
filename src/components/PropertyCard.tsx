@@ -5,6 +5,7 @@ import { MapPin, BedDouble, Bath, Maximize2 } from "lucide-react";
 import { Property } from "@/types/property";
 import { formatPrice, timeAgo, madToUsd } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { imgCard } from "@/lib/imageUrl";
 
 interface PropertyCardProps {
   property: Property;
@@ -28,7 +29,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
   const title = locale === "ar" && property.title_ar ? property.title_ar : property.title;
   const cityLabel = t(`cities.${property.city}`);
-  const mainImage = property.images?.[0];
+  const mainImage = property.images?.[0] ? imgCard(property.images[0]) : null;
 
   return (
     <Link href={`/listings/${property.id}`} className="group block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover">
