@@ -54,7 +54,8 @@
     "noResultsDesc": "Adjust your search criteria to see more results.",
     "noPhoto": "No photo",
     "notFound": "Listing not found",
-    "similar": "Similar listings"
+    "similar": "Similar listings",
+    "showPhone": "Show number"
   },
   "filter": {
     "title": "Filter",

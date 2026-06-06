@@ -1,14 +1,15 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
-import { MapPin, BedDouble, Bath, Maximize2, Calendar, Phone, ShieldCheck, User, Tag, MessageCircle } from "lucide-react";
+import { MapPin, BedDouble, Bath, Maximize2, Calendar, ShieldCheck, User, Tag } from "lucide-react";
+import PhoneReveal from "@/components/PhoneReveal";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import ImageLightbox from "@/components/ImageLightbox";
 import PropertyCard from "@/components/PropertyCard";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
-import { formatPrice, formatArea, timeAgo, madToUsd, whatsappUrl } from "@/lib/utils";
+import { formatPrice, formatArea, timeAgo, madToUsd } from "@/lib/utils";
 import type { Metadata } from "next";
 
 interface PropertyDetailPageProps {
@@ -298,31 +299,11 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
               </div>
 
               {property.contact_phone && (
-                <div className="flex flex-col gap-2">
-                  <a
-                    href={`tel:${property.contact_phone}`}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 py-3 text-sm font-semibold text-white transition hover:bg-orange-600 active:scale-[.98]"
-                  >
-                    <Phone className="h-4 w-4" />
-                    Appeler le vendeur
-                  </a>
-                  <a
-                    href={whatsappUrl(
-                      property.contact_phone,
-                      locale === "ar"
-                        ? `مرحباً، أنا مهتم بإعلانك على مروكليست: ${title}`
-                        : locale === "en"
-                        ? `Hello, I'm interested in your listing on Maroclist: ${title}`
-                        : `Bonjour, je suis intéressé par votre annonce sur Maroclist : ${title}`
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-sm font-semibold text-white transition hover:bg-[#1ebe5d] active:scale-[.98]"
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    {t("property.whatsapp")}
-                  </a>
-                </div>
+                <PhoneReveal
+                  phone={property.contact_phone}
+                  locale={locale}
+                  title={title}
+                />
               )}
             </div>
 

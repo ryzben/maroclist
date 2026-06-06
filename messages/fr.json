@@ -54,7 +54,8 @@
     "noResultsDesc": "Modifiez vos critères de recherche pour voir plus de résultats.",
     "noPhoto": "Pas de photo",
     "notFound": "Annonce introuvable",
-    "similar": "Annonces similaires"
+    "similar": "Annonces similaires",
+    "showPhone": "Voir le numéro"
   },
   "filter": {
     "title": "Filtrer",
