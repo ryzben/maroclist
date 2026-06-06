@@ -8,6 +8,7 @@ import PropertyCard from "@/components/PropertyCard";
 import HeroSearchForm from "@/components/HeroSearchForm";
 import ListingsCounter from "@/components/ListingsCounter";
 import TrustBar from "@/components/TrustBar";
+import FavouriteButton from "@/components/FavouriteButton";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import type { Metadata } from "next";
 
@@ -273,12 +274,23 @@ function CTABanner() {
 }
 
 export default async function HomePage() {
-  const [featured, recent, cityCounts, listingsCount] = await Promise.all([
+  const supabase = await createSupabaseServerClient();
+  const [featured, recent, cityCounts, listingsCount, { data: { user } }] = await Promise.all([
     getFeaturedProperties(),
     getRecentProperties(),
     getCityCounts(),
     getListingsCount(),
+    supabase.auth.getUser(),
   ]);
+
+  let savedIds = new Set<string>();
+  if (user) {
+    const { data: favs } = await supabase
+      .from("user_favorites")
+      .select("property_id")
+      .eq("user_id", user.id);
+    savedIds = new Set((favs ?? []).map((f) => f.property_id));
+  }
   const t = await getTranslations("home");
 
   return (
@@ -305,7 +317,10 @@ export default async function HomePage() {
               </div>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {featured.map((p) => (
-                  <PropertyCard key={p.id} property={p} />
+                  <div key={p.id} className="relative">
+                    <PropertyCard property={p} />
+                    <FavouriteButton propertyId={p.id} initialSaved={savedIds.has(p.id)} className="absolute bottom-[224px] start-3 z-10" />
+                  </div>
                 ))}
               </div>
             </div>
@@ -330,7 +345,10 @@ export default async function HomePage() {
               </div>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {recent.map((p) => (
-                  <PropertyCard key={p.id} property={p} />
+                  <div key={p.id} className="relative">
+                    <PropertyCard property={p} />
+                    <FavouriteButton propertyId={p.id} initialSaved={savedIds.has(p.id)} className="absolute bottom-[224px] start-3 z-10" />
+                  </div>
                 ))}
               </div>
             </div>

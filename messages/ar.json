@@ -13,7 +13,8 @@
     "view": "عرض",
     "edit": "تعديل",
     "delete": "حذف",
-    "listingCount": "{count} إعلان"
+    "listingCount": "{count} إعلان",
+    "favourites": "المفضلة"
   },
   "hero": {
     "title": "اشترِ عقاراً في المغرب",
@@ -280,6 +281,13 @@
     "successDesc": "سيتواصل معك فريقنا خلال 24 ساعة عبر واتساب.",
     "fieldRequired": "هذا الحقل مطلوب.",
     "fieldInvalidEmail": "بريد إلكتروني غير صالح."
+  },
+  "favourites": {
+    "title": "مفضلتي",
+    "count": "{count} إعلان محفوظ",
+    "empty": "لا توجد مفضلات بعد",
+    "emptyDesc": "اضغط على ♡ في أي إعلان لحفظه هنا.",
+    "browseCta": "تصفح الإعلانات"
   },
   "wizard": {
     "step1Title": "ماذا تريد أن تنشر؟",

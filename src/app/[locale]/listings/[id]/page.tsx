@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
 import { MapPin, BedDouble, Bath, Maximize2, Calendar, ShieldCheck, User, Tag } from "lucide-react";
 import PhoneReveal from "@/components/PhoneReveal";
+import FavouriteButton from "@/components/FavouriteButton";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
@@ -85,14 +86,22 @@ export async function generateMetadata({ params }: PropertyDetailPageProps): Pro
 
 export default async function PropertyDetailPage({ params }: PropertyDetailPageProps) {
   const { id, locale } = await params;
-  const [property, t] = await Promise.all([
+  const supabase = await createSupabaseServerClient();
+  const [property, t, { data: { user } }] = await Promise.all([
     getProperty(id),
     getTranslations(),
+    supabase.auth.getUser(),
   ]);
 
   if (!property) notFound();
 
-  const similar = await getSimilarListings(id, property.city, property.property_type);
+  const [similar, savedRow] = await Promise.all([
+    getSimilarListings(id, property.city, property.property_type),
+    user
+      ? supabase.from("user_favorites").select("property_id").eq("user_id", user.id).eq("property_id", id).maybeSingle()
+      : Promise.resolve({ data: null }),
+  ]);
+  const isSaved = !!savedRow?.data;
 
   const title = locale === "ar" && property.title_ar ? property.title_ar : property.title;
   const description =
@@ -180,7 +189,14 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
               </div>
 
               {/* Title */}
-              <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">{title}</h1>
+              <div className="flex items-start justify-between gap-3">
+                <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">{title}</h1>
+                <FavouriteButton
+                  propertyId={id}
+                  initialSaved={isSaved}
+                  className="mt-1 shrink-0 shadow-sm"
+                />
+              </div>
 
               {/* Location */}
               <p className="flex items-center gap-1.5 text-sm text-gray-500">

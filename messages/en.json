@@ -13,7 +13,8 @@
     "view": "View",
     "edit": "Edit",
     "delete": "Delete",
-    "listingCount": "{count} listing(s)"
+    "listingCount": "{count} listing(s)",
+    "favourites": "Favourites"
   },
   "hero": {
     "title": "Buy property in Morocco",
@@ -280,6 +281,13 @@
     "successDesc": "Our team will contact you within 24h on WhatsApp.",
     "fieldRequired": "This field is required.",
     "fieldInvalidEmail": "Invalid email address."
+  },
+  "favourites": {
+    "title": "My favourites",
+    "count": "{count} saved listing(s)",
+    "empty": "No favourites yet",
+    "emptyDesc": "Tap the ♡ on any listing to save it here.",
+    "browseCta": "Browse listings"
   },
   "wizard": {
     "step1Title": "What are you listing?",

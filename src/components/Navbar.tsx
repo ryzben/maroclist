@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
-import { Menu, X, PlusCircle, Globe, LayoutList, LogOut } from "lucide-react";
+import { Menu, X, PlusCircle, Globe, LayoutList, LogOut, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
@@ -109,6 +109,18 @@ export default function Navbar() {
               {user ? (
                 <>
                   <Link
+                    href="/my-favourites"
+                    className={cn(
+                      "flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition",
+                      pathname === "/my-favourites"
+                        ? "text-red-500"
+                        : "text-gray-500 hover:text-red-400"
+                    )}
+                    aria-label={t("favourites")}
+                  >
+                    <Heart className={`h-4 w-4 ${pathname === "/my-favourites" ? "fill-red-500" : ""}`} />
+                  </Link>
+                  <Link
                     href="/my-listings"
                     className={cn(
                       "flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition",
@@ -204,6 +216,10 @@ export default function Navbar() {
 
               {user ? (
                 <>
+                  <Link href="/my-favourites" onClick={() => setMobileOpen(false)} className="btn-secondary justify-start gap-2">
+                    <Heart className="h-4 w-4" />
+                    {t("favourites")}
+                  </Link>
                   <Link href="/my-listings" onClick={() => setMobileOpen(false)} className="btn-secondary justify-start gap-2">
                     <LayoutList className="h-4 w-4" />
                     {t("myListings")}

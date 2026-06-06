@@ -13,7 +13,8 @@
     "view": "Voir",
     "edit": "Modifier",
     "delete": "Supprimer",
-    "listingCount": "{count} annonce(s)"
+    "listingCount": "{count} annonce(s)",
+    "favourites": "Favoris"
   },
   "hero": {
     "title": "Achetez un bien au Maroc",
@@ -280,6 +281,13 @@
     "successDesc": "Notre équipe vous contacte dans les 24h sur WhatsApp.",
     "fieldRequired": "Ce champ est obligatoire.",
     "fieldInvalidEmail": "Email invalide."
+  },
+  "favourites": {
+    "title": "Mes favoris",
+    "count": "{count} annonce(s) sauvegardée(s)",
+    "empty": "Aucun favori pour l'instant",
+    "emptyDesc": "Cliquez sur le ♡ sur une annonce pour la sauvegarder ici.",
+    "browseCta": "Parcourir les annonces"
   },
   "wizard": {
     "step1Title": "Que souhaitez-vous publier ?",

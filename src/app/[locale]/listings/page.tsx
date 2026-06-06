@@ -7,6 +7,7 @@ import PropertyCard from "@/components/PropertyCard";
 import SearchFilter from "@/components/SearchFilter";
 import SortSelect from "@/components/SortSelect";
 import CityEmptyState from "@/components/CityEmptyState";
+import FavouriteButton from "@/components/FavouriteButton";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { PropertyFilters, City, PropertyType, TransactionType } from "@/types/property";
 import { CITY_DATA, type CityKey } from "@/lib/cityData";
@@ -102,7 +103,21 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
     search: sp.search || "",
   };
 
-  const { properties, total } = await getProperties(filters, page, sort);
+  const supabase = await createSupabaseServerClient();
+  const [{ properties, total }, { data: { user } }] = await Promise.all([
+    getProperties(filters, page, sort),
+    supabase.auth.getUser(),
+  ]);
+
+  let savedIds = new Set<string>();
+  if (user) {
+    const { data: favs } = await supabase
+      .from("user_favorites")
+      .select("property_id")
+      .eq("user_id", user.id);
+    savedIds = new Set((favs ?? []).map((f) => f.property_id));
+  }
+
   const t = await getTranslations();
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
@@ -190,7 +205,14 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
               <>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                   {properties.map((p) => (
-                    <PropertyCard key={p.id} property={p} />
+                    <div key={p.id} className="relative">
+                      <PropertyCard property={p} />
+                      <FavouriteButton
+                        propertyId={p.id}
+                        initialSaved={savedIds.has(p.id)}
+                        className="absolute bottom-[224px] start-3 z-10"
+                      />
+                    </div>
                   ))}
                 </div>
 
