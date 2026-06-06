@@ -41,18 +41,36 @@ async function getFeaturedProperties() {
 }
 
 async function getListingsCount(): Promise<number> {
-  const supabase = await createSupabaseServerClient();
-  const { count } = await supabase
-    .from("properties")
-    .select("id", { count: "exact", head: true })
-    .eq("is_active", true);
-  return count ?? 0;
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { count, error } = await supabase
+      .from("properties")
+      .select("*", { count: "exact", head: true })
+      .eq("is_active", true);
+    if (error) {
+      console.error("getListingsCount error:", error.message);
+      return 0;
+    }
+    return count ?? 0;
+  } catch (e) {
+    console.error("getListingsCount exception:", e);
+    return 0;
+  }
 }
 
 async function getCityCounts(): Promise<Record<string, number>> {
-  const supabase = await createSupabaseServerClient();
-  const { data } = await supabase.rpc("get_city_counts");
-  return Object.fromEntries((data ?? []).map(({ city, count }: { city: string; count: number }) => [city, count]));
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase.rpc("get_city_counts");
+    if (error) {
+      console.error("getCityCounts error:", error.message);
+      return {};
+    }
+    return Object.fromEntries((data ?? []).map(({ city, count }: { city: string; count: number }) => [city, count]));
+  } catch (e) {
+    console.error("getCityCounts exception:", e);
+    return {};
+  }
 }
 
 async function getRecentProperties() {
