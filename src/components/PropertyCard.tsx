@@ -23,11 +23,38 @@ const TRANSACTION_LABELS: Record<string, string> = {
   holiday_rental: "hero.forHoliday",
 };
 
+function generateTitle(property: Property, locale: string, t: ReturnType<typeof useTranslations>): string {
+  const typeLabel = t(`property.types.${property.property_type}`);
+  const cityLabel = t(`cities.${property.city}`);
+  if (locale === "ar") {
+    return property.bedrooms
+      ? `${typeLabel} ${property.bedrooms} غرف في ${cityLabel}`
+      : `${typeLabel} في ${cityLabel}`;
+  }
+  if (locale === "en") {
+    return property.bedrooms
+      ? `${property.bedrooms}-bed ${typeLabel} in ${cityLabel}`
+      : `${typeLabel} in ${cityLabel}`;
+  }
+  return property.bedrooms
+    ? `${typeLabel} ${property.bedrooms} chambres à ${cityLabel}`
+    : `${typeLabel} à ${cityLabel}`;
+}
+
+function needsAutoTitle(title: string): boolean {
+  // Auto-generate if title is very short OR contains no French/Arabic chars (likely English)
+  if (title.length < 15) return true;
+  const hasFrenchOrArabic = /[àâäéèêëïîôùûüçضصثقفغعهخحجدذرزسشيبلاتنمكطئءؤرىةو]/i.test(title);
+  const startsWithLatinOnly = /^[A-Za-z0-9]/.test(title) && !hasFrenchOrArabic;
+  return startsWithLatinOnly;
+}
+
 export default function PropertyCard({ property }: PropertyCardProps) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const title = locale === "ar" && property.title_ar ? property.title_ar : property.title;
+  const storedTitle = locale === "ar" && property.title_ar ? property.title_ar : property.title;
+  const title = needsAutoTitle(storedTitle) ? generateTitle(property, locale, t) : storedTitle;
   const cityLabel = t(`cities.${property.city}`);
   const mainImage = property.images?.[0] ? imgCard(property.images[0]) : null;
 

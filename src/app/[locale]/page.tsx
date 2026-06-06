@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Star, ArrowRight, CheckCircle, ShieldCheck, MessageCircle, BadgeDollarSign } from "lucide-react";
+import { Star, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
@@ -138,23 +138,8 @@ function HeroSection({ listingsCount }: { listingsCount: number }) {
         <HeroSearchForm />
         <ListingsCounter count={listingsCount} label={t("home.counter")} />
 
-        {/* Trust signals */}
-        <div className="mt-6 flex flex-wrap justify-center gap-x-7 gap-y-2">
-          {[
-            { icon: <CheckCircle className="h-4 w-4 text-green-400" />,       label: t("home.trustFree") },
-            { icon: <ShieldCheck className="h-4 w-4 text-blue-400" />,        label: t("home.trustVerified") },
-            { icon: <MessageCircle className="h-4 w-4 text-orange-400" />,    label: t("home.trustContact") },
-            { icon: <BadgeDollarSign className="h-4 w-4 text-yellow-400" />,  label: t("home.trustPrice") },
-          ].map(({ icon, label }) => (
-            <span key={label} className="flex items-center gap-1.5 text-sm text-white/75">
-              {icon}
-              {label}
-            </span>
-          ))}
-        </div>
-
         {/* Trust line */}
-        <p className="mt-4 text-center text-sm font-semibold text-white/70 tracking-wide">
+        <p className="mt-5 text-center text-sm font-semibold text-white/70 tracking-wide">
           ✓ {t("home.trustInternational")}
         </p>
       </div>
@@ -272,6 +257,11 @@ function CTABanner() {
         <p className="mt-4 text-gray-400 max-w-xl mx-auto">
           {t("home.ctaDesc")}
         </p>
+        <ul className="mt-6 flex flex-col items-center gap-2 text-sm text-gray-300">
+          <li>✓ {t("home.ctaBullet1")}</li>
+          <li>✓ {t("home.ctaBullet2")}</li>
+          <li>✓ {t("home.ctaBullet3")}</li>
+        </ul>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
             href="/post"
