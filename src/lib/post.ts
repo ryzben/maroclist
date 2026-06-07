@@ -45,6 +45,18 @@ function generateTitle(
     laayoune: "Laâyoune", dakhla: "Dakhla", chefchaouen: "Chefchaouen",
     taroudant: "Taroudant", khenifra: "Khénifra", sefrou: "Sefrou",
     asilah: "Asilah", bouznika: "Bouznika",
+    aitmelloul: "Ait Melloul", darbouazza: "Dar Bouazza", khemisset: "Khémisset",
+    inezgane: "Inezgane", ksarelkebir: "Ksar El Kébir", berkane: "Berkane",
+    taourirt: "Taourirt", bouskoura: "Bouskoura", fquihbensalah: "Fquih Ben Salah",
+    dcheira: "Dcheira", ouedzem: "Oued Zem", kelaasraghna: "El Kelâa des Sraghna",
+    sidislimane: "Sidi Slimane", guercif: "Guercif", ouladteima: "Oulad Teïma",
+    benguerir: "Benguérir", tiflet: "Tiflet", lqliaa: "Lqliaa",
+    fnideq: "Fnideq", sidikacem: "Sidi Kacem", tiznit: "Tiznit",
+    tantan: "Tan-Tan", soukelarbaa: "Souk El Arbaâ", youssoufia: "Youssoufia",
+    lahraouyine: "Lahraouyine", martil: "Martil", ainharrouda: "Aïn Harrouda",
+    souksebt: "Souk Sebt Oulad Nemma", skhirat: "Skhirate", ouazzane: "Ouezzane",
+    benslimane: "Benslimane", beniansar: "Béni Ansar", mdiq: "M'diq",
+    sidibennour: "Sidi Bennour", midelt: "Midelt", azrou: "Azrou", drargua: "Drargua",
     other: "Maroc",
   };
   const l = locale === "ar" ? "ar" : locale === "en" ? "en" : "fr";

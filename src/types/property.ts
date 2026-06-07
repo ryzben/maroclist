@@ -47,6 +47,43 @@ export type City =
   | "sefrou"
   | "asilah"
   | "bouznika"
+  | "aitmelloul"
+  | "darbouazza"
+  | "khemisset"
+  | "inezgane"
+  | "ksarelkebir"
+  | "berkane"
+  | "taourirt"
+  | "bouskoura"
+  | "fquihbensalah"
+  | "dcheira"
+  | "ouedzem"
+  | "kelaasraghna"
+  | "sidislimane"
+  | "guercif"
+  | "ouladteima"
+  | "benguerir"
+  | "tiflet"
+  | "lqliaa"
+  | "fnideq"
+  | "sidikacem"
+  | "tiznit"
+  | "tantan"
+  | "soukelarbaa"
+  | "youssoufia"
+  | "lahraouyine"
+  | "martil"
+  | "ainharrouda"
+  | "souksebt"
+  | "skhirat"
+  | "ouazzane"
+  | "benslimane"
+  | "beniansar"
+  | "mdiq"
+  | "sidibennour"
+  | "midelt"
+  | "azrou"
+  | "drargua"
   | "other";
 
 export interface Property {
@@ -135,5 +172,42 @@ export const CITIES: City[] = [
   "sefrou",
   "asilah",
   "bouznika",
+  "aitmelloul",
+  "darbouazza",
+  "khemisset",
+  "inezgane",
+  "ksarelkebir",
+  "berkane",
+  "taourirt",
+  "bouskoura",
+  "fquihbensalah",
+  "dcheira",
+  "ouedzem",
+  "kelaasraghna",
+  "sidislimane",
+  "guercif",
+  "ouladteima",
+  "benguerir",
+  "tiflet",
+  "lqliaa",
+  "fnideq",
+  "sidikacem",
+  "tiznit",
+  "tantan",
+  "soukelarbaa",
+  "youssoufia",
+  "lahraouyine",
+  "martil",
+  "ainharrouda",
+  "souksebt",
+  "skhirat",
+  "ouazzane",
+  "benslimane",
+  "beniansar",
+  "mdiq",
+  "sidibennour",
+  "midelt",
+  "azrou",
+  "drargua",
   "other",
 ];
