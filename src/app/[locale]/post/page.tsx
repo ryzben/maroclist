@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useLocale } from "next-intl";
+import { useState, useCallback, useEffect } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { supabase } from "@/lib/supabase";
 import Navbar from "@/components/Navbar";
 import Step1Type from "@/components/post/Step1Type";
 import Step2City from "@/components/post/Step2City";
@@ -22,17 +24,30 @@ const INITIAL: PostWizardState = {
 };
 
 export default function PostPage() {
+  const t = useTranslations();
   const locale = useLocale();
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [state, setState] = useState<PostWizardState>(INITIAL);
   const [publishedId, setPublishedId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) {
+        router.push("/login?next=/post");
+        return;
+      }
+      setAuthChecked(true);
+    });
+  }, [router]);
 
   const next = useCallback(() => setStep((s) => s + 1), []);
   const back = useCallback(() => setStep((s) => s - 1), []);
 
-  function setTypes(p: PropertyType, t: TransactionType) {
-    setState((prev) => ({ ...prev, propertyType: p, transactionType: t }));
+  function setTypes(p: PropertyType, tt: TransactionType) {
+    setState((prev) => ({ ...prev, propertyType: p, transactionType: tt }));
   }
   function setCity(city: City) {
     setState((prev) => ({ ...prev, city }));
@@ -55,6 +70,14 @@ export default function PostPage() {
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  if (!authChecked) {
+    return (
+      <div className="flex min-h-dvh items-center justify-center text-gray-400">
+        {t("common.loading")}
+      </div>
+    );
   }
 
   if (publishedId) {

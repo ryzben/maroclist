@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Upload, X, ImagePlus } from "lucide-react";
 import StepWrapper from "./StepWrapper";
@@ -21,7 +21,13 @@ export default function Step4Photos({ images, onChange, onNext, onBack }: Step4P
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
 
-  const previews = images.map((f) => URL.createObjectURL(f));
+  const [previews, setPreviews] = useState<string[]>([]);
+
+  useEffect(() => {
+    const urls = images.map((f) => URL.createObjectURL(f));
+    setPreviews(urls);
+    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+  }, [images]);
 
   function handleFiles(files: FileList | null) {
     if (!files) return;

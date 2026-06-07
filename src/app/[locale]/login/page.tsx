@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
+import { safeNext } from "@/lib/utils";
 
 export default function LoginPage() {
   const t = useTranslations("auth");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = safeNext(searchParams.get("next"));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,7 +28,7 @@ export default function LoginPage() {
       setError(error.message);
       setLoading(false);
     } else {
-      router.push("/my-listings");
+      router.push(next ?? "/my-listings");
     }
   }
 
@@ -80,7 +84,7 @@ export default function LoginPage() {
 
           <p className="mt-4 text-center text-sm text-gray-600">
             {t("noAccount")}{" "}
-            <Link href="/signup" className="font-medium text-brand-600 hover:text-brand-700">
+            <Link href={next ? `/signup?next=${encodeURIComponent(next)}` : "/signup"} className="font-medium text-brand-600 hover:text-brand-700">
               {t("signup")}
             </Link>
           </p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Upload, X } from "lucide-react";
@@ -44,6 +44,15 @@ export default function EditListingPage({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  const newPreviewsRef = useRef<string[]>([]);
+  newPreviewsRef.current = newPreviews;
+
+  useEffect(() => {
+    return () => {
+      newPreviewsRef.current.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, []);
 
   useEffect(() => {
     params.then(({ id: listingId }) => {
@@ -102,6 +111,8 @@ export default function EditListingPage({
   }
 
   function removeNew(idx: number) {
+    const url = newPreviews[idx];
+    if (url) URL.revokeObjectURL(url);
     setNewFiles((prev) => prev.filter((_, i) => i !== idx));
     setNewPreviews((prev) => prev.filter((_, i) => i !== idx));
   }

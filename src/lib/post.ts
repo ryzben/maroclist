@@ -51,14 +51,8 @@ export async function publishListing(
   locale: string
 ): Promise<{ id: string }> {
   const { data: { user } } = await supabase.auth.getUser();
-
-  // Sign in anonymously if not logged in
-  let userId = user?.id;
-  if (!userId) {
-    const { data: anonData, error: anonErr } = await supabase.auth.signInAnonymously();
-    if (anonErr || !anonData.user) throw new Error("Could not create session");
-    userId = anonData.user.id;
-  }
+  if (!user) throw new Error("Session expired — please log in again.");
+  const userId = user.id;
 
   // Upload images
   const imageUrls: string[] = [];
