@@ -390,7 +390,9 @@
     "shareText": "Check out my listing on Maroclist:",
     "addDetailsTitle": "Get more contacts",
     "addDetailsDesc": "Add surface area, bedrooms, description and more photos to attract more buyers.",
-    "addDetailsCta": "Complete your listing →"
+    "addDetailsCta": "Complete your listing →",
+    "viewListing": "View your listing",
+    "backToHome": "Back to homepage"
   },
   "cityEmpty": {
     "title": "Real estate in {city} — No listings yet",

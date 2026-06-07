@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { CheckCircle, Share2, Pencil } from "lucide-react";
+import { CheckCircle, Share2, Pencil, Eye } from "lucide-react";
 
 interface SuccessScreenProps {
   listingId: string;
@@ -69,6 +69,20 @@ export default function SuccessScreen({ listingId }: SuccessScreenProps) {
         >
           <Pencil className="h-3.5 w-3.5" />
           {t("wizard.addDetailsCta")}
+        </Link>
+      </div>
+
+      {/* Exit links */}
+      <div className="mt-6 flex w-full max-w-sm flex-col items-center gap-3">
+        <Link
+          href={`/listings/${listingId}`}
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+        >
+          <Eye className="h-4 w-4" />
+          {t("wizard.viewListing")}
+        </Link>
+        <Link href="/" className="text-xs font-semibold text-gray-400 hover:text-gray-600">
+          {t("wizard.backToHome")}
         </Link>
       </div>
     </div>

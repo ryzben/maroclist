@@ -390,7 +390,9 @@
     "shareText": "Regardez mon annonce sur Maroclist :",
     "addDetailsTitle": "Recevez plus de contacts",
     "addDetailsDesc": "Ajoutez la surface, les chambres, la description et plus de photos pour attirer davantage d'acheteurs.",
-    "addDetailsCta": "Compléter l'annonce →"
+    "addDetailsCta": "Compléter l'annonce →",
+    "viewListing": "Voir votre annonce",
+    "backToHome": "Retour à l'accueil"
   },
   "cityEmpty": {
     "title": "Immobilier à {city} — Aucune annonce pour le moment",
