@@ -36,7 +36,15 @@ function generateTitle(
     fes: "Fès", tanger: "Tanger", agadir: "Agadir", meknes: "Meknès",
     oujda: "Oujda", kenitra: "Kénitra", tetouan: "Tétouan", safi: "Safi",
     eljadida: "El Jadida", benimellal: "Béni Mellal", nador: "Nador",
-    taza: "Taza", settat: "Settat", other: "Maroc",
+    taza: "Taza", settat: "Settat",
+    sale: "Salé", mohammedia: "Mohammedia", temara: "Témara",
+    khouribga: "Khouribga", essaouira: "Essaouira", alhoceima: "Al Hoceïma",
+    larache: "Larache", berrechid: "Berrechid", ifrane: "Ifrane",
+    ouarzazate: "Ouarzazate", errachidia: "Errachidia", guelmim: "Guelmim",
+    laayoune: "Laâyoune", dakhla: "Dakhla", chefchaouen: "Chefchaouen",
+    taroudant: "Taroudant", khenifra: "Khénifra", sefrou: "Sefrou",
+    asilah: "Asilah", bouznika: "Bouznika",
+    other: "Maroc",
   };
   const l = locale === "ar" ? "ar" : locale === "en" ? "en" : "fr";
   const type = types[propertyType]?.[l] ?? types[propertyType]?.fr ?? "";

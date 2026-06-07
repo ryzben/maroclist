@@ -27,6 +27,26 @@ export type City =
   | "nador"
   | "taza"
   | "settat"
+  | "sale"
+  | "mohammedia"
+  | "temara"
+  | "khouribga"
+  | "essaouira"
+  | "alhoceima"
+  | "larache"
+  | "berrechid"
+  | "ifrane"
+  | "ouarzazate"
+  | "errachidia"
+  | "guelmim"
+  | "laayoune"
+  | "dakhla"
+  | "chefchaouen"
+  | "taroudant"
+  | "khenifra"
+  | "sefrou"
+  | "asilah"
+  | "bouznika"
   | "other";
 
 export interface Property {
@@ -95,5 +115,25 @@ export const CITIES: City[] = [
   "nador",
   "taza",
   "settat",
+  "sale",
+  "mohammedia",
+  "temara",
+  "khouribga",
+  "essaouira",
+  "alhoceima",
+  "larache",
+  "berrechid",
+  "ifrane",
+  "ouarzazate",
+  "errachidia",
+  "guelmim",
+  "laayoune",
+  "dakhla",
+  "chefchaouen",
+  "taroudant",
+  "khenifra",
+  "sefrou",
+  "asilah",
+  "bouznika",
   "other",
 ];
