@@ -377,6 +377,7 @@
     "photoSizeError": "Fichier trop volumineux. Maximum 10 Mo.",
     "continueWithPhotos": "Continuer avec {count} photo(s)",
     "addAtLeastOne": "Ajoutez au moins 1 photo",
+    "phonePlaceholder": "6XX XXX XXX",
     "phoneRequired": "Entrez votre numéro WhatsApp",
     "phoneNote": "Votre numéro ne sera visible que par les acheteurs intéressés.",
     "publishing": "Publication en cours...",

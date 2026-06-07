@@ -17,6 +17,7 @@
     "next-intl": "^4.9.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-phone-number-input": "^3.4.17",
     "resend": "^6.12.2",
     "tailwind-merge": "^2.6.0"
   },

@@ -35,6 +35,26 @@
     @apply w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition placeholder:text-gray-400 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/20;
   }
 
+  .PhoneInput {
+    @apply flex w-full items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 shadow-sm transition;
+  }
+
+  .PhoneInput--focus {
+    @apply border-orange-400 ring-2 ring-orange-400/20;
+  }
+
+  .PhoneInputInput {
+    @apply min-w-0 flex-1 border-none bg-transparent p-0 text-sm text-gray-900 outline-none placeholder:text-gray-400;
+  }
+
+  .PhoneInputCountryIcon {
+    @apply h-4 w-6 rounded-sm shadow-sm;
+  }
+
+  .PhoneInputCountrySelectArrow {
+    @apply opacity-50;
+  }
+
   .label {
     @apply block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5;
   }

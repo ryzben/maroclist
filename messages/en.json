@@ -377,6 +377,7 @@
     "photoSizeError": "File too large. Maximum 10 MB.",
     "continueWithPhotos": "Continue with {count} photo(s)",
     "addAtLeastOne": "Add at least 1 photo",
+    "phonePlaceholder": "6XX XXX XXX",
     "phoneRequired": "Enter your WhatsApp number",
     "phoneNote": "Your number will only be visible to interested buyers.",
     "publishing": "Publishing...",

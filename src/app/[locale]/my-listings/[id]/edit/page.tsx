@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Upload, X } from "lucide-react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
@@ -377,7 +379,13 @@ export default function EditListingPage({
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="label">{t("post.phone")}</label>
-                <input type="tel" value={form.contact_phone} onChange={(e) => set("contact_phone", e.target.value)} placeholder="+212 6XX XXX XXX" className="input" />
+                <PhoneInput
+                  defaultCountry="MA"
+                  international
+                  value={form.contact_phone}
+                  onChange={(value) => set("contact_phone", value ?? "")}
+                  placeholder={t("wizard.phonePlaceholder")}
+                />
               </div>
               <div>
                 <label className="label">Email</label>

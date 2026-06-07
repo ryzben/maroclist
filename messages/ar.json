@@ -377,6 +377,7 @@
     "photoSizeError": "الملف كبير جداً. الحد الأقصى 10 ميغابايت.",
     "continueWithPhotos": "متابعة مع {count} صورة",
     "addAtLeastOne": "أضف صورة واحدة على الأقل",
+    "phonePlaceholder": "6XX XXX XXX",
     "phoneRequired": "أدخل رقم واتساب",
     "phoneNote": "رقمك لن يظهر إلا للمشترين المهتمين.",
     "publishing": "جارٍ النشر...",

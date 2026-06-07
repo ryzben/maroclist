@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Phone, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import StepWrapper from "./StepWrapper";
 
 interface Step5Props {
@@ -44,18 +46,15 @@ export default function Step5Contact({ contactPhone, onChange, onSubmit, onBack,
       onBack={onBack}
     >
       <div className="mb-8 space-y-4">
-        <div className="relative">
-          <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-          <input
-            autoFocus
-            type="tel"
-            inputMode="tel"
-            value={contactPhone}
-            onChange={(e) => { onChange(e.target.value); setError(""); }}
-            placeholder="+212 6XX XXX XXX"
-            className="input pl-10 text-lg"
-          />
-        </div>
+        <PhoneInput
+          autoFocus
+          defaultCountry="MA"
+          international
+          value={contactPhone}
+          onChange={(value) => { onChange(value ?? ""); setError(""); }}
+          placeholder={t("wizard.phonePlaceholder")}
+          numberInputProps={{ className: "text-lg" }}
+        />
         {error && <p className="text-sm text-red-600">{error}</p>}
         <p className="text-xs text-gray-400">{t("wizard.phoneNote")}</p>
       </div>
