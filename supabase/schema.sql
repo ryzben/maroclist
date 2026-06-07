@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS public.properties (
   area_sqm NUMERIC(10, 2),
   bedrooms SMALLINT,
   bathrooms SMALLINT,
+  floor SMALLINT,
   images TEXT[] DEFAULT '{}',
   contact_phone TEXT,
   contact_email TEXT,

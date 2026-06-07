@@ -7,7 +7,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import StepWrapper from "./StepWrapper";
 
-interface Step5Props {
+interface Step6Props {
   contactPhone: string;
   onChange: (phone: string) => void;
   onSubmit: () => Promise<void>;
@@ -15,7 +15,7 @@ interface Step5Props {
   isSubmitting: boolean;
 }
 
-export default function Step5Contact({ contactPhone, onChange, onSubmit, onBack, isSubmitting }: Step5Props) {
+export default function Step6Contact({ contactPhone, onChange, onSubmit, onBack, isSubmitting }: Step6Props) {
   const t = useTranslations();
   const [error, setError] = useState("");
 
@@ -39,10 +39,10 @@ export default function Step5Contact({ contactPhone, onChange, onSubmit, onBack,
 
   return (
     <StepWrapper
-      step={5}
-      totalSteps={5}
-      title={t("wizard.step5Title")}
-      subtitle={t("wizard.step5Subtitle")}
+      step={6}
+      totalSteps={6}
+      title={t("wizard.step6Title")}
+      subtitle={t("wizard.step6Subtitle")}
       onBack={onBack}
     >
       <div className="mb-8 space-y-4">

@@ -39,7 +39,7 @@ export default function Step1Type({ propertyType, transactionType, onChange, onN
   const canContinue = propertyType !== null && transactionType !== null;
 
   return (
-    <StepWrapper step={1} totalSteps={5} title={t("wizard.step1Title")} subtitle={t("wizard.step1Subtitle")}>
+    <StepWrapper step={1} totalSteps={6} title={t("wizard.step1Title")} subtitle={t("wizard.step1Subtitle")}>
       {/* Transaction type */}
       <div className="mb-6">
         <p className="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">

@@ -19,7 +19,7 @@ export default function Step3Price({ price, onChange, onNext, onBack }: Step3Pro
   return (
     <StepWrapper
       step={3}
-      totalSteps={5}
+      totalSteps={6}
       title={t("wizard.step3Title")}
       subtitle={t("wizard.step3Subtitle")}
       onBack={onBack}

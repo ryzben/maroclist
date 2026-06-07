@@ -102,6 +102,7 @@ export interface Property {
   area_sqm: number | null;
   bedrooms: number | null;
   bathrooms: number | null;
+  floor: number | null;
   images: string[];
   video_url: string | null;
   contact_phone: string | null;

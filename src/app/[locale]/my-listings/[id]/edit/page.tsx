@@ -25,6 +25,7 @@ interface FormState {
   area_sqm: string;
   bedrooms: string;
   bathrooms: string;
+  floor: string;
   contact_phone: string;
   contact_email: string;
   video_url: string;
@@ -89,6 +90,7 @@ export default function EditListingPage({
       area_sqm:         data.area_sqm?.toString() ?? "",
       bedrooms:         data.bedrooms?.toString() ?? "",
       bathrooms:        data.bathrooms?.toString() ?? "",
+      floor:            data.floor?.toString() ?? "",
       contact_phone:    data.contact_phone ?? "",
       contact_email:    data.contact_email ?? "",
       video_url:        data.video_url ?? "",
@@ -158,6 +160,7 @@ export default function EditListingPage({
           area_sqm:         form.area_sqm ? Number(form.area_sqm) : null,
           bedrooms:         form.bedrooms ? Number(form.bedrooms) : null,
           bathrooms:        form.bathrooms ? Number(form.bathrooms) : null,
+          floor:            form.floor ? Number(form.floor) : null,
           images:           [...existingImages, ...uploadedUrls],
           video_url:        form.video_url || null,
           contact_phone:    form.contact_phone ? normalizePhone(form.contact_phone) : null,
@@ -300,6 +303,10 @@ export default function EditListingPage({
               <div>
                 <label className="label">{t("post.bathrooms")}</label>
                 <input type="number" min="0" max="10" value={form.bathrooms} onChange={(e) => set("bathrooms", e.target.value)} className="input" />
+              </div>
+              <div>
+                <label className="label">{t("post.floor")}</label>
+                <input type="number" min="0" max="50" value={form.floor} onChange={(e) => set("floor", e.target.value)} className="input" />
               </div>
             </div>
           </div>

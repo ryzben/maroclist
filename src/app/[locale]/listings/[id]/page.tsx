@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
-import { MapPin, BedDouble, Bath, Maximize2, Calendar, ShieldCheck, User, Tag } from "lucide-react";
+import { MapPin, BedDouble, Bath, Maximize2, Layers, Calendar, ShieldCheck, User, Tag } from "lucide-react";
 import PhoneReveal from "@/components/PhoneReveal";
 import FavouriteButton from "@/components/FavouriteButton";
 import Navbar from "@/components/Navbar";
@@ -236,8 +236,8 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
             </div>
 
             {/* Key stats */}
-            {(property.area_sqm || property.bedrooms || property.bathrooms) && (
-              <div className="grid grid-cols-3 divide-x divide-gray-100 rounded-2xl border border-gray-200 bg-white shadow-sm">
+            {(property.area_sqm || property.bedrooms || property.bathrooms || property.floor) && (
+              <div className="grid grid-cols-2 divide-x divide-y divide-gray-100 rounded-2xl border border-gray-200 bg-white shadow-sm sm:grid-cols-4 sm:divide-y-0">
                 {property.area_sqm && (
                   <div className="flex flex-col items-center gap-2 p-5 text-center">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50">
@@ -263,6 +263,15 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                     </div>
                     <span className="font-bold text-gray-900">{property.bathrooms}</span>
                     <span className="text-xs text-gray-500">{t("property.bathrooms")}</span>
+                  </div>
+                )}
+                {property.floor && (
+                  <div className="flex flex-col items-center gap-2 p-5 text-center">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50">
+                      <Layers className="h-5 w-5 text-orange-500" />
+                    </div>
+                    <span className="font-bold text-gray-900">{property.floor}</span>
+                    <span className="text-xs text-gray-500">{t("property.floor")}</span>
                   </div>
                 )}
               </div>

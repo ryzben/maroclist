@@ -7,6 +7,10 @@ export interface PostWizardState {
   city: City | null;
   neighborhood: string | null;
   price: string;
+  bedrooms: string;
+  area: string;
+  floor: string;
+  description: string;
   images: File[];
   contactPhone: string;
 }
@@ -108,6 +112,10 @@ export async function publishListing(
       neighborhood: state.neighborhood || null,
       price: Number(state.price),
       currency: "MAD",
+      bedrooms: state.bedrooms ? Number(state.bedrooms) : null,
+      area_sqm: state.area ? Number(state.area) : null,
+      floor: state.floor ? Number(state.floor) : null,
+      description: state.description || null,
       contact_phone: state.contactPhone || null,
       images: imageUrls,
       is_active: true,

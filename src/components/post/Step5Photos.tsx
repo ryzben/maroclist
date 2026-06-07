@@ -9,14 +9,14 @@ const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const MAX_SIZE = 10 * 1024 * 1024;
 const MAX_PHOTOS = 15;
 
-interface Step4Props {
+interface Step5Props {
   images: File[];
   onChange: (images: File[]) => void;
   onNext: () => void;
   onBack: () => void;
 }
 
-export default function Step4Photos({ images, onChange, onNext, onBack }: Step4Props) {
+export default function Step5Photos({ images, onChange, onNext, onBack }: Step5Props) {
   const t = useTranslations();
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
@@ -55,10 +55,10 @@ export default function Step4Photos({ images, onChange, onNext, onBack }: Step4P
 
   return (
     <StepWrapper
-      step={4}
-      totalSteps={5}
-      title={t("wizard.step4Title")}
-      subtitle={t("wizard.step4Subtitle")}
+      step={5}
+      totalSteps={6}
+      title={t("wizard.step5Title")}
+      subtitle={t("wizard.step5Subtitle")}
       onBack={onBack}
     >
       {/* Drop zone */}

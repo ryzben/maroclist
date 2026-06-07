@@ -71,7 +71,7 @@ export default function Step2City({
     return (
       <StepWrapper
         step={2}
-        totalSteps={5}
+        totalSteps={6}
         title={t("wizard.neighborhoodTitle")}
         subtitle={t("wizard.neighborhoodSubtitle")}
         onBack={() => setPhase("city")}
@@ -152,7 +152,7 @@ export default function Step2City({
   return (
     <StepWrapper
       step={2}
-      totalSteps={5}
+      totalSteps={6}
       title={t("wizard.step2Title")}
       subtitle={t("wizard.step2Subtitle")}
       onBack={onBack}

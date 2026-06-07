@@ -8,8 +8,9 @@ import Navbar from "@/components/Navbar";
 import Step1Type from "@/components/post/Step1Type";
 import Step2City from "@/components/post/Step2City";
 import Step3Price from "@/components/post/Step3Price";
-import Step4Photos from "@/components/post/Step4Photos";
-import Step5Contact from "@/components/post/Step5Contact";
+import Step4Details from "@/components/post/Step4Details";
+import Step5Photos from "@/components/post/Step5Photos";
+import Step6Contact from "@/components/post/Step6Contact";
 import SuccessScreen from "@/components/post/SuccessScreen";
 import { publishListing, type PostWizardState } from "@/lib/post";
 import type { PropertyType, TransactionType, City } from "@/types/property";
@@ -20,6 +21,10 @@ const INITIAL: PostWizardState = {
   city: null,
   neighborhood: null,
   price: "",
+  bedrooms: "",
+  area: "",
+  floor: "",
+  description: "",
   images: [],
   contactPhone: "",
 };
@@ -63,6 +68,9 @@ export default function PostPage() {
   function setPrice(price: string) {
     setState((prev) => ({ ...prev, price }));
   }
+  function setDetail(field: "bedrooms" | "area" | "floor" | "description", value: string) {
+    setState((prev) => ({ ...prev, [field]: value }));
+  }
   function setImages(images: File[]) {
     setState((prev) => ({ ...prev, images }));
   }
@@ -92,8 +100,8 @@ export default function PostPage() {
     return <SuccessScreen listingId={publishedId} />;
   }
 
-  // Steps 1–5 fill the screen without Navbar to maximize mobile space
-  if (step >= 1 && step <= 5) {
+  // Steps 1–6 fill the screen without Navbar to maximize mobile space
+  if (step >= 1 && step <= 6) {
     return (
       <>
         {step === 1 && (
@@ -123,15 +131,26 @@ export default function PostPage() {
           />
         )}
         {step === 4 && (
-          <Step4Photos
+          <Step4Details
+            bedrooms={state.bedrooms}
+            area={state.area}
+            floor={state.floor}
+            description={state.description}
+            onChange={setDetail}
+            onNext={next}
+            onBack={back}
+          />
+        )}
+        {step === 5 && (
+          <Step5Photos
             images={state.images}
             onChange={setImages}
             onNext={next}
             onBack={back}
           />
         )}
-        {step === 5 && (
-          <Step5Contact
+        {step === 6 && (
+          <Step6Contact
             contactPhone={state.contactPhone}
             onChange={setPhone}
             onSubmit={handlePublish}
