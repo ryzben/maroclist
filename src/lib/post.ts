@@ -5,6 +5,7 @@ export interface PostWizardState {
   propertyType: PropertyType | null;
   transactionType: TransactionType | null;
   city: City | null;
+  neighborhood: string | null;
   price: string;
   images: File[];
   contactPhone: string;
@@ -92,6 +93,7 @@ export async function publishListing(
       property_type: state.propertyType,
       transaction_type: state.transactionType,
       city: state.city,
+      neighborhood: state.neighborhood || null,
       price: Number(state.price),
       currency: "MAD",
       contact_phone: state.contactPhone || null,

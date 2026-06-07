@@ -18,6 +18,7 @@ const INITIAL: PostWizardState = {
   propertyType: null,
   transactionType: null,
   city: null,
+  neighborhood: null,
   price: "",
   images: [],
   contactPhone: "",
@@ -50,7 +51,14 @@ export default function PostPage() {
     setState((prev) => ({ ...prev, propertyType: p, transactionType: tt }));
   }
   function setCity(city: City) {
-    setState((prev) => ({ ...prev, city }));
+    setState((prev) => ({
+      ...prev,
+      city,
+      neighborhood: prev.city === city ? prev.neighborhood : null,
+    }));
+  }
+  function setNeighborhood(neighborhood: string | null) {
+    setState((prev) => ({ ...prev, neighborhood }));
   }
   function setPrice(price: string) {
     setState((prev) => ({ ...prev, price }));
@@ -99,7 +107,9 @@ export default function PostPage() {
         {step === 2 && (
           <Step2City
             city={state.city}
+            neighborhood={state.neighborhood}
             onChange={setCity}
+            onNeighborhoodChange={setNeighborhood}
             onNext={next}
             onBack={back}
           />
