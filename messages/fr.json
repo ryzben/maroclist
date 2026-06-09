@@ -61,7 +61,8 @@
     "verifiedBadge": "Annonce vérifiée",
     "verifiedProfile": "Profil vérifié",
     "privateSeller": "Vendeur particulier",
-    "perNight": "/ nuit"
+    "perNight": "/ nuit",
+    "trustNotice": "Ne payez jamais à l'avance. Visitez le bien avant tout versement et méfiez-vous des offres trop alléchantes."
   },
   "filter": {
     "title": "Filtrer",
@@ -421,5 +422,11 @@
     "alertPlaceholder": "Votre email",
     "alertSubmit": "Me prévenir",
     "alertSuccess": "Vous serez prévenu dès qu'une annonce est disponible !"
+  },
+  "profile": {
+    "memberSince": "Membre depuis",
+    "activeListings": "Annonces actives",
+    "viewProfile": "Voir le profil du vendeur",
+    "notFound": "Vendeur introuvable"
   }
 }

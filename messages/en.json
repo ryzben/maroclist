@@ -61,7 +61,8 @@
     "verifiedBadge": "Verified listing",
     "verifiedProfile": "Verified profile",
     "privateSeller": "Private seller",
-    "perNight": "/ night"
+    "perNight": "/ night",
+    "trustNotice": "Never pay in advance. Visit the property before any payment and beware of deals that seem too good to be true."
   },
   "filter": {
     "title": "Filter",
@@ -421,5 +422,11 @@
     "alertPlaceholder": "Your email",
     "alertSubmit": "Notify me",
     "alertSuccess": "You'll be notified as soon as a listing is available!"
+  },
+  "profile": {
+    "memberSince": "Member since",
+    "activeListings": "Active listings",
+    "viewProfile": "View seller profile",
+    "notFound": "Seller not found"
   }
 }

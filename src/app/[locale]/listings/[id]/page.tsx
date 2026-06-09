@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
-import { MapPin, BedDouble, Bath, Maximize2, Layers, Calendar, ShieldCheck, User, Tag } from "lucide-react";
+import { MapPin, BedDouble, Bath, Maximize2, Layers, Calendar, ShieldCheck, User, Tag, ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import PhoneReveal from "@/components/PhoneReveal";
 import FavouriteButton from "@/components/FavouriteButton";
 import Navbar from "@/components/Navbar";
@@ -95,13 +96,15 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
   if (!property) notFound();
 
-  const [similar, savedRow] = await Promise.all([
+  const [similar, savedRow, sellerRow] = await Promise.all([
     getSimilarListings(id, property.city, property.property_type),
     user
       ? supabase.from("user_favorites").select("property_id").eq("user_id", user.id).eq("property_id", id).maybeSingle()
       : Promise.resolve({ data: null }),
+    supabase.from("profiles").select("full_name").eq("id", property.user_id).maybeSingle(),
   ]);
   const isSaved = !!savedRow?.data;
+  const sellerName = sellerRow?.data?.full_name ?? null;
 
   const title = locale === "ar" && property.title_ar ? property.title_ar : property.title;
   const description =
@@ -310,8 +313,10 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">
                   <User className="h-6 w-6 text-orange-500" />
                 </div>
-                <div>
-                  <p className="font-semibold text-gray-900">{t("property.privateSeller")}</p>
+                <div className="min-w-0">
+                  <p className="truncate font-semibold text-gray-900">
+                    {sellerName ?? t("property.privateSeller")}
+                  </p>
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
                     <ShieldCheck className="h-3 w-3" />
                     {t("property.verifiedProfile")}
@@ -326,6 +331,14 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                   title={title}
                 />
               )}
+
+              <Link
+                href={`/profile/${property.user_id}`}
+                className="mt-3 flex items-center gap-1 text-xs font-medium text-orange-500 hover:text-orange-600"
+              >
+                {t("profile.viewProfile")}
+                <ArrowRight className="h-3 w-3" />
+              </Link>
             </div>
 
             {/* Contact / message form */}
@@ -337,9 +350,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
             {/* Trust notice */}
             <div className="flex items-start gap-2.5 rounded-xl bg-gray-50 p-4 text-xs text-gray-500">
               <ShieldCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400" />
-              <span>
-                Ne payez jamais à l&apos;avance. Visitez le bien avant tout versement et méfiez-vous des offres trop alléchantes.
-              </span>
+              <span>{t("property.trustNotice")}</span>
             </div>
           </div>
         </div>

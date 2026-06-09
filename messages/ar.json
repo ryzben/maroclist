@@ -61,7 +61,8 @@
     "verifiedBadge": "إعلان موثق",
     "verifiedProfile": "ملف موثق",
     "privateSeller": "بائع خاص",
-    "perNight": "/ ليلة"
+    "perNight": "/ ليلة",
+    "trustNotice": "لا تدفع مسبقاً. قم بزيارة العقار قبل أي دفع واحذر من العروض المغرية جداً."
   },
   "filter": {
     "title": "تصفية",
@@ -421,5 +422,11 @@
     "alertPlaceholder": "بريدك الإلكتروني",
     "alertSubmit": "أشعرني",
     "alertSuccess": "ستتلقى إشعاراً فور توفر إعلان!"
+  },
+  "profile": {
+    "memberSince": "عضو منذ",
+    "activeListings": "الإعلانات النشطة",
+    "viewProfile": "عرض ملف البائع",
+    "notFound": "البائع غير موجود"
   }
 }
