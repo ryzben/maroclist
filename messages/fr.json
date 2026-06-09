@@ -57,7 +57,11 @@
     "noPhoto": "Pas de photo",
     "notFound": "Annonce introuvable",
     "similar": "Annonces similaires",
-    "showPhone": "Voir le numéro"
+    "showPhone": "Voir le numéro",
+    "verifiedBadge": "Annonce vérifiée",
+    "verifiedProfile": "Profil vérifié",
+    "privateSeller": "Vendeur particulier",
+    "perNight": "/ nuit"
   },
   "filter": {
     "title": "Filtrer",
@@ -117,7 +121,8 @@
     "message": "Message",
     "messagePlaceholder": "Je suis intéressé par votre bien...",
     "send": "Envoyer",
-    "success": "Votre message a été envoyé !"
+    "success": "Votre message a été envoyé !",
+    "successNote": "Le vendeur vous répondra dès que possible."
   },
   "auth": {
     "loginTitle": "Connexion",

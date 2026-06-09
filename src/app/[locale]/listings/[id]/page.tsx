@@ -172,12 +172,8 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
             {/* Title, price, badges */}
             <div className="space-y-4">
-              {/* Verified badge + meta */}
+              {/* Meta row */}
               <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                  <ShieldCheck className="h-3.5 w-3.5" />
-                  Annonce vérifiée
-                </span>
                 <span className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   {timeAgo(property.created_at, locale)}
@@ -213,7 +209,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                   <p className="mt-0.5 text-sm font-medium text-orange-500">{t("property.perMonth")}</p>
                 )}
                 {property.transaction_type === "holiday_rental" && (
-                  <p className="mt-0.5 text-sm font-medium text-orange-500">/ nuit</p>
+                  <p className="mt-0.5 text-sm font-medium text-orange-500">{t("property.perNight")}</p>
                 )}
                 {(!property.currency || property.currency === "MAD") && (
                   <p className="mt-1.5 text-sm text-gray-400">
@@ -315,10 +311,10 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                   <User className="h-6 w-6 text-orange-500" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">Vendeur particulier</p>
+                  <p className="font-semibold text-gray-900">{t("property.privateSeller")}</p>
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
                     <ShieldCheck className="h-3 w-3" />
-                    Profil vérifié
+                    {t("property.verifiedProfile")}
                   </span>
                 </div>
               </div>
@@ -335,8 +331,6 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
             {/* Contact / message form */}
             <ContactForm
               propertyId={property.id}
-              propertyTitle={title}
-              ownerEmail={property.contact_email}
               ownerPhone={property.contact_phone}
             />
 
@@ -357,7 +351,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
               {t("property.similar") ?? "Annonces similaires"}
             </h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {similar.map((p: any) => (
+              {similar.map((p) => (
                 <PropertyCard key={p.id} property={p} />
               ))}
             </div>

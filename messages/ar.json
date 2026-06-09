@@ -57,7 +57,11 @@
     "noPhoto": "لا توجد صورة",
     "notFound": "الإعلان غير موجود",
     "similar": "إعلانات مشابهة",
-    "showPhone": "عرض الرقم"
+    "showPhone": "عرض الرقم",
+    "verifiedBadge": "إعلان موثق",
+    "verifiedProfile": "ملف موثق",
+    "privateSeller": "بائع خاص",
+    "perNight": "/ ليلة"
   },
   "filter": {
     "title": "تصفية",
@@ -117,7 +121,8 @@
     "message": "الرسالة",
     "messagePlaceholder": "أنا مهتم بعقارك...",
     "send": "إرسال",
-    "success": "تم إرسال رسالتك!"
+    "success": "تم إرسال رسالتك!",
+    "successNote": "سيرد عليك البائع في أقرب وقت ممكن."
   },
   "auth": {
     "loginTitle": "تسجيل الدخول",

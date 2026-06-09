@@ -57,7 +57,11 @@
     "noPhoto": "No photo",
     "notFound": "Listing not found",
     "similar": "Similar listings",
-    "showPhone": "Show number"
+    "showPhone": "Show number",
+    "verifiedBadge": "Verified listing",
+    "verifiedProfile": "Verified profile",
+    "privateSeller": "Private seller",
+    "perNight": "/ night"
   },
   "filter": {
     "title": "Filter",
@@ -117,7 +121,8 @@
     "message": "Message",
     "messagePlaceholder": "I am interested in your property...",
     "send": "Send",
-    "success": "Your message has been sent!"
+    "success": "Your message has been sent!",
+    "successNote": "The seller will get back to you as soon as possible."
   },
   "auth": {
     "loginTitle": "Log in",

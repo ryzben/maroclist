@@ -38,7 +38,9 @@ export default function MyListingsPage() {
   async function handleDelete(id: string) {
     if (!confirm(t("nav.confirmDelete"))) return;
     setDeletingId(id);
-    await supabase.from("properties").delete().eq("id", id);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    await supabase.from("properties").delete().eq("id", id).eq("user_id", user.id);
     setListings((prev) => prev.filter((l) => l.id !== id));
     setDeletingId(null);
   }

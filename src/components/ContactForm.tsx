@@ -7,12 +7,10 @@ import { normalizePhone } from "@/lib/utils";
 
 interface ContactFormProps {
   propertyId: string;
-  propertyTitle: string;
-  ownerEmail: string | null;
   ownerPhone: string | null;
 }
 
-export default function ContactForm({ propertyId, propertyTitle, ownerEmail, ownerPhone }: ContactFormProps) {
+export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps) {
   const t = useTranslations("contact");
   const [sent, setSent] = useState(false);
   const [emailSent, setEmailSent] = useState(true);
@@ -30,8 +28,6 @@ export default function ContactForm({ propertyId, propertyTitle, ownerEmail, own
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           propertyId,
-          propertyTitle,
-          ownerEmail,
           senderName: form.name,
           senderPhone: form.phone,
           message: form.message,
@@ -60,7 +56,7 @@ export default function ContactForm({ propertyId, propertyTitle, ownerEmail, own
         </div>
         <div>
           <p className="font-semibold text-emerald-800">{t("success")}</p>
-          <p className="mt-1 text-xs text-emerald-600">Le vendeur vous répondra dès que possible.</p>
+          <p className="mt-1 text-xs text-emerald-600">{t("successNote")}</p>
           {!emailSent && (
             <p className="mt-2 text-xs text-amber-600">
               Votre message a été enregistré mais l&apos;email au vendeur n&apos;a pas pu être envoyé. Contactez-le directement par téléphone.

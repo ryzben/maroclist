@@ -12,14 +12,22 @@ function escapeHtml(str: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const { propertyId, propertyTitle, ownerEmail, senderName, senderPhone, message } =
-      await req.json();
+    const { propertyId, senderName, senderPhone, message } = await req.json();
 
     if (!propertyId || !senderName || !message) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
     const supabase = await createSupabaseServerClient();
+
+    // Fetch owner email server-side — never trust client-supplied email
+    const { data: property } = await supabase
+      .from("properties")
+      .select("contact_email, title")
+      .eq("id", propertyId)
+      .single();
+    const ownerEmail = property?.contact_email ?? null;
+    const propertyTitle = property?.title ?? "";
 
     // Rate limit: max 5 messages per property per hour
     const { count: recentCount } = await supabase
