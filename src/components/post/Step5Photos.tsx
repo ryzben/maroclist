@@ -7,7 +7,7 @@ import StepWrapper from "./StepWrapper";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const MAX_SIZE = 10 * 1024 * 1024;
-const MAX_PHOTOS = 15;
+const MAX_PHOTOS = 10;
 
 interface Step5Props {
   images: File[];

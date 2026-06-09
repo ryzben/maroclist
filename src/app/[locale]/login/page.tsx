@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
+import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
 import { safeNext } from "@/lib/utils";
@@ -77,8 +78,9 @@ export default function LoginPage() {
               <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>
             )}
 
-            <button type="submit" disabled={loading} className="btn-primary w-full py-2.5">
-              {loading ? "..." : t("login")}
+            <button type="submit" disabled={loading} className="btn-primary flex w-full items-center justify-center gap-2 py-2.5">
+              {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {t("login")}
             </button>
           </form>
 

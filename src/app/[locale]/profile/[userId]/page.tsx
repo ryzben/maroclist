@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { User } from "lucide-react";
+import { User, LayoutGrid } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
@@ -79,7 +79,9 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 py-20 text-center">
+            <LayoutGrid className="mb-3 h-12 w-12 text-gray-200" />
             <p className="font-semibold text-gray-400">{t("property.noResults")}</p>
+            <p className="mt-1 text-sm text-gray-300">{t("property.noResultsDesc")}</p>
           </div>
         )}
       </main>

@@ -216,6 +216,7 @@ export default function EditListingPage({
                 <label className="label">{t("post.propertyTitle")} (FR) *</label>
                 <input
                   required
+                  maxLength={100}
                   value={form.title}
                   onChange={(e) => set("title", e.target.value)}
                   placeholder={t("post.propertyTitlePlaceholder")}
