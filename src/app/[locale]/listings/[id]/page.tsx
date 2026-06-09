@@ -362,7 +362,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
         {similar.length > 0 && (
           <section className="mt-16">
             <h2 className="mb-6 text-xl font-bold text-gray-900">
-              {t("property.similar") ?? "Annonces similaires"}
+              {t("property.similar")}
             </h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {similar.map((p) => (

@@ -20,7 +20,7 @@ export default function SignupPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (form.password !== form.confirm) {
-      setError("Les mots de passe ne correspondent pas.");
+      setError(t("passwordMismatch"));
       return;
     }
     setLoading(true);

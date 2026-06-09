@@ -172,7 +172,7 @@ export default function EditListingPage({
       if (updateError) throw updateError;
       router.push("/my-listings");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+      setError(err instanceof Error ? err.message : t("common.error"));
     } finally {
       setSaving(false);
     }

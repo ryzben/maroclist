@@ -58,9 +58,7 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
           <p className="font-semibold text-emerald-800">{t("success")}</p>
           <p className="mt-1 text-xs text-emerald-600">{t("successNote")}</p>
           {!emailSent && (
-            <p className="mt-2 text-xs text-amber-600">
-              Votre message a été enregistré mais l&apos;email au vendeur n&apos;a pas pu être envoyé. Contactez-le directement par téléphone.
-            </p>
+            <p className="mt-2 text-xs text-amber-600">{t("emailFailedNote")}</p>
           )}
         </div>
         {ownerPhone && (
@@ -100,7 +98,7 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
         {ownerPhone && (
           <div className="flex items-center gap-3">
             <div className="h-px flex-1 bg-gray-100" />
-            <span className="text-xs text-gray-400">ou envoyez un message</span>
+            <span className="text-xs text-gray-400">{t("orMessage")}</span>
             <div className="h-px flex-1 bg-gray-100" />
           </div>
         )}
@@ -113,7 +111,7 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               className="input"
-              placeholder="Votre nom"
+              placeholder={t("namePlaceholder")}
             />
           </div>
           <div>
@@ -122,7 +120,7 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
               type="tel"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              placeholder="+212 6XX XXX XXX"
+              placeholder={t("phonePlaceholder")}
               className="input"
             />
           </div>

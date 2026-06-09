@@ -76,7 +76,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
               <polyline strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} points="9 22 9 12 15 12 15 22" />
             </svg>
-            <span className="text-xs text-gray-400">Pas de photo</span>
+            <span className="text-xs text-gray-400">{t("property.noPhoto")}</span>
           </div>
         )}
 
@@ -122,7 +122,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
               {formatPrice(property.price, property.currency)}
               {property.transaction_type !== "sale" && (
                 <span className="text-sm font-normal text-gray-400">
-                  {property.transaction_type === "holiday_rental" ? "/nuit" : t("property.perMonth")}
+                  {property.transaction_type === "holiday_rental" ? t("property.perNight") : t("property.perMonth")}
                 </span>
               )}
             </p>
@@ -151,7 +151,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             {property.bedrooms ? (
               <span className="flex items-center gap-1 text-xs text-gray-500">
                 <BedDouble className="h-3.5 w-3.5 text-gray-400" />
-                {property.bedrooms} ch.
+                {property.bedrooms} {t("property.bedroomsAbbr")}
               </span>
             ) : null}
             {property.bathrooms ? (
