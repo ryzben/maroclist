@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Send, CheckCircle, MessageSquare } from "lucide-react";
+import { Send, CheckCircle, MessageSquare, Loader2 } from "lucide-react";
 import { normalizePhone } from "@/lib/utils";
 
 interface ContactFormProps {
@@ -39,10 +39,10 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
         setSent(true);
       } else {
         const data = await res.json().catch(() => ({}));
-        setError(data.error || `Error ${res.status} — please try again.`);
+        setError(data.error || t("errorRetry"));
       }
     } catch {
-      setError("Network error — please check your connection and try again.");
+      setError(t("errorNetwork"));
     } finally {
       setLoading(false);
     }
@@ -143,9 +143,9 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
           </p>
         )}
 
-        <button type="submit" disabled={loading} className="btn-primary w-full gap-2">
-          <Send className="h-4 w-4" />
-          {loading ? "..." : t("send")}
+        <button type="submit" disabled={loading} className="btn-primary flex w-full items-center justify-center gap-2">
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+          {t("send")}
         </button>
       </form>
     </div>

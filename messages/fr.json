@@ -132,7 +132,9 @@
     "emailFailedNote": "Votre message a été enregistré mais l'email au vendeur n'a pas pu être envoyé. Contactez-le directement par téléphone.",
     "orMessage": "ou envoyez un message",
     "namePlaceholder": "Votre nom",
-    "phonePlaceholder": "+212 6XX XXX XXX"
+    "phonePlaceholder": "+212 6XX XXX XXX",
+    "errorRetry": "Échec de l'envoi — veuillez réessayer.",
+    "errorNetwork": "Erreur réseau — vérifiez votre connexion et réessayez."
   },
   "auth": {
     "loginTitle": "Connexion",
@@ -431,6 +433,10 @@
     "alertPlaceholder": "Votre email",
     "alertSubmit": "Me prévenir",
     "alertSuccess": "Vous serez prévenu dès qu'une annonce est disponible !"
+  },
+  "listings": {
+    "metaTitle": "Immobilier à {city} — Annonces au Maroc | Maroclist",
+    "metaDesc": "Trouvez des appartements, villas et terrains à {city} au Maroc. Parcourez les annonces sur Maroclist."
   },
   "profile": {
     "memberSince": "Membre depuis",

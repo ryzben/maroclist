@@ -132,7 +132,9 @@
     "emailFailedNote": "تم حفظ رسالتك لكن تعذّر إرسال البريد إلى البائع. تواصل معه مباشرةً بالهاتف.",
     "orMessage": "أو أرسل رسالة",
     "namePlaceholder": "اسمك",
-    "phonePlaceholder": "+212 6XX XXX XXX"
+    "phonePlaceholder": "+212 6XX XXX XXX",
+    "errorRetry": "فشل الإرسال — حاول مجدداً.",
+    "errorNetwork": "خطأ في الشبكة — تحقق من اتصالك وحاول مجدداً."
   },
   "auth": {
     "loginTitle": "تسجيل الدخول",
@@ -431,6 +433,10 @@
     "alertPlaceholder": "بريدك الإلكتروني",
     "alertSubmit": "أشعرني",
     "alertSuccess": "ستتلقى إشعاراً فور توفر إعلان!"
+  },
+  "listings": {
+    "metaTitle": "عقارات في {city} — إعلانات في المغرب | Maroclist",
+    "metaDesc": "ابحث عن شقق وفيلات وأراضي في {city}، المغرب. تصفّح الإعلانات على ماروك ليست."
   },
   "profile": {
     "memberSince": "عضو منذ",

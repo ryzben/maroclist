@@ -26,10 +26,10 @@ export async function generateMetadata({
   const city = sp?.city as string | undefined;
   const cityLabel = city ? t(`cities.${city}`) : null;
   const title = cityLabel
-    ? `Immobilier à ${cityLabel} — Acheter au Maroc depuis les USA | Maroclist`
+    ? t("listings.metaTitle", { city: cityLabel })
     : t("nav.listings");
   const description = cityLabel
-    ? `Trouvez des appartements, villas et terrains à ${cityLabel} au Maroc. Plateforme immobilière dédiée à la diaspora marocaine aux États-Unis et au Canada.`
+    ? t("listings.metaDesc", { city: cityLabel })
     : undefined;
   return {
     title,

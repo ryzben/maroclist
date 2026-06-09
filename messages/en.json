@@ -132,7 +132,9 @@
     "emailFailedNote": "Your message was saved but the email to the seller could not be sent. Contact them directly by phone.",
     "orMessage": "or send a message",
     "namePlaceholder": "Your name",
-    "phonePlaceholder": "+1 (XXX) XXX-XXXX"
+    "phonePlaceholder": "+1 (XXX) XXX-XXXX",
+    "errorRetry": "Failed to send — please try again.",
+    "errorNetwork": "Network error — please check your connection and try again."
   },
   "auth": {
     "loginTitle": "Log in",
@@ -431,6 +433,10 @@
     "alertPlaceholder": "Your email",
     "alertSubmit": "Notify me",
     "alertSuccess": "You'll be notified as soon as a listing is available!"
+  },
+  "listings": {
+    "metaTitle": "Real estate in {city} — Properties in Morocco | Maroclist",
+    "metaDesc": "Find apartments, villas and land in {city}, Morocco. Browse listings on Maroclist."
   },
   "profile": {
     "memberSince": "Member since",
