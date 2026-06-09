@@ -62,7 +62,11 @@
     "verifiedProfile": "Profil vérifié",
     "privateSeller": "Vendeur particulier",
     "perNight": "/ nuit",
-    "trustNotice": "Ne payez jamais à l'avance. Visitez le bien avant tout versement et méfiez-vous des offres trop alléchantes."
+    "trustNotice": "Ne payez jamais à l'avance. Visitez le bien avant tout versement et méfiez-vous des offres trop alléchantes.",
+    "shareWhatsApp": "Partager sur WhatsApp",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Copié !",
+    "shareText": "Découvrez ce bien sur Maroclist :"
   },
   "filter": {
     "title": "Filtrer",

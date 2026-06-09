@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
 import { MapPin, BedDouble, Bath, Maximize2, Layers, Calendar, ShieldCheck, User, Tag, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import ShareBar from "@/components/ShareBar";
 import PhoneReveal from "@/components/PhoneReveal";
 import FavouriteButton from "@/components/FavouriteButton";
 import Navbar from "@/components/Navbar";
@@ -232,6 +233,12 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                   {property.transaction_type === "sale" ? t("hero.forSale") : t("hero.forRent")}
                 </span>
               </div>
+
+              {/* Share */}
+              <ShareBar
+                title={title}
+                url={`https://maroclist.com/${locale}/listings/${id}`}
+              />
             </div>
 
             {/* Key stats */}
@@ -317,10 +324,6 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                   <p className="truncate font-semibold text-gray-900">
                     {sellerName ?? t("property.privateSeller")}
                   </p>
-                  <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
-                    <ShieldCheck className="h-3 w-3" />
-                    {t("property.verifiedProfile")}
-                  </span>
                 </div>
               </div>
 

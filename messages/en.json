@@ -62,7 +62,11 @@
     "verifiedProfile": "Verified profile",
     "privateSeller": "Private seller",
     "perNight": "/ night",
-    "trustNotice": "Never pay in advance. Visit the property before any payment and beware of deals that seem too good to be true."
+    "trustNotice": "Never pay in advance. Visit the property before any payment and beware of deals that seem too good to be true.",
+    "shareWhatsApp": "Share on WhatsApp",
+    "copyLink": "Copy link",
+    "linkCopied": "Copied!",
+    "shareText": "Check out this property on Maroclist:"
   },
   "filter": {
     "title": "Filter",
