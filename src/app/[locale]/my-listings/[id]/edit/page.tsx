@@ -172,7 +172,12 @@ export default function EditListingPage({
       if (updateError) throw updateError;
       router.push("/my-listings");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : t("common.error"));
+      const msg = err instanceof Error ? err.message : "";
+      if (/jwt|session expired|not authenticated|auth session missing/i.test(msg)) {
+        router.push("/login");
+        return;
+      }
+      setError(msg || t("common.error"));
     } finally {
       setSaving(false);
     }

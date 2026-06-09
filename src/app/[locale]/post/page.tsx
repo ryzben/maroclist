@@ -83,6 +83,13 @@ export default function PostPage() {
     try {
       const { id } = await publishListing(state, locale);
       setPublishedId(id);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      if (/session expired|jwt|not authenticated|auth session missing/i.test(msg)) {
+        router.push("/login?next=/post");
+        return;
+      }
+      throw err;
     } finally {
       setIsSubmitting(false);
     }
