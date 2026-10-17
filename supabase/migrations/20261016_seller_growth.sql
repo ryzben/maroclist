@@ -29,6 +29,19 @@ CREATE POLICY "Admins can update any property"
   USING (public.is_admin())
   WITH CHECK (public.is_admin());
 
+-- schema.sql only lets anyone read *active* rows, and Postgres applies SELECT policies to UPDATE ... WHERE,
+-- so a deactivated listing vanished from its owner's /my-listings and every edit of it was a silent no-op.
+-- Public pages are unaffected: they all filter is_active = true explicitly.
+DROP POLICY IF EXISTS "Owners can read own properties" ON public.properties;
+CREATE POLICY "Owners can read own properties"
+  ON public.properties FOR SELECT
+  USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Admins can read all properties" ON public.properties;
+CREATE POLICY "Admins can read all properties"
+  ON public.properties FOR SELECT
+  USING (public.is_admin());
+
 -- Optional seller one-liner shown under the generated title (max 60 chars, plain text).
 ALTER TABLE public.properties ADD COLUMN IF NOT EXISTS highlight TEXT;
 
