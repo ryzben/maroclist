@@ -67,7 +67,8 @@
     "shareWhatsApp": "Partager sur WhatsApp",
     "copyLink": "Copier le lien",
     "linkCopied": "Copié !",
-    "shareText": "Découvrez ce bien sur Maroclist :"
+    "shareText": "Découvrez ce bien sur Maroclist :",
+    "verifiedPartner": "Partenaire vérifié"
   },
   "filter": {
     "title": "Filtrer",
@@ -330,7 +331,8 @@
     "trust4Title": "Diaspora MRE",
     "trust4Desc": "Conçu pour les Marocains aux USA, Canada et Europe",
     "trust5Title": "Prix en USD",
-    "trust5Desc": "Tous les prix affichés en MAD et en dollars américains"
+    "trust5Desc": "Tous les prix affichés en MAD et en dollars américains",
+    "newThisWeek": "{count, plural, one {# nouvelle cette semaine} other {# nouvelles cette semaine}}"
   },
   "agences": {
     "heroLabel": "Pour les agences immobilières",
@@ -427,12 +429,7 @@
     "browseCta": "Voir toutes les annonces",
     "marketTitle": "À propos du marché immobilier à {city}",
     "pricesTitle": "Prix indicatifs au m²",
-    "neighborhoodsTitle": "Quartiers populaires",
-    "alertTitle": "Recevoir une alerte",
-    "alertDesc": "Soyez notifié dès qu'une annonce est publiée à {city}.",
-    "alertPlaceholder": "Votre email",
-    "alertSubmit": "Me prévenir",
-    "alertSuccess": "Vous serez prévenu dès qu'une annonce est disponible !"
+    "neighborhoodsTitle": "Quartiers populaires"
   },
   "listings": {
     "metaTitle": "Immobilier à {city} — Annonces au Maroc | Maroclist",
@@ -443,5 +440,84 @@
     "activeListings": "Annonces actives",
     "viewProfile": "Voir le profil du vendeur",
     "notFound": "Vendeur introuvable"
+  },
+  "cityPage": {
+    "filterCta": "Filtrer ces annonces",
+    "rentIn": "Louer à {city}",
+    "buyIn": "Acheter à {city}",
+    "seeAll": "Voir les {count} annonces",
+    "otherCities": "Autres villes"
+  },
+  "admin": {
+    "title": "Import groupé d'annonces",
+    "subtitle": "Intégrez toutes les annonces d'une agence en une fois. Chaque ligne est vérifiée avant publication.",
+    "notAdmin": "Cette page est réservée aux administrateurs Maroclist.",
+    "partnerSection": "Agence partenaire",
+    "partnerName": "Nom de l'agence",
+    "partnerPhone": "Numéro WhatsApp par défaut (si la ligne n'en a pas)",
+    "verified": "Afficher le badge « Partenaire vérifié » sur ces annonces",
+    "tabCsv": "CSV",
+    "tabForm": "Formulaire",
+    "csvHelp": "Collez un CSV ou importez un fichier (virgule ou point-virgule). Colonnes requises : property_type, transaction_type, city, price. Séparez plusieurs URL d'images par |. Les valeurs en français ou en arabe (appartement, vente, الدار البيضاء…) sont acceptées.",
+    "downloadTemplate": "Télécharger le modèle",
+    "uploadCsv": "Importer un CSV",
+    "csvEmpty": "Aucune ligne trouvée.",
+    "headerError": "Colonnes manquantes : {cols}",
+    "parse": "Vérifier les lignes",
+    "imageUrls": "URL des images (séparées par |)",
+    "addRow": "Ajouter à la liste",
+    "rowsSummary": "{valid} prêtes · {invalid} avec erreurs",
+    "resultSummary": "{ok} publiées, {failed} en échec",
+    "clear": "Vider",
+    "import": "Publier {count} annonces",
+    "importing": "Publication {done}/{total}…",
+    "photos": "{count} photos",
+    "view": "Voir",
+    "failed": "Échec",
+    "imagesSkipped": "{count} image(s) n'ont pas pu être téléchargées",
+    "alertsTitle": "Alertes acheteurs",
+    "alertsSubtitle": "{count} alertes actives",
+    "demand": "Demande par ville",
+    "whatsappQueue": "Abonnés WhatsApp avec nouvelles annonces ({count})",
+    "noMatches": "Aucun abonné WhatsApp n'a de nouvelle annonce pour le moment.",
+    "matches": "{count} nouvelles annonces",
+    "sendWhatsApp": "Envoyer sur WhatsApp",
+    "markSent": "Marquer comme envoyé"
+  },
+  "quickPost": {
+    "title": "Publiez votre bien en 1 minute",
+    "subtitle": "Juste votre numéro WhatsApp, la ville, le prix et quelques photos. Vous pourrez compléter plus tard.",
+    "phone": "Votre numéro WhatsApp",
+    "chooseCity": "Choisir une ville",
+    "price": "Prix",
+    "photos": "Photos (au moins 1)",
+    "optional": "Facultatif — modifiez si besoin",
+    "missing": "Ajoutez votre numéro, la ville, le prix et au moins une photo.",
+    "submit": "Publier gratuitement",
+    "fullFormHint": "Vous voulez ajouter plus de détails ?",
+    "fullFormLink": "Formulaire complet",
+    "cta": "Annonce express (1 min)"
+  },
+  "alerts": {
+    "title": "Alertez-moi des nouvelles annonces",
+    "desc": "De nouveaux biens arrivent chaque semaine. Dites-nous ce que vous cherchez, nous vous prévenons dès qu'une annonce correspond.",
+    "anyCity": "Toutes les villes",
+    "buyOrRent": "Achat ou location",
+    "buy": "Acheter",
+    "rent": "Louer",
+    "anyType": "Tous types",
+    "budget": "Budget max (MAD)",
+    "email": "Email",
+    "emailPlaceholder": "vous@exemple.com",
+    "whatsappPlaceholder": "06 12 34 56 78",
+    "submit": "Créer mon alerte",
+    "success": "C'est noté ! Nous vous prévenons dès qu'une annonce correspond.",
+    "consent": "Gratuit. Désabonnement à tout moment.",
+    "error": "Une erreur est survenue — veuillez réessayer.",
+    "invalidContact": "Saisissez un email ou un numéro WhatsApp valide.",
+    "unsubscribedTitle": "Vous êtes désabonné",
+    "unsubscribedDesc": "Vous ne recevrez plus cette alerte.",
+    "unsubscribeInvalid": "Ce lien est invalide ou a déjà été utilisé.",
+    "browse": "Voir les annonces"
   }
 }

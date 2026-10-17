@@ -13,6 +13,7 @@ import Step5Photos from "@/components/post/Step5Photos";
 import Step6Contact from "@/components/post/Step6Contact";
 import SuccessScreen from "@/components/post/SuccessScreen";
 import { publishListing, type PostWizardState } from "@/lib/post";
+import { track } from "@/lib/analytics";
 import type { PropertyType, TransactionType, City } from "@/types/property";
 
 const INITIAL: PostWizardState = {
@@ -46,6 +47,7 @@ export default function PostPage() {
         return;
       }
       setAuthChecked(true);
+      track("post_listing_start", { flow: "wizard" });
     });
   }, [router]);
 
@@ -81,7 +83,15 @@ export default function PostPage() {
   async function handlePublish() {
     setIsSubmitting(true);
     try {
-      const { id } = await publishListing(state, locale);
+      const { id } = await publishListing(state);
+      track("post_listing_complete", {
+        flow: "wizard",
+        listing_id: id,
+        city: state.city,
+        property_type: state.propertyType,
+        transaction_type: state.transactionType,
+        photos: state.images.length,
+      });
       setPublishedId(id);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "";

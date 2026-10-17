@@ -9,7 +9,8 @@ import "react-phone-number-input/style.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
-import { CITIES, PROPERTY_TYPES } from "@/types/property";
+import { CITIES, PROPERTY_TYPES, type PropertyType, type TransactionType } from "@/types/property";
+import { listingTitle } from "@/lib/listingTitle";
 import { normalizePhone } from "@/lib/utils";
 
 interface FormState {
@@ -145,11 +146,20 @@ export default function EditListingPage({
         uploadedUrls.push(publicUrl);
       }
 
+      // Titles are always regenerated from structured fields so they never mix languages
+      const titleFields = {
+        property_type:    form.property_type as PropertyType,
+        transaction_type: form.transaction_type as TransactionType,
+        city:             form.city,
+        neighborhood:     form.neighborhood || null,
+        bedrooms:         form.bedrooms ? Number(form.bedrooms) : null,
+      };
+
       const { error: updateError } = await supabase
         .from("properties")
         .update({
-          title:            form.title,
-          title_ar:         form.title_ar || null,
+          title:            listingTitle(titleFields, "fr"),
+          title_ar:         listingTitle(titleFields, "ar"),
           description:      form.description || null,
           price:            Number(form.price),
           currency:         form.currency,
@@ -213,30 +223,6 @@ export default function EditListingPage({
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="label">{t("post.propertyTitle")} (FR) *</label>
-                <input
-                  required
-                  maxLength={100}
-                  value={form.title}
-                  onChange={(e) => set("title", e.target.value)}
-                  placeholder={t("post.propertyTitlePlaceholder")}
-                  className="input"
-                />
-              </div>
-              <div dir="rtl">
-                <label className="label">عنوان الإعلان (AR)</label>
-                <input
-                  value={form.title_ar}
-                  onChange={(e) => set("title_ar", e.target.value)}
-                  placeholder="مثال: شقة 3 غرف..."
-                  className="input text-right"
-                  lang="ar"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
                 <label className="label">{t("filter.transactionType")} *</label>
                 <select required value={form.transaction_type} onChange={(e) => set("transaction_type", e.target.value)} className="input">
                   <option value="sale">{t("hero.forSale")}</option>
@@ -272,7 +258,7 @@ export default function EditListingPage({
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="label">{t("post.city")} *</label>
-                <select required value={form.city} onChange={(e) => set("city", e.target.value)} className="input">
+                <select required value={form.city} onChange={(e) => { set("city", e.target.value); set("neighborhood", ""); }} className="input">
                   {CITIES.map((city) => (
                     <option key={city} value={city}>{t(`cities.${city}`)}</option>
                   ))}

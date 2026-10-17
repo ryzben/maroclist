@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -9,7 +9,16 @@ import Navbar from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
 import { safeNext } from "@/lib/utils";
 
+// useSearchParams() needs a Suspense boundary now that the locale layout renders statically
 export default function SignupPage() {
+  return (
+    <Suspense>
+      <SignupPageInner />
+    </Suspense>
+  );
+}
+
+function SignupPageInner() {
   const t = useTranslations("auth");
   const router = useRouter();
   const searchParams = useSearchParams();

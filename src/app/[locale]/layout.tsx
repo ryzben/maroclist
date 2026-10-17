@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Inter, Noto_Sans_Arabic } from "next/font/google";
 import "../globals.css";
+import Analytics from "@/components/Analytics";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 const notoArabic = Noto_Sans_Arabic({ subsets: ["arabic"], display: "swap", variable: "--font-arabic" });
@@ -42,6 +43,8 @@ export default async function LocaleLayout({
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
   }
+  // Lets pages that opt in (e.g. city pages) render statically instead of reading request headers
+  setRequestLocale(locale);
 
   const messages = await getMessages();
   const dir = locale === "ar" ? "rtl" : "ltr";
@@ -52,6 +55,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );

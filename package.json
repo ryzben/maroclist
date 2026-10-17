@@ -19,6 +19,7 @@
     "react-dom": "^19.0.0",
     "react-phone-number-input": "^3.4.17",
     "resend": "^6.12.2",
+    "sharp": "^0.34.5",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {

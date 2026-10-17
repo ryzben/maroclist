@@ -8,10 +8,12 @@ import SearchFilter from "@/components/SearchFilter";
 import SortSelect from "@/components/SortSelect";
 import CityEmptyState from "@/components/CityEmptyState";
 import FavouriteButton from "@/components/FavouriteButton";
+import AlertSignup from "@/components/AlertSignup";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { PropertyFilters, City, PropertyType, TransactionType } from "@/types/property";
 import { CITY_DATA, type CityKey } from "@/lib/cityData";
 import type { Metadata } from "next";
+import { localeAlternates, cityPagePath, isCityPageCity } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -34,14 +36,11 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: {
-      canonical: `https://maroclist.com/${locale}/listings${city ? `?city=${city}` : ""}`,
-      languages: {
-        en: `https://maroclist.com/en/listings${city ? `?city=${city}` : ""}`,
-        fr: `https://maroclist.com/fr/listings${city ? `?city=${city}` : ""}`,
-        ar: `https://maroclist.com/ar/listings${city ? `?city=${city}` : ""}`,
-      },
-    },
+    // Filtered result pages canonicalise to the matching static city page; everything else to /listings
+    alternates:
+      city && isCityPageCity(city) && (sp.transaction_type === "sale" || sp.transaction_type === "rent")
+        ? localeAlternates(locale, (l) => cityPagePath(l, sp.transaction_type as "sale" | "rent", city))
+        : localeAlternates(locale, () => `/listings${city ? `?city=${city}` : ""}`),
   };
 }
 
@@ -184,11 +183,6 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
                         marketTitle: t("cityEmpty.marketTitle", { city: cityLabel }),
                         pricesTitle: t("cityEmpty.pricesTitle"),
                         neighborhoodsTitle: t("cityEmpty.neighborhoodsTitle"),
-                        alertTitle: t("cityEmpty.alertTitle"),
-                        alertDesc: t("cityEmpty.alertDesc", { city: cityLabel }),
-                        alertPlaceholder: t("cityEmpty.alertPlaceholder"),
-                        alertSubmit: t("cityEmpty.alertSubmit"),
-                        alertSuccess: t("cityEmpty.alertSuccess"),
                       }}
                     />
                   );
@@ -200,6 +194,14 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
                 </svg>
                 <h3 className="mt-4 font-semibold text-gray-900">{t("property.noResults")}</h3>
                 <p className="mt-1 text-sm text-gray-500">{t("property.noResultsDesc")}</p>
+                <AlertSignup
+                  city={filters.city}
+                  propertyType={filters.property_type}
+                  transactionType={filters.transaction_type}
+                  budgetMax={filters.price_max}
+                  source="listings_empty"
+                  className="mt-8 w-full max-w-2xl text-start"
+                />
               </div>)
             ) : (
               <>
@@ -262,6 +264,18 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
                       </Link>
                     )}
                   </div>
+                )}
+
+                {/* Thin inventory: capture the buyer instead of losing them */}
+                {page === totalPages && (
+                  <AlertSignup
+                    city={filters.city}
+                    propertyType={filters.property_type}
+                    transactionType={filters.transaction_type}
+                    budgetMax={filters.price_max}
+                    source="listings_end"
+                    className="mt-10"
+                  />
                 )}
               </>
             )}

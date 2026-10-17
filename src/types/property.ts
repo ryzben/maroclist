@@ -109,6 +109,9 @@ export interface Property {
   contact_email: string | null;
   is_active: boolean;
   is_featured: boolean;
+  is_verified_partner?: boolean;
+  partner_name?: string | null;
+  source?: "wizard" | "quick" | "import";
   created_at: string;
   updated_at: string;
 }

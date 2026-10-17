@@ -9,7 +9,10 @@ import HeroSearchForm from "@/components/HeroSearchForm";
 import ListingsCounter from "@/components/ListingsCounter";
 import TrustBar from "@/components/TrustBar";
 import FavouriteButton from "@/components/FavouriteButton";
+import AlertSignup from "@/components/AlertSignup";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { sortByCompleteness } from "@/lib/listingQuality";
+import { localeAlternates, cityPagePath } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -21,10 +24,8 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "hero" });
   return {
     title: t("title"),
-    alternates: {
-      canonical: `https://maroclist.com/${locale}`,
-      languages: { en: "https://maroclist.com/en", fr: "https://maroclist.com/fr", ar: "https://maroclist.com/ar" },
-    },
+    description: t("subtitle"),
+    alternates: localeAlternates(locale, () => ""),
   };
 }
 
@@ -36,8 +37,8 @@ async function getFeaturedProperties() {
     .eq("is_active", true)
     .eq("is_featured", true)
     .order("created_at", { ascending: false })
-    .limit(6);
-  return data ?? [];
+    .limit(18);
+  return sortByCompleteness(data ?? []).slice(0, 6);
 }
 
 async function getListingsCount(): Promise<number> {
@@ -62,11 +63,14 @@ async function getCityCounts(): Promise<Record<string, number>> {
   try {
     const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase.rpc("get_city_counts");
-    if (error) {
-      console.error("getCityCounts error:", error.message);
-      return {};
+    if (!error) {
+      return Object.fromEntries((data ?? []).map(({ city, count }: { city: string; count: number }) => [city, Number(count)]));
     }
-    return Object.fromEntries((data ?? []).map(({ city, count }: { city: string; count: number }) => [city, count]));
+    console.error("getCityCounts rpc error, falling back to direct count:", error.message);
+    const { data: rows } = await supabase.from("properties").select("city").eq("is_active", true);
+    const counts: Record<string, number> = {};
+    for (const { city } of rows ?? []) counts[city] = (counts[city] ?? 0) + 1;
+    return counts;
   } catch (e) {
     console.error("getCityCounts exception:", e);
     return {};
@@ -80,8 +84,19 @@ async function getRecentProperties() {
     .select("*")
     .eq("is_active", true)
     .order("created_at", { ascending: false })
-    .limit(8);
-  return data ?? [];
+    .limit(30);
+  // Lead with listings that have photos + full details; newest first within the same quality
+  return sortByCompleteness(data ?? []).slice(0, 8);
+}
+
+async function getNewThisWeekCount(): Promise<number> {
+  const supabase = await createSupabaseServerClient();
+  const { count } = await supabase
+    .from("properties")
+    .select("id", { count: "exact", head: true })
+    .eq("is_active", true)
+    .gte("created_at", new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
+  return count ?? 0;
 }
 
 function ZelligePattern() {
@@ -157,8 +172,11 @@ const POPULAR_CITIES = [
 ];
 
 
-function PopularCitiesSection({ cityCounts }: { cityCounts: Record<string, number> }) {
+function PopularCitiesSection({ cityCounts, locale }: { cityCounts: Record<string, number>; locale: string }) {
   const t = useTranslations();
+  // Never advertise a city that leads to an empty results page
+  const cities = POPULAR_CITIES.filter(({ key }) => (cityCounts[key] ?? 0) > 0);
+  if (cities.length === 0) return null;
 
   return (
     <section className="bg-white py-8">
@@ -177,10 +195,10 @@ function PopularCitiesSection({ cityCounts }: { cityCounts: Record<string, numbe
         </div>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {POPULAR_CITIES.map(({ key, photo }) => (
+          {cities.map(({ key, photo }) => (
             <Link
               key={key}
-              href={`/listings?city=${key}`}
+              href={cityPagePath(locale, "sale", key)}
               className="group relative flex h-36 flex-col justify-end overflow-hidden rounded-2xl shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
             >
               <div
@@ -192,11 +210,9 @@ function PopularCitiesSection({ cityCounts }: { cityCounts: Record<string, numbe
                 <p className="text-sm font-bold text-white drop-shadow leading-tight">
                   {t(`cities.${key}`)}
                 </p>
-                {cityCounts[key] ? (
-                  <p className="text-[11px] text-white/65 mt-0.5">
-                    {cityCounts[key]} {t("home.cityListings")}
-                  </p>
-                ) : null}
+                <p className="text-[11px] text-white/65 mt-0.5">
+                  {cityCounts[key]} {t("home.cityListings")}
+                </p>
               </div>
             </Link>
           ))}
@@ -271,6 +287,12 @@ function CTABanner() {
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
+            href="/post/quick"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-8 py-3 font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+          >
+            {t("quickPost.cta")}
+          </Link>
+          <Link
             href="/listings"
             className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-8 py-3 font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
           >
@@ -282,13 +304,15 @@ function CTABanner() {
   );
 }
 
-export default async function HomePage() {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const supabase = await createSupabaseServerClient();
-  const [featured, recent, cityCounts, listingsCount, { data: { user } }] = await Promise.all([
+  const [featured, recent, cityCounts, listingsCount, newThisWeek, { data: { user } }] = await Promise.all([
     getFeaturedProperties(),
     getRecentProperties(),
     getCityCounts(),
     getListingsCount(),
+    getNewThisWeekCount(),
     supabase.auth.getUser(),
   ]);
 
@@ -308,7 +332,7 @@ export default async function HomePage() {
       <main>
         <HeroSection listingsCount={listingsCount} />
         <TrustBar />
-        <PopularCitiesSection cityCounts={cityCounts} />
+        <PopularCitiesSection cityCounts={cityCounts} locale={locale} />
 
         {featured.length > 0 && (
           <section className="py-14 bg-white">
@@ -346,7 +370,14 @@ export default async function HomePage() {
                   <p className="text-sm font-semibold uppercase tracking-wider text-orange-500 mb-1">
                     {t("recentLabel")}
                   </p>
-                  <h2 className="section-title">{t("recentTitle")}</h2>
+                  <h2 className="section-title flex flex-wrap items-center gap-3">
+                    {t("recentTitle")}
+                    {newThisWeek > 0 && (
+                      <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                        {t("newThisWeek", { count: newThisWeek })}
+                      </span>
+                    )}
+                  </h2>
                 </div>
                 <Link href="/listings" className="hidden sm:flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600">
                   {t("viewAll")} <ArrowRight className="h-4 w-4" />
@@ -363,6 +394,12 @@ export default async function HomePage() {
             </div>
           </section>
         )}
+
+        <section className="bg-white pb-14">
+          <div className="container-page">
+            <AlertSignup source="home" />
+          </div>
+        </section>
 
         <CTABanner />
       </main>

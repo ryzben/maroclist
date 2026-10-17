@@ -67,7 +67,8 @@
     "shareWhatsApp": "Share on WhatsApp",
     "copyLink": "Copy link",
     "linkCopied": "Copied!",
-    "shareText": "Check out this property on Maroclist:"
+    "shareText": "Check out this property on Maroclist:",
+    "verifiedPartner": "Verified Partner"
   },
   "filter": {
     "title": "Filter",
@@ -330,7 +331,8 @@
     "trust4Title": "MRE Diaspora",
     "trust4Desc": "Built for Moroccans in the US, Canada and Europe",
     "trust5Title": "USD prices",
-    "trust5Desc": "All prices displayed in MAD and US dollars"
+    "trust5Desc": "All prices displayed in MAD and US dollars",
+    "newThisWeek": "{count, plural, one {# new this week} other {# new this week}}"
   },
   "agences": {
     "heroLabel": "For real estate agencies",
@@ -427,12 +429,7 @@
     "browseCta": "Browse all listings",
     "marketTitle": "About the {city} real estate market",
     "pricesTitle": "Indicative prices per m²",
-    "neighborhoodsTitle": "Popular neighborhoods",
-    "alertTitle": "Get notified",
-    "alertDesc": "Be the first to know when a listing is posted in {city}.",
-    "alertPlaceholder": "Your email",
-    "alertSubmit": "Notify me",
-    "alertSuccess": "You'll be notified as soon as a listing is available!"
+    "neighborhoodsTitle": "Popular neighborhoods"
   },
   "listings": {
     "metaTitle": "Real estate in {city} — Properties in Morocco | Maroclist",
@@ -443,5 +440,84 @@
     "activeListings": "Active listings",
     "viewProfile": "View seller profile",
     "notFound": "Seller not found"
+  },
+  "cityPage": {
+    "filterCta": "Filter these listings",
+    "rentIn": "Rent in {city}",
+    "buyIn": "Buy in {city}",
+    "seeAll": "See all {count} listings",
+    "otherCities": "Other cities"
+  },
+  "admin": {
+    "title": "Bulk import listings",
+    "subtitle": "Onboard an agency's listings in one go. Every row is checked before anything is published.",
+    "notAdmin": "This page is for Maroclist admins only.",
+    "partnerSection": "Partner agency",
+    "partnerName": "Agency name",
+    "partnerPhone": "Default WhatsApp number (used when a row has none)",
+    "verified": "Show the “Verified Partner” badge on these listings",
+    "tabCsv": "CSV",
+    "tabForm": "Form",
+    "csvHelp": "Paste CSV or upload a file (comma or semicolon). Required columns: property_type, transaction_type, city, price. Separate several image URLs with |. French and Arabic values (appartement, vente, الدار البيضاء…) are accepted.",
+    "downloadTemplate": "Download template",
+    "uploadCsv": "Upload CSV",
+    "csvEmpty": "No rows found.",
+    "headerError": "Missing columns: {cols}",
+    "parse": "Check rows",
+    "imageUrls": "Image URLs (separate with |)",
+    "addRow": "Add to import list",
+    "rowsSummary": "{valid} ready · {invalid} with errors",
+    "resultSummary": "{ok} published, {failed} failed",
+    "clear": "Clear",
+    "import": "Publish {count} listings",
+    "importing": "Publishing {done}/{total}…",
+    "photos": "{count} photos",
+    "view": "View",
+    "failed": "Failed",
+    "imagesSkipped": "{count} image(s) could not be downloaded",
+    "alertsTitle": "Buyer alerts",
+    "alertsSubtitle": "{count} active alerts",
+    "demand": "Demand by city",
+    "whatsappQueue": "WhatsApp subscribers with new matches ({count})",
+    "noMatches": "No WhatsApp subscriber has new matches right now.",
+    "matches": "{count} new matches",
+    "sendWhatsApp": "Send on WhatsApp",
+    "markSent": "Mark as sent"
+  },
+  "quickPost": {
+    "title": "Post your property in 1 minute",
+    "subtitle": "Just your WhatsApp number, the city, the price and a few photos. You can add details later.",
+    "phone": "Your WhatsApp number",
+    "chooseCity": "Choose a city",
+    "price": "Price",
+    "photos": "Photos (at least 1)",
+    "optional": "Optional — change if needed",
+    "missing": "Add your number, city, price and at least one photo.",
+    "submit": "Publish for free",
+    "fullFormHint": "Want to add more details now?",
+    "fullFormLink": "Use the full form",
+    "cta": "Quick post (1 min)"
+  },
+  "alerts": {
+    "title": "Alert me when new listings match",
+    "desc": "New properties are added every week. Tell us what you're looking for and we'll message you as soon as a match is posted.",
+    "anyCity": "Any city",
+    "buyOrRent": "Buy or rent",
+    "buy": "Buy",
+    "rent": "Rent",
+    "anyType": "Any type",
+    "budget": "Max budget (MAD)",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "whatsappPlaceholder": "06 12 34 56 78",
+    "submit": "Create my alert",
+    "success": "Done! We'll message you as soon as a matching listing is posted.",
+    "consent": "Free. Unsubscribe anytime.",
+    "error": "Something went wrong — please try again.",
+    "invalidContact": "Enter a valid email or WhatsApp number.",
+    "unsubscribedTitle": "You're unsubscribed",
+    "unsubscribedDesc": "You won't receive this alert anymore.",
+    "unsubscribeInvalid": "This link is invalid or was already used.",
+    "browse": "Browse listings"
   }
 }

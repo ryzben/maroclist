@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { listingTitle } from "@/lib/listingTitle";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { PlusCircle, Pencil, Trash2, Eye, MapPin, BedDouble, Bath, Maximize2 } from "lucide-react";
@@ -76,7 +77,7 @@ export default function MyListingsPage() {
         ) : (
           <div className="space-y-4">
             {listings.map((listing) => {
-              const title = locale === "ar" && listing.title_ar ? listing.title_ar : listing.title;
+              const title = listingTitle(listing, locale);
               const mainImage = listing.images?.[0];
               return (
                 <div key={listing.id} className="flex gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md">

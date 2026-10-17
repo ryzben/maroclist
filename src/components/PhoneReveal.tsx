@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Phone, Eye, MessageCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { whatsappUrl } from "@/lib/utils";
+import { track, type AnalyticsParams } from "@/lib/analytics";
 
 function maskPhone(phone: string): string {
   const clean = phone.replace(/\s/g, "");
@@ -23,9 +24,10 @@ interface PhoneRevealProps {
   phone: string;
   locale: string;
   title: string;
+  trackParams?: AnalyticsParams;
 }
 
-export default function PhoneReveal({ phone, locale, title }: PhoneRevealProps) {
+export default function PhoneReveal({ phone, locale, title, trackParams }: PhoneRevealProps) {
   const t = useTranslations("property");
   const [revealed, setRevealed] = useState(false);
 
@@ -39,7 +41,7 @@ export default function PhoneReveal({ phone, locale, title }: PhoneRevealProps) 
   if (!revealed) {
     return (
       <button
-        onClick={() => setRevealed(true)}
+        onClick={() => { setRevealed(true); track("contact_phone", { ...trackParams, method: "reveal" }); }}
         className="flex w-full items-center justify-center gap-2.5 rounded-xl border-2 border-orange-200 bg-orange-50 py-3 text-sm font-semibold text-orange-700 transition hover:border-orange-400 hover:bg-orange-100 active:scale-[.98]"
       >
         <Eye className="h-4 w-4" />
@@ -53,6 +55,7 @@ export default function PhoneReveal({ phone, locale, title }: PhoneRevealProps) 
     <div className="flex flex-col gap-2">
       <a
         href={`tel:${phone}`}
+        onClick={() => track("contact_phone", { ...trackParams, method: "call" })}
         className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 py-3 text-sm font-semibold text-white transition hover:bg-orange-600 active:scale-[.98]"
       >
         <Phone className="h-4 w-4" />
@@ -60,6 +63,7 @@ export default function PhoneReveal({ phone, locale, title }: PhoneRevealProps) 
       </a>
       <a
         href={whatsappUrl(phone, whatsappMsg)}
+        onClick={() => track("contact_whatsapp", { ...trackParams, placement: "seller_card" })}
         target="_blank"
         rel="noopener noreferrer"
         className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-sm font-semibold text-white transition hover:bg-[#1ebe5d] active:scale-[.98]"
