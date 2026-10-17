@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import type { PropertyType, TransactionType, City } from "@/types/property";
 import { listingTitle } from "@/lib/listingTitle";
+import { sanitizeHighlight } from "@/lib/highlight";
 
 export interface PostWizardState {
   propertyType: PropertyType | null;
@@ -12,6 +13,7 @@ export interface PostWizardState {
   area: string;
   floor: string;
   description: string;
+  highlight: string;
   images: File[];
   contactPhone: string;
 }
@@ -49,6 +51,7 @@ export async function publishListing(
   };
   const title = listingTitle(titleFields, "fr");
   const title_ar = listingTitle(titleFields, "ar");
+  const highlight = sanitizeHighlight(state.highlight);
 
   const { data, error } = await supabase
     .from("properties")
@@ -71,6 +74,8 @@ export async function publishListing(
       is_active: true,
       // Only sent for non-default sources so the wizard keeps working before the migration is applied
       ...(source !== "wizard" ? { source } : {}),
+      // Only sent when filled, so posting keeps working before the 20261016 migration adds the column
+      ...(highlight ? { highlight } : {}),
     })
     .select("id")
     .single();

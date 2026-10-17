@@ -85,7 +85,7 @@ export default function ContactForm({ propertyId, ownerPhone, trackParams }: Con
         {ownerPhone && (
           <a
             href={`https://wa.me/${normalizePhone(ownerPhone).replace(/\D/g, "")}`}
-            onClick={() => track("contact_whatsapp", { listing_id: propertyId, ...trackParams, placement: "contact_form" })}
+            onClick={() => track("whatsapp_buyer_click", { listing_id: propertyId, ...trackParams, placement: "contact_form" })}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] py-2.5 text-sm font-semibold text-white transition hover:bg-[#1ebe5d] active:scale-[.98]"

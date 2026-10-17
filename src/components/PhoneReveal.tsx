@@ -63,7 +63,7 @@ export default function PhoneReveal({ phone, locale, title, trackParams }: Phone
       </a>
       <a
         href={whatsappUrl(phone, whatsappMsg)}
-        onClick={() => track("contact_whatsapp", { ...trackParams, placement: "seller_card" })}
+        onClick={() => track("whatsapp_buyer_click", { ...trackParams, placement: "seller_card" })}
         target="_blank"
         rel="noopener noreferrer"
         className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-sm font-semibold text-white transition hover:bg-[#1ebe5d] active:scale-[.98]"

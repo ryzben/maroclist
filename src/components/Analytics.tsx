@@ -3,12 +3,14 @@
 import { useEffect, useRef } from "react";
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { GA_ID, META_PIXEL_ID, PLAUSIBLE_DOMAIN } from "@/lib/analytics";
+import { GA_ID, META_PIXEL_ID, PLAUSIBLE_DOMAIN, captureUtmSource } from "@/lib/analytics";
 
 /** Loads whichever analytics providers are configured via NEXT_PUBLIC_* env vars. Renders nothing otherwise. */
 export default function Analytics() {
   const pathname = usePathname();
   const first = useRef(true);
+
+  useEffect(() => { captureUtmSource(); }, [pathname]);
 
   // GA4 enhanced measurement tracks client-side navigations itself; the Pixel needs a manual PageView
   useEffect(() => {

@@ -6,6 +6,8 @@ import { routing } from "@/i18n/routing";
 import { Inter, Noto_Sans_Arabic } from "next/font/google";
 import "../globals.css";
 import Analytics from "@/components/Analytics";
+import MobilePostButton from "@/components/MobilePostButton";
+import HreflangLinks from "@/components/HreflangLinks";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 const notoArabic = Noto_Sans_Arabic({ subsets: ["arabic"], display: "swap", variable: "--font-arabic" });
@@ -53,7 +55,9 @@ export default async function LocaleLayout({
     <html lang={locale} dir={dir} className={`${inter.variable} ${notoArabic.variable}`}>
       <body suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
+          <HreflangLinks />
           {children}
+          <MobilePostButton />
         </NextIntlClientProvider>
         <Analytics />
       </body>

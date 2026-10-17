@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import StepWrapper from "./StepWrapper";
 import { CITIES, type City } from "@/types/property";
 import { CITY_DATA, type CityKey } from "@/lib/cityData";
+import { neighborhoodError } from "@/lib/listingTitle";
 
 interface Step2Props {
   city: City | null;
@@ -33,6 +34,7 @@ export default function Step2City({
   const [phase, setPhase] = useState<"city" | "neighborhood">("city");
   const [showOtherInput, setShowOtherInput] = useState(false);
   const [otherText, setOtherText] = useState("");
+  const [otherError, setOtherError] = useState<string | null>(null);
 
   function handleSelectCity(c: City) {
     onChange(c);
@@ -58,7 +60,19 @@ export default function Step2City({
 
   function handleOtherSubmit() {
     const trimmed = otherText.trim();
-    if (!trimmed) return;
+    if (!trimmed || !city) return;
+    // "Rabat" typed as a Casablanca neighbourhood would produce a two-city title
+    const err = neighborhoodError(city, trimmed);
+    if (err) {
+      const known = (CITIES as string[]).includes(err.city);
+      const label = known ? t(`cities.${err.city}`) : err.city;
+      setOtherError(
+        err.kind === "isCity"
+          ? t("wizard.neighborhoodIsCity", { name: label })
+          : t("wizard.neighborhoodOtherCity", { city: label })
+      );
+      return;
+    }
     onNeighborhoodChange(trimmed);
     onNext();
   }
@@ -105,11 +119,13 @@ export default function Step2City({
           ))}
 
           {showOtherInput ? (
-            <div className="flex items-center gap-2 px-4 py-3">
+            <div className="px-4 py-3">
+            <div className="flex items-center gap-2">
               <input
                 autoFocus
                 value={otherText}
-                onChange={(e) => setOtherText(e.target.value)}
+                onChange={(e) => { setOtherText(e.target.value); setOtherError(null); }}
+                aria-invalid={!!otherError}
                 placeholder={t("wizard.neighborhoodOtherPlaceholder")}
                 className="input flex-1"
                 onKeyDown={(e) => e.key === "Enter" && handleOtherSubmit()}
@@ -122,6 +138,8 @@ export default function Step2City({
               >
                 {t("wizard.continue")}
               </button>
+            </div>
+            {otherError && <p role="alert" className="mt-2 text-sm text-red-600">{otherError}</p>}
             </div>
           ) : (
             <button

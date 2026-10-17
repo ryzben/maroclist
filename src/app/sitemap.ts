@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { createSupabasePublicClient } from "@/lib/supabase-public";
-import { LOCALES, PRIORITY_CITIES, SITE_URL, cityPagePath, isCityPageCity, type CityPageTx, type Locale } from "@/lib/seo";
+import { LOCALES, PRIORITY_CITIES, SITE_URL, X_DEFAULT_LOCALE, cityPagePath, isCityPageCity, type CityPageTx, type Locale } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -12,7 +12,7 @@ function localized(pathFor: (l: Locale) => string, rest: Omit<Entry, "url" | "al
     en: `${SITE_URL}/en${pathFor("en")}`,
     fr: `${SITE_URL}/fr${pathFor("fr")}`,
     ar: `${SITE_URL}/ar${pathFor("ar")}`,
-    "x-default": `${SITE_URL}/fr${pathFor("fr")}`,
+    "x-default": `${SITE_URL}/${X_DEFAULT_LOCALE}${pathFor(X_DEFAULT_LOCALE)}`,
   };
   return LOCALES.map((l) => ({ url: `${SITE_URL}/${l}${pathFor(l)}`, alternates: { languages }, ...rest }));
 }

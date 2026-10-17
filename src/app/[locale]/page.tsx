@@ -10,8 +10,10 @@ import ListingsCounter from "@/components/ListingsCounter";
 import TrustBar from "@/components/TrustBar";
 import FavouriteButton from "@/components/FavouriteButton";
 import AlertSignup from "@/components/AlertSignup";
+import SellerHero from "@/components/SellerHero";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { sortByCompleteness } from "@/lib/listingQuality";
+import { SHOW_COUNT_MIN, CITY_COUNT_MIN, LATEST_DATE_MAX_DAYS, featuredFirst } from "@/lib/inventory";
 import { localeAlternates, cityPagePath } from "@/lib/seo";
 import type { Metadata } from "next";
 
@@ -85,8 +87,8 @@ async function getRecentProperties() {
     .eq("is_active", true)
     .order("created_at", { ascending: false })
     .limit(30);
-  // Lead with listings that have photos + full details; newest first within the same quality
-  return sortByCompleteness(data ?? []).slice(0, 8);
+  // Featured first, then listings with photos + full details; newest first within the same quality
+  return featuredFirst(sortByCompleteness(data ?? [])).slice(0, 8);
 }
 
 async function getNewThisWeekCount(): Promise<number> {
@@ -119,8 +121,10 @@ function ZelligePattern() {
   );
 }
 
-function HeroSection({ listingsCount }: { listingsCount: number }) {
+function HeroSection({ listingsCount, sellerFirst }: { listingsCount: number; sellerFirst: boolean }) {
   const t = useTranslations();
+  // When the seller hero leads the page it owns the <h1>
+  const Heading = sellerFirst ? "h2" : "h1";
 
   return (
     <section className="relative overflow-hidden pb-8 pt-12">
@@ -139,19 +143,21 @@ function HeroSection({ listingsCount }: { listingsCount: number }) {
             {t("home.badgeLabel")}
           </div>
 
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
+          <Heading className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
             {t("hero.title")}
             <span className="mt-2 block text-3xl font-bold text-white sm:text-4xl md:text-5xl">
               {t("hero.titleLine2")}
             </span>
-          </h1>
+          </Heading>
           <p className="mt-5 text-lg text-white/80 sm:text-xl">
             {t("hero.subtitle")}
           </p>
         </div>
 
         <HeroSearchForm />
-        <ListingsCounter count={listingsCount} label={t("home.counter")} />
+        {listingsCount >= SHOW_COUNT_MIN && (
+          <ListingsCounter count={listingsCount} label={t("home.counter")} />
+        )}
 
         {/* Trust line */}
         <p className="mt-5 text-center text-sm font-semibold text-white/70 tracking-wide">
@@ -210,9 +216,11 @@ function PopularCitiesSection({ cityCounts, locale }: { cityCounts: Record<strin
                 <p className="text-sm font-bold text-white drop-shadow leading-tight">
                   {t(`cities.${key}`)}
                 </p>
-                <p className="text-[11px] text-white/65 mt-0.5">
-                  {cityCounts[key]} {t("home.cityListings")}
-                </p>
+                {cityCounts[key] >= CITY_COUNT_MIN && (
+                  <p className="text-[11px] text-white/65 mt-0.5">
+                    {cityCounts[key]} {t("home.cityListings")}
+                  </p>
+                )}
               </div>
             </Link>
           ))}
@@ -325,12 +333,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     savedIds = new Set((favs ?? []).map((f) => f.property_id));
   }
   const t = await getTranslations("home");
+  // Moroccan-language home pages are where sellers land; English is for diaspora buyers
+  const sellerFirst = locale === "fr" || locale === "ar";
 
   return (
     <>
       <Navbar />
       <main>
-        <HeroSection listingsCount={listingsCount} />
+        {sellerFirst && <SellerHero />}
+        <HeroSection listingsCount={listingsCount} sellerFirst={sellerFirst} />
         <TrustBar />
         <PopularCitiesSection cityCounts={cityCounts} locale={locale} />
 
@@ -386,7 +397,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {recent.map((p) => (
                   <div key={p.id} className="relative">
-                    <PropertyCard property={p} />
+                    <PropertyCard property={p} hideDateAfterDays={LATEST_DATE_MAX_DAYS} />
                     <FavouriteButton propertyId={p.id} initialSaved={savedIds.has(p.id)} className="absolute bottom-[224px] start-3 z-10" />
                   </div>
                 ))}

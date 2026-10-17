@@ -420,7 +420,14 @@
     "addDetailsDesc": "Ajoutez la surface, les chambres, la description et plus de photos pour attirer davantage d'acheteurs.",
     "addDetailsCta": "Compléter l'annonce →",
     "viewListing": "Voir votre annonce",
-    "backToHome": "Retour à l'accueil"
+    "backToHome": "Retour à l'accueil",
+    "neighborhoodIsCity": "« {name} » est une ville, pas un quartier. Saisissez le quartier, ou revenez en arrière pour changer de ville.",
+    "neighborhoodOtherCity": "Ce quartier se trouve à {city}. Revenez en arrière pour changer de ville, ou saisissez un autre quartier.",
+    "suggestedTitle": "Titre de votre annonce",
+    "suggestedTitleHint": "Généré automatiquement à partir du type, du quartier et de la ville — traduit pour chaque langue.",
+    "highlightLabel": "Point fort (facultatif)",
+    "highlightPlaceholder": "Ex. : Vue mer, à 5 min de la plage",
+    "highlightHint": "Une courte phrase affichée sous le titre — 60 caractères max."
   },
   "cityEmpty": {
     "title": "Immobilier à {city} — Aucune annonce pour le moment",
@@ -482,7 +489,11 @@
     "noMatches": "Aucun abonné WhatsApp n'a de nouvelle annonce pour le moment.",
     "matches": "{count} nouvelles annonces",
     "sendWhatsApp": "Envoyer sur WhatsApp",
-    "markSent": "Marquer comme envoyé"
+    "markSent": "Marquer comme envoyé",
+    "featuredLabel": "Admin · Mise en avant",
+    "featuredOn": "À la une",
+    "featuredOff": "Mettre à la une",
+    "featuredError": "Échec de l'enregistrement"
   },
   "quickPost": {
     "title": "Publiez votre bien en 1 minute",
@@ -519,5 +530,13 @@
     "unsubscribedDesc": "Vous ne recevrez plus cette alerte.",
     "unsubscribeInvalid": "Ce lien est invalide ou a déjà été utilisé.",
     "browse": "Voir les annonces"
+  },
+  "sellerHero": {
+    "headline": "Vendez votre bien aux Marocains du monde — gratuitement",
+    "sub": "Publiez votre appartement, villa, riad ou terrain en 3 minutes. Des acheteurs MRE aux USA, au Canada et en Europe vous contactent directement sur WhatsApp. Zéro commission.",
+    "cta": "Publier mon annonce gratuite",
+    "whatsapp": "Envoyer par WhatsApp",
+    "whatsappMessage": "Salam, je veux publier mon bien sur Maroclist",
+    "trust": "✓ 100 % gratuit · ✓ Sans intermédiaire · ✓ Prix affichés en DH et en dollars"
   }
 }

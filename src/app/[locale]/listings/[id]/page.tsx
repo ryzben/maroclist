@@ -10,6 +10,7 @@ import TrackEvent from "@/components/TrackEvent";
 import { listingParams } from "@/lib/analytics";
 import PhoneReveal from "@/components/PhoneReveal";
 import FavouriteButton from "@/components/FavouriteButton";
+import FeaturedToggle from "@/components/FeaturedToggle";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
@@ -142,6 +143,8 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
           {/* ── Left column: images + details ── */}
           <div className="lg:col-span-2 space-y-6">
 
+            <FeaturedToggle propertyId={property.id} initialFeatured={property.is_featured} />
+
             {/* Image gallery */}
             {property.images?.length > 0 ? (
               <ImageLightbox images={property.images} alt={title} />
@@ -182,7 +185,12 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
               {/* Title */}
               <div className="flex items-start justify-between gap-3">
-                <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">{title}</h1>
+                <div>
+                  <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">{title}</h1>
+                  {property.highlight && (
+                    <p dir="auto" className="mt-1 text-base font-medium text-orange-700">{property.highlight}</p>
+                  )}
+                </div>
                 <FavouriteButton
                   propertyId={id}
                   initialSaved={isSaved}

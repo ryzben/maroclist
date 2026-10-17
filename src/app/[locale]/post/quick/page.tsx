@@ -53,7 +53,7 @@ function QuickPostForm() {
   const [publishedId, setPublishedId] = useState<string | null>(null);
 
   useEffect(() => {
-    track("post_listing_start", { flow: "quick", prefilled: params.size > 0 });
+    track("post_start", { flow: "quick", prefilled: params.size > 0 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -77,6 +77,7 @@ function QuickPostForm() {
     if (missing) { setError(t("quickPost.missing")); return; }
     setSubmitting(true);
     setError("");
+    track("post_submit", { flow: "quick", photos: images.length });
     try {
       // No account wall: an anonymous Supabase session satisfies RLS + storage policies.
       // The seller can attach an email later to keep managing the listing from other devices.
@@ -100,12 +101,13 @@ function QuickPostForm() {
           area: "",
           floor: "",
           description: "",
+          highlight: "",
           images,
           contactPhone: phone,
         },
         { source: "quick" }
       );
-      track("post_listing_complete", { flow: "quick", listing_id: id, city, property_type: propertyType, transaction_type: transactionType, photos: images.length });
+      track("post_published", { flow: "quick", listing_id: id, city, property_type: propertyType, transaction_type: transactionType, photos: images.length });
       setPublishedId(id);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("common.error"));

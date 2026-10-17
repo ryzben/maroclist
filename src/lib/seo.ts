@@ -5,6 +5,8 @@ export const SITE_URL = "https://maroclist.com";
 export const LOCALES = ["en", "fr", "ar"] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "fr";
+/** hreflang x-default target — visitors outside Morocco land on English (see middleware). */
+export const X_DEFAULT_LOCALE: Locale = "en";
 
 export type CityPageTx = "sale" | "rent";
 
@@ -57,9 +59,20 @@ export function localeAlternates(locale: string, pathFor: (l: Locale) => string)
       en: url("en"),
       fr: url("fr"),
       ar: url("ar"),
-      "x-default": url(DEFAULT_LOCALE),
+      "x-default": url(X_DEFAULT_LOCALE),
     },
   };
+}
+
+/**
+ * Pages whose generateMetadata emits their own hreflang set (query-aware or with per-locale slugs).
+ * Every other page gets the generic same-path set from <HreflangLinks /> in the locale layout.
+ * `path` is locale-less, as returned by next-intl's usePathname().
+ */
+export function pageSetsOwnAlternates(path: string): boolean {
+  if (path === "/" || path === "" || path === "/listings" || path.startsWith("/listings/")) return true;
+  const segs = path.split("/").filter(Boolean);
+  return segs.length === 2 && parseAnyTxSlug(segs[0]) !== null;
 }
 
 export function truncate(text: string, max = 158): string {

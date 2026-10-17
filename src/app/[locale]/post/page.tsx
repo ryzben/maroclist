@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { supabase } from "@/lib/supabase";
@@ -13,7 +13,8 @@ import Step5Photos from "@/components/post/Step5Photos";
 import Step6Contact from "@/components/post/Step6Contact";
 import SuccessScreen from "@/components/post/SuccessScreen";
 import { publishListing, type PostWizardState } from "@/lib/post";
-import { track } from "@/lib/analytics";
+import { track, type PostStep } from "@/lib/analytics";
+import { listingTitle } from "@/lib/listingTitle";
 import type { PropertyType, TransactionType, City } from "@/types/property";
 
 const INITIAL: PostWizardState = {
@@ -26,6 +27,7 @@ const INITIAL: PostWizardState = {
   area: "",
   floor: "",
   description: "",
+  highlight: "",
   images: [],
   contactPhone: "",
 };
@@ -47,9 +49,19 @@ export default function PostPage() {
         return;
       }
       setAuthChecked(true);
-      track("post_listing_start", { flow: "wizard" });
     });
   }, [router]);
+
+  // Funnel: post_start once when step 1 first shows, then post_step_N each time a step is shown
+  const started = useRef(false);
+  useEffect(() => {
+    if (!authChecked || publishedId) return;
+    if (step === 1 && !started.current) {
+      started.current = true;
+      track("post_start", { flow: "wizard" });
+    }
+    track(`post_step_${step as PostStep}`, { flow: "wizard", step });
+  }, [authChecked, step, publishedId]);
 
   const next = useCallback(() => setStep((s) => s + 1), []);
   const back = useCallback(() => setStep((s) => s - 1), []);
@@ -70,7 +82,7 @@ export default function PostPage() {
   function setPrice(price: string) {
     setState((prev) => ({ ...prev, price }));
   }
-  function setDetail(field: "bedrooms" | "area" | "floor" | "description", value: string) {
+  function setDetail(field: "bedrooms" | "area" | "floor" | "description" | "highlight", value: string) {
     setState((prev) => ({ ...prev, [field]: value }));
   }
   function setImages(images: File[]) {
@@ -82,9 +94,10 @@ export default function PostPage() {
 
   async function handlePublish() {
     setIsSubmitting(true);
+    track("post_submit", { flow: "wizard", photos: state.images.length });
     try {
       const { id } = await publishListing(state);
-      track("post_listing_complete", {
+      track("post_published", {
         flow: "wizard",
         listing_id: id,
         city: state.city,
@@ -153,6 +166,18 @@ export default function PostPage() {
             area={state.area}
             floor={state.floor}
             description={state.description}
+            highlight={state.highlight}
+            suggestedTitle={
+              state.propertyType && state.transactionType && state.city
+                ? listingTitle({
+                    property_type: state.propertyType,
+                    transaction_type: state.transactionType,
+                    city: state.city,
+                    neighborhood: state.neighborhood,
+                    bedrooms: state.bedrooms ? Number(state.bedrooms) : null,
+                  }, locale)
+                : null
+            }
             onChange={setDetail}
             onNext={next}
             onBack={back}

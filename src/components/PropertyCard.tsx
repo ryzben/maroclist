@@ -7,9 +7,12 @@ import { formatPrice, timeAgo, madToUsd } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { imgCard } from "@/lib/imageUrl";
 import { listingTitle, formatLocation } from "@/lib/listingTitle";
+import { isWithinDays } from "@/lib/inventory";
 
 interface PropertyCardProps {
   property: Property;
+  /** Hide the posted date once the listing is older than this many days */
+  hideDateAfterDays?: number;
 }
 
 const TRANSACTION_COLORS = {
@@ -24,13 +27,14 @@ const TRANSACTION_LABELS: Record<string, string> = {
   holiday_rental: "hero.forHoliday",
 };
 
-export default function PropertyCard({ property }: PropertyCardProps) {
+export default function PropertyCard({ property, hideDateAfterDays }: PropertyCardProps) {
   const t = useTranslations();
   const locale = useLocale();
 
   const title = listingTitle(property, locale);
   const location = formatLocation(property, locale);
   const mainImage = property.images?.[0] ? imgCard(property.images[0]) : null;
+  const showDate = hideDateAfterDays == null || isWithinDays(property.created_at, hideDateAfterDays);
 
   return (
     <Link href={`/listings/${property.id}`} className="group block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover">
@@ -116,6 +120,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         <h3 className="mt-1.5 line-clamp-2 text-sm font-semibold leading-snug text-gray-800 transition-colors group-hover:text-orange-600">
           {title}
         </h3>
+        {property.highlight && (
+          <p dir="auto" className="mt-0.5 truncate text-xs font-medium text-orange-700">{property.highlight}</p>
+        )}
 
         {/* Location */}
         <div className="mt-2 flex items-center gap-1 text-xs text-gray-400">
@@ -146,9 +153,11 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 {property.area_sqm} m²
               </span>
             ) : null}
-            <span className="ms-auto text-xs text-gray-300">
-              {timeAgo(property.created_at, locale)}
-            </span>
+            {showDate && (
+              <span className="ms-auto text-xs text-gray-300">
+                {timeAgo(property.created_at, locale)}
+              </span>
+            )}
           </div>
         )}
       </div>

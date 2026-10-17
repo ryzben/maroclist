@@ -8,15 +8,18 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import HighlightInput from "@/components/HighlightInput";
 import { supabase } from "@/lib/supabase";
 import { CITIES, PROPERTY_TYPES, type PropertyType, type TransactionType } from "@/types/property";
 import { listingTitle } from "@/lib/listingTitle";
 import { normalizePhone } from "@/lib/utils";
+import { sanitizeHighlight } from "@/lib/highlight";
 
 interface FormState {
   title: string;
   title_ar: string;
   description: string;
+  highlight: string;
   price: string;
   currency: string;
   property_type: string;
@@ -48,6 +51,10 @@ export default function EditListingPage({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  // Owner edits their own listing; admins may edit anyone's (RLS enforces the same rule server-side)
+  const [isOwner, setIsOwner] = useState(true);
+  const initialHighlight = useRef<string | null>(null);
+  const backHref = isOwner ? "/my-listings" : `/listings/${id}`;
 
   const newPreviewsRef = useRef<string[]>([]);
   newPreviewsRef.current = newPreviews;
@@ -73,15 +80,19 @@ export default function EditListingPage({
       .from("properties")
       .select("*")
       .eq("id", listingId)
-      .eq("user_id", user.id)
-      .single();
+      .maybeSingle();
 
-    if (!data) { router.push("/my-listings"); return; }
+    const owner = data?.user_id === user.id;
+    const admin = !!data && !owner && (await supabase.rpc("is_admin")).data === true;
+    if (!data || (!owner && !admin)) { router.push("/my-listings"); return; }
+    setIsOwner(owner);
+    initialHighlight.current = sanitizeHighlight(data.highlight);
 
     setForm({
       title:            data.title ?? "",
       title_ar:         data.title_ar ?? "",
       description:      data.description ?? "",
+      highlight:        data.highlight ?? "",
       price:            data.price?.toString() ?? "",
       currency:         data.currency ?? "MAD",
       property_type:    data.property_type ?? "apartment",
@@ -155,9 +166,14 @@ export default function EditListingPage({
         bedrooms:         form.bedrooms ? Number(form.bedrooms) : null,
       };
 
-      const { error: updateError } = await supabase
+      // Cleared → NULL. Only sent when changed, so edits keep working before the 20261016 migration
+      const highlight = sanitizeHighlight(form.highlight);
+      const highlightPatch = highlight !== initialHighlight.current ? { highlight } : {};
+
+      let query = supabase
         .from("properties")
         .update({
+          ...highlightPatch,
           title:            listingTitle(titleFields, "fr"),
           title_ar:         listingTitle(titleFields, "ar"),
           description:      form.description || null,
@@ -176,11 +192,14 @@ export default function EditListingPage({
           contact_phone:    form.contact_phone ? normalizePhone(form.contact_phone) : null,
           contact_email:    form.contact_email || null,
         })
-        .eq("id", id)
-        .eq("user_id", user.id);
+        .eq("id", id);
+      if (isOwner) query = query.eq("user_id", user.id);
 
+      // RLS turns an unauthorised update into "0 rows", not an error — surface it instead of pretending it saved
+      const { data: updated, error: updateError } = await query.select("id");
       if (updateError) throw updateError;
-      router.push("/my-listings");
+      if (!updated?.length) throw new Error(t("common.error"));
+      router.push(backHref);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "";
       if (/jwt|session expired|not authenticated|auth session missing/i.test(msg)) {
@@ -250,6 +269,8 @@ export default function EditListingPage({
                 className="input resize-none"
               />
             </div>
+
+            <HighlightInput value={form.highlight} onChange={(v) => set("highlight", v)} />
           </div>
 
           {/* Location */}
@@ -402,7 +423,7 @@ export default function EditListingPage({
           <div className="flex gap-3">
             <button
               type="button"
-              onClick={() => router.push("/my-listings")}
+              onClick={() => router.push(backHref)}
               className="flex-1 rounded-xl border border-gray-300 py-3 text-sm font-semibold text-gray-600 transition hover:bg-gray-50"
             >
               {t("filter.reset") /* "Cancel" equivalent */}

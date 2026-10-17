@@ -420,7 +420,14 @@
     "addDetailsDesc": "Add surface area, bedrooms, description and more photos to attract more buyers.",
     "addDetailsCta": "Complete your listing →",
     "viewListing": "View your listing",
-    "backToHome": "Back to homepage"
+    "backToHome": "Back to homepage",
+    "neighborhoodIsCity": "“{name}” is a city, not a neighborhood. Enter the neighborhood, or go back to change the city.",
+    "neighborhoodOtherCity": "That neighborhood is in {city}. Go back to change the city, or enter a different neighborhood.",
+    "suggestedTitle": "Your listing title",
+    "suggestedTitleHint": "Generated from the type, neighborhood and city — translated for each language.",
+    "highlightLabel": "Highlight (optional)",
+    "highlightPlaceholder": "E.g. Sea view, 5 min from the beach",
+    "highlightHint": "A short line shown under the title — 60 characters max."
   },
   "cityEmpty": {
     "title": "Real estate in {city} — No listings yet",
@@ -482,7 +489,11 @@
     "noMatches": "No WhatsApp subscriber has new matches right now.",
     "matches": "{count} new matches",
     "sendWhatsApp": "Send on WhatsApp",
-    "markSent": "Mark as sent"
+    "markSent": "Mark as sent",
+    "featuredLabel": "Admin · Featured",
+    "featuredOn": "Featured",
+    "featuredOff": "Mark as featured",
+    "featuredError": "Couldn't save"
   },
   "quickPost": {
     "title": "Post your property in 1 minute",
@@ -519,5 +530,13 @@
     "unsubscribedDesc": "You won't receive this alert anymore.",
     "unsubscribeInvalid": "This link is invalid or was already used.",
     "browse": "Browse listings"
+  },
+  "sellerHero": {
+    "headline": "Sell your property to Moroccans worldwide — for free",
+    "sub": "List your apartment, villa, riad or land in 3 minutes. Moroccan buyers in the US, Canada and Europe contact you directly on WhatsApp. Zero commission.",
+    "cta": "Post my free listing",
+    "whatsapp": "Send via WhatsApp",
+    "whatsappMessage": "Salam, I want to list my property on Maroclist",
+    "trust": "✓ 100% free · ✓ No middleman · ✓ Prices shown in MAD and US dollars"
   }
 }

@@ -123,6 +123,19 @@ export function cleanNeighborhood(p: Pick<TitleFields, "city" | "neighborhood">)
   return n;
 }
 
+export type NeighborhoodError = { kind: "isCity"; city: string } | { kind: "otherCity"; city: string };
+
+/** Why a typed neighbourhood can't be used for `city` — null when it's fine (or empty). */
+export function neighborhoodError(city: string, neighborhood: string): NeighborhoodError | null {
+  const n = neighborhood.trim();
+  if (!n) return null;
+  const asCity = findCity(n);
+  if (asCity || CITY_NAMES.has(norm(n))) return { kind: "isCity", city: asCity ?? n };
+  const owner = NEIGHBORHOOD_CITY.get(norm(n));
+  if (owner && owner !== city) return { kind: "otherCity", city: owner };
+  return null;
+}
+
 function neighborhoodLabel(n: string, l: TitleLocale): string | null {
   const known = Object.entries(NEIGHBORHOOD_LABELS).find(([k]) => norm(k) === norm(n));
   if (known) return known[1][l] ?? known[0];
@@ -150,7 +163,7 @@ export function formatLocation(p: Pick<TitleFields, "city" | "neighborhood">, lo
 
 function bedroomsPhrase(beds: number, l: TitleLocale): string {
   if (l === "en") return `${beds}-bedroom`;
-  if (l === "fr") return beds === 1 ? "1 chambre" : `${beds} chambres`;
+  if (l === "fr") return `${beds} ch.`;
   if (beds === 1) return "بغرفة واحدة";
   if (beds === 2) return "بغرفتين";
   return beds <= 10 ? `بـ${beds} غرف` : `بـ${beds} غرفة`;
@@ -158,9 +171,10 @@ function bedroomsPhrase(beds: number, l: TitleLocale): string {
 
 /**
  * Builds a single-language title from structured fields, e.g.
- *   en: "2-bedroom apartment for rent in Maarif, Casablanca"
- *   fr: "Appartement 2 chambres à louer à Maarif, Casablanca"
- *   ar: "شقة بغرفتين للإيجار في المعاريف، الدار البيضاء"
+ *   en: "2-bedroom apartment for rent — Maarif, Casablanca"
+ *   fr: "Appartement 2 ch. à louer — Maarif, Casablanca"
+ *   ar: "شقة بغرفتين للإيجار — المعاريف، الدار البيضاء"
+ * The dash separator avoids language-specific prepositions ("à", "au", "in", "في") entirely.
  */
 export function listingTitle(p: TitleFields, locale: string): string {
   const l = asLocale(locale);
@@ -173,14 +187,9 @@ export function listingTitle(p: TitleFields, locale: string): string {
   const titleLoc = n && neighborhoodLabel(n, l) === null ? { ...p, neighborhood: null } : p;
   const where = formatLocation(titleLoc, l);
 
-  let title: string;
-  if (l === "en") {
-    title = `${beds ? `${bedroomsPhrase(beds, l)} ` : ""}${type} ${tx} in ${where}`;
-  } else if (l === "fr") {
-    const prep = p.city === "other" && !n ? "au" : "à";
-    title = `${type}${beds ? ` ${bedroomsPhrase(beds, l)}` : ""} ${tx} ${prep} ${where}`;
-  } else {
-    title = `${type}${beds ? ` ${bedroomsPhrase(beds, l)}` : ""} ${tx} في ${where}`;
-  }
+  const what = l === "en"
+    ? `${beds ? `${bedroomsPhrase(beds, l)} ` : ""}${type} ${tx}`
+    : `${type}${beds ? ` ${bedroomsPhrase(beds, l)}` : ""} ${tx}`;
+  const title = `${what} — ${where}`;
   return title.charAt(0).toUpperCase() + title.slice(1);
 }

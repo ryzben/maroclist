@@ -6,6 +6,7 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Menu, X, PlusCircle, Globe, LayoutList, LogOut, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
+import { LANG_COOKIE, LANG_COOKIE_MAX_AGE } from "@/lib/geoLocale";
 import type { User } from "@supabase/supabase-js";
 
 const LOCALES = [
@@ -13,6 +14,11 @@ const LOCALES = [
   { code: "en", short: "EN", full: "English" },
   { code: "ar", short: "عر", full: "العربية" },
 ];
+
+// An explicit pick always beats the country-based default on "/" (see middleware)
+function rememberLocale(code: string) {
+  document.cookie = `${LANG_COOKIE}=${code}; path=/; max-age=${LANG_COOKIE_MAX_AGE}; samesite=lax`;
+}
 
 export default function Navbar() {
   const t = useTranslations("nav");
@@ -91,6 +97,7 @@ export default function Navbar() {
                   key={code}
                   href={pathname}
                   locale={code}
+                  onClick={() => rememberLocale(code)}
                   className={cn(
                     "rounded-lg px-2.5 py-1 text-sm font-semibold transition whitespace-nowrap",
                     locale === code
@@ -201,7 +208,7 @@ export default function Navbar() {
                     key={code}
                     href={pathname}
                     locale={code}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={() => { rememberLocale(code); setMobileOpen(false); }}
                     className={cn(
                       "flex-1 rounded-lg py-2 text-center text-sm font-semibold transition",
                       locale === code

@@ -93,6 +93,8 @@ export interface Property {
   title_ar: string | null;
   description: string | null;
   description_ar: string | null;
+  /** Optional seller one-liner (≤ 60 chars, sanitized), shown under the generated title */
+  highlight?: string | null;
   price: number;
   currency: string;
   property_type: PropertyType;
