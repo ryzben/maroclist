@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:db": "node supabase/tests/migrations.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
@@ -23,6 +24,7 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.2.17",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
