@@ -1,4 +1,4 @@
--- Seller growth (2026-10-16): admin-only `is_featured` flag + optional `highlight` text.
+-- Seller growth (2026-10-16): admin-only `is_featured`, optional `highlight` text, edit audit (`updated_by`).
 -- Requires 20261008_growth.sql (public.is_admin()). Run manually in the Supabase SQL editor.
 
 -- Owners can update their own rows through RLS, so stop non-admins from featuring themselves.
@@ -54,3 +54,42 @@ CREATE TRIGGER properties_sanitize_highlight
 
 ALTER TABLE public.properties DROP CONSTRAINT IF EXISTS properties_highlight_len;
 ALTER TABLE public.properties ADD CONSTRAINT properties_highlight_len CHECK (char_length(highlight) <= 60);
+
+-- Lightweight edit audit: who last changed a listing. /my-listings shows "Modifié par Maroclist" when
+-- that's someone other than the owner (i.e. an admin). `updated_at` already exists (schema.sql).
+ALTER TABLE public.properties ADD COLUMN IF NOT EXISTS updated_by UUID REFERENCES auth.users (id) ON DELETE SET NULL;
+ALTER TABLE public.properties ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT now();
+
+-- Always overwrites client-sent values, so nobody can spoof the audit. auth.uid() is NULL for the
+-- SQL editor / service role. A change that only flips `is_featured` keeps the previous editor: the
+-- "featured" badge already tells the owner, and featuring isn't an edit of their content.
+CREATE OR REPLACE FUNCTION public.audit_property_update()
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  others_only public.properties%ROWTYPE;
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    NEW.updated_by := NULL;
+    RETURN NEW;
+  END IF;
+
+  NEW.updated_at := now();
+  others_only := NEW;
+  others_only.is_featured := OLD.is_featured;
+  others_only.updated_at := OLD.updated_at;
+  others_only.updated_by := OLD.updated_by;
+  IF others_only IS NOT DISTINCT FROM OLD THEN
+    NEW.updated_by := OLD.updated_by;
+  ELSE
+    NEW.updated_by := auth.uid();
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+-- Named to sort last: Postgres fires BEFORE triggers alphabetically, so this sees the row after the
+-- guard / sanitize triggers have adjusted it.
+DROP TRIGGER IF EXISTS properties_zz_audit ON public.properties;
+CREATE TRIGGER properties_zz_audit
+  BEFORE INSERT OR UPDATE ON public.properties
+  FOR EACH ROW EXECUTE FUNCTION public.audit_property_update();

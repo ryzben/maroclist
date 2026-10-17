@@ -116,6 +116,8 @@ export interface Property {
   source?: "wizard" | "quick" | "import";
   created_at: string;
   updated_at: string;
+  /** Last editor (set by the audit trigger); differs from user_id when an admin edited the listing */
+  updated_by?: string | null;
 }
 
 export interface PropertyFilters {

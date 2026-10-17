@@ -14,7 +14,8 @@
     "edit": "Modifier",
     "delete": "Supprimer",
     "listingCount": "{count} annonce(s)",
-    "favourites": "Favoris"
+    "favourites": "Favoris",
+    "editedByMaroclist": "Modifié par Maroclist"
   },
   "hero": {
     "title": "Achetez un bien au Maroc",
