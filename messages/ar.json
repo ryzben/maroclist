@@ -13,7 +13,7 @@
     "view": "عرض",
     "edit": "تعديل",
     "delete": "حذف",
-    "listingCount": "{count} إعلان",
+    "listingCount": "{count, plural, zero {لا توجد إعلانات} one {إعلان واحد} two {إعلانان} few {# إعلانات} many {# إعلانًا} other {# إعلان}}",
     "favourites": "المفضلة",
     "editedByMaroclist": "عدّله فريق Maroclist"
   },
@@ -87,10 +87,11 @@
     "anyPrice": "أي سعر",
     "apply": "تطبيق",
     "reset": "إعادة تعيين",
-    "results": "{count} إعلان",
+    "results": "{count, plural, zero {لا توجد إعلانات} one {إعلان واحد} two {إعلانان} few {# إعلانات} many {# إعلانًا} other {# إعلان}}",
     "sortNewest": "الأحدث أولاً",
     "sortPriceAsc": "السعر: الأقل أولاً",
-    "sortPriceDesc": "السعر: الأعلى أولاً"
+    "sortPriceDesc": "السعر: الأعلى أولاً",
+    "priceRangeError": "يجب أن يكون السعر الأقصى أعلى من السعر الأدنى"
   },
   "post": {
     "title": "أضف إعلاناً",
@@ -290,7 +291,7 @@
     "diasporaPoint3": "لا حاجة للسفر للبدء",
     "quickSearch": "بحث سريع",
     "heroMsg": "مروكليست يجعل البحث والمقارنة والتواصل مع أصحاب العقارات في المغرب أمراً سهلاً. حتى وأنت في الخارج. منصتنا مصممة لمساعدة المشترين الدوليين على الاستثمار بثقة.",
-    "cityListings": "إعلان",
+    "cityListings": "{count, plural, zero {إعلان} one {إعلان} two {إعلان} few {إعلانات} many {إعلانًا} other {إعلان}}",
     "searchCity": "المدينة",
     "searchType": "نوع العقار",
     "searchMaxPrice": "الميزانية",
@@ -322,7 +323,7 @@
     "featuredTitle": "⭐ إعلانات مميزة",
     "recentLabel": "حديث",
     "recentTitle": "آخر الإعلانات",
-    "counter": "إعلان متاح في المغرب",
+    "counter": "{count, plural, zero {إعلان متاح في المغرب} one {إعلان متاح في المغرب} two {إعلان متاح في المغرب} few {إعلانات متاحة في المغرب} many {إعلانًا متاحًا في المغرب} other {إعلان متاح في المغرب}}",
     "trust1Title": "نشر مجاني",
     "trust1Desc": "بدون اشتراك أو عمولة، أبداً",
     "trust2Title": "إعلانات موثقة",
@@ -333,7 +334,7 @@
     "trust4Desc": "مصمم للمغاربة في أمريكا وكندا وأوروبا",
     "trust5Title": "الأسعار بالدولار",
     "trust5Desc": "جميع الأسعار بالدرهم والدولار الأمريكي",
-    "newThisWeek": "{count, plural, one {إعلان جديد هذا الأسبوع} two {إعلانان جديدان هذا الأسبوع} few {# إعلانات جديدة هذا الأسبوع} other {# إعلان جديد هذا الأسبوع}}"
+    "newThisWeek": "{count, plural, zero {لا إعلانات جديدة هذا الأسبوع} one {إعلان جديد هذا الأسبوع} two {إعلانان جديدان هذا الأسبوع} few {# إعلانات جديدة هذا الأسبوع} many {# إعلانًا جديدًا هذا الأسبوع} other {# إعلان جديد هذا الأسبوع}}"
   },
   "agences": {
     "heroLabel": "للوكالات العقارية",
@@ -367,10 +368,12 @@
   },
   "favourites": {
     "title": "مفضلتي",
-    "count": "{count} إعلان محفوظ",
+    "count": "{count, plural, zero {لا توجد إعلانات محفوظة} one {إعلان محفوظ واحد} two {إعلانان محفوظان} few {# إعلانات محفوظة} many {# إعلانًا محفوظًا} other {# إعلان محفوظ}}",
     "empty": "لا توجد مفضلات بعد",
     "emptyDesc": "اضغط على ♡ في أي إعلان لحفظه هنا.",
-    "browseCta": "تصفح الإعلانات"
+    "browseCta": "تصفح الإعلانات",
+    "save": "حفظ الإعلان",
+    "remove": "إزالة من المحفوظات"
   },
   "wizard": {
     "step1Title": "ماذا تريد أن تنشر؟",
@@ -404,7 +407,7 @@
     "photoLimit": "الحد الأقصى {max} صور",
     "photoTypeError": "تنسيق غير مدعوم. استخدم JPEG أو PNG أو WebP.",
     "photoSizeError": "الملف كبير جداً. الحد الأقصى 10 ميغابايت.",
-    "continueWithPhotos": "متابعة مع {count} صورة",
+    "continueWithPhotos": "{count, plural, zero {متابعة بدون صور} one {متابعة مع صورة واحدة} two {متابعة مع صورتين} few {متابعة مع # صور} many {متابعة مع # صورة} other {متابعة مع # صورة}}",
     "addAtLeastOne": "أضف صورة واحدة على الأقل",
     "phonePlaceholder": "6XX XXX XXX",
     "phoneRequired": "أدخل رقم واتساب",
@@ -453,7 +456,7 @@
     "filterCta": "تصفية هذه الإعلانات",
     "rentIn": "الإيجار في {city}",
     "buyIn": "الشراء في {city}",
-    "seeAll": "عرض كل الإعلانات ({count})",
+    "seeAll": "{count, plural, one {عرض الإعلان} two {عرض الإعلانين} other {عرض كل الإعلانات (#)}}",
     "otherCities": "مدن أخرى"
   },
   "admin": {
@@ -477,18 +480,18 @@
     "rowsSummary": "{valid} جاهزة · {invalid} بها أخطاء",
     "resultSummary": "{ok} منشورة، {failed} فشلت",
     "clear": "مسح",
-    "import": "نشر {count} إعلانات",
+    "import": "{count, plural, one {نشر إعلان واحد} two {نشر إعلانين} few {نشر # إعلانات} many {نشر # إعلانًا} other {نشر # إعلان}}",
     "importing": "جارٍ النشر {done}/{total}…",
-    "photos": "{count} صور",
+    "photos": "{count, plural, zero {بدون صور} one {صورة واحدة} two {صورتان} few {# صور} many {# صورة} other {# صورة}}",
     "view": "عرض",
     "failed": "فشل",
-    "imagesSkipped": "تعذر تحميل {count} صورة",
+    "imagesSkipped": "{count, plural, one {تعذر تحميل صورة واحدة} two {تعذر تحميل صورتين} few {تعذر تحميل # صور} many {تعذر تحميل # صورة} other {تعذر تحميل # صورة}}",
     "alertsTitle": "تنبيهات المشترين",
-    "alertsSubtitle": "{count} تنبيهات نشطة",
+    "alertsSubtitle": "{count, plural, zero {لا توجد تنبيهات نشطة} one {تنبيه نشط واحد} two {تنبيهان نشطان} few {# تنبيهات نشطة} many {# تنبيهًا نشطًا} other {# تنبيه نشط}}",
     "demand": "الطلب حسب المدينة",
     "whatsappQueue": "مشتركو واتساب لديهم إعلانات جديدة ({count})",
     "noMatches": "لا يوجد مشترك واتساب لديه إعلانات جديدة حالياً.",
-    "matches": "{count} إعلانات جديدة",
+    "matches": "{count, plural, zero {لا إعلانات جديدة} one {إعلان جديد واحد} two {إعلانان جديدان} few {# إعلانات جديدة} many {# إعلانًا جديدًا} other {# إعلان جديد}}",
     "sendWhatsApp": "إرسال عبر واتساب",
     "markSent": "تم الإرسال",
     "featuredLabel": "المشرف · الإبراز",

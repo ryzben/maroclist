@@ -6,6 +6,7 @@ import { useRouter } from "@/i18n/navigation";
 import { Search } from "lucide-react";
 import { CITIES, PROPERTY_TYPES } from "@/types/property";
 import { cn } from "@/lib/utils";
+import { isPriceRangeInvalid } from "@/lib/priceRange";
 
 const PRICE_OPTIONS = [
   { value: "200000",  label: "200 000 DH (~$20K)" },
@@ -24,7 +25,10 @@ export default function HeroSearchForm() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
+  const priceError = isPriceRangeInvalid(minPrice, maxPrice);
+
   function handleSearch() {
+    if (priceError) return;
     const params = new URLSearchParams({ transaction_type: txType });
     if (city) params.set("city", city);
     if (propertyType) params.set("property_type", propertyType);
@@ -94,7 +98,10 @@ export default function HeroSearchForm() {
             <select
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
-              className="input flex-1 text-gray-700 text-sm"
+              aria-label={t("filter.priceMin")}
+              aria-invalid={priceError || undefined}
+              aria-describedby={priceError ? "hero-price-error" : undefined}
+              className={cn("input flex-1 text-gray-700 text-sm", priceError && "border-red-400")}
               dir="ltr"
             >
               <option value="">Min</option>
@@ -105,7 +112,10 @@ export default function HeroSearchForm() {
             <select
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
-              className="input flex-1 text-gray-700 text-sm"
+              aria-label={t("filter.priceMax")}
+              aria-invalid={priceError || undefined}
+              aria-describedby={priceError ? "hero-price-error" : undefined}
+              className={cn("input flex-1 text-gray-700 text-sm", priceError && "border-red-400")}
               dir="ltr"
             >
               <option value="">Max</option>
@@ -114,12 +124,19 @@ export default function HeroSearchForm() {
               ))}
             </select>
           </div>
+          {priceError && (
+            <p id="hero-price-error" role="alert" className="mt-1.5 text-xs font-medium text-red-600">
+              {t("filter.priceRangeError")}
+            </p>
+          )}
         </div>
 
         <button
           type="button"
           onClick={handleSearch}
-          className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-orange-500 px-7 py-2.5 font-semibold text-white shadow-lg shadow-orange-900/20 transition hover:bg-orange-600 active:scale-95 sm:py-[11px]"
+          disabled={priceError}
+          aria-disabled={priceError || undefined}
+          className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-orange-500 px-7 py-2.5 font-semibold text-white shadow-lg shadow-orange-900/20 transition hover:bg-orange-600 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 sm:py-[11px]"
         >
           <Search className="h-4 w-4" />
           {t("hero.search")}

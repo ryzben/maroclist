@@ -156,7 +156,7 @@ function HeroSection({ listingsCount, sellerFirst }: { listingsCount: number; se
 
         <HeroSearchForm />
         {listingsCount >= SHOW_COUNT_MIN && (
-          <ListingsCounter count={listingsCount} label={t("home.counter")} />
+          <ListingsCounter count={listingsCount} label={t("home.counter", { count: listingsCount })} />
         )}
 
         {/* Trust line */}
@@ -218,7 +218,7 @@ function PopularCitiesSection({ cityCounts, locale }: { cityCounts: Record<strin
                 </p>
                 {cityCounts[key] >= CITY_COUNT_MIN && (
                   <p className="text-[11px] text-white/65 mt-0.5">
-                    {cityCounts[key]} {t("home.cityListings")}
+                    {cityCounts[key]} {t("home.cityListings", { count: cityCounts[key] ?? 0 })}
                   </p>
                 )}
               </div>

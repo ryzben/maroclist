@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
 import { safeNext } from "@/lib/utils";
+import { completePendingSave, pendingSaveQuery } from "@/lib/pendingSave";
 
 // useSearchParams() needs a Suspense boundary now that the locale layout renders statically
 export default function SignupPage() {
@@ -48,6 +49,8 @@ function SignupPageInner() {
       setError(signUpError.message);
       setLoading(false);
     } else {
+      // Only saves when signup returns a session (i.e. email confirmation is off); otherwise a no-op
+      await completePendingSave(supabase, searchParams);
       router.push(next ?? "/");
     }
   }
@@ -123,7 +126,7 @@ function SignupPageInner() {
 
           <p className="mt-4 text-center text-sm text-gray-600">
             {t("hasAccount")}{" "}
-            <Link href={next ? `/login?next=${encodeURIComponent(next)}` : "/login"} className="font-medium text-brand-600 hover:text-brand-700">
+            <Link href={next ? `/login?next=${encodeURIComponent(next)}${pendingSaveQuery(searchParams)}` : "/login"} className="font-medium text-brand-600 hover:text-brand-700">
               {t("login")}
             </Link>
           </p>

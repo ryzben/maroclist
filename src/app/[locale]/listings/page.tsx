@@ -14,6 +14,7 @@ import { PropertyFilters, City, PropertyType, TransactionType } from "@/types/pr
 import { CITY_DATA, type CityKey } from "@/lib/cityData";
 import type { Metadata } from "next";
 import { localeAlternates, cityPagePath, isCityPageCity } from "@/lib/seo";
+import { priceFilterBounds } from "@/lib/priceRange";
 
 export async function generateMetadata({
   params,
@@ -92,12 +93,16 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
   const page = Math.max(1, Number(sp.page) || 1);
   const sort = sp.sort || "newest";
 
+  // min > max can never match: drop both bounds and say so, rather than show a silent "no results"
+  const price = priceFilterBounds(sp.price_min, sp.price_max);
+  const priceInvalid = price.invalid;
+
   const filters: PropertyFilters = {
     city: (sp.city as City) || "",
     property_type: (sp.property_type as PropertyType) || "",
     transaction_type: (sp.transaction_type as TransactionType) || "",
-    price_min: sp.price_min ? Number(sp.price_min) : undefined,
-    price_max: sp.price_max ? Number(sp.price_max) : undefined,
+    price_min: price.min,
+    price_max: price.max,
     bedrooms: sp.bedrooms ? Number(sp.bedrooms) : undefined,
     search: sp.search || "",
   };
@@ -145,12 +150,18 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Navbar />
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex gap-8">
+        {/* Mobile: Filter button above full-width results. Desktop (lg+): sidebar beside results. */}
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
           <Suspense>
             <SearchFilter filters={filters} total={total} />
           </Suspense>
 
-          <div className="flex-1 min-w-0">
+          <div className="w-full flex-1 min-w-0">
+            {priceInvalid && (
+              <p role="alert" className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">
+                {t("filter.priceRangeError")}
+              </p>
+            )}
             {/* Header row: count + sort */}
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-gray-500">
