@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
+    "test": "vitest run",
     "test:db": "node supabase/tests/migrations.test.mjs"
   },
   "dependencies": {
@@ -33,6 +34,7 @@
     "eslint-config-next": "^16.2.4",
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }

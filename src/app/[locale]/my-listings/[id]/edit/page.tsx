@@ -56,8 +56,11 @@ export default function EditListingPage({
   const initialHighlight = useRef<string | null>(null);
   const backHref = isOwner ? "/my-listings" : `/listings/${id}`;
 
+  // Latest previews, for revoking their object URLs on unmount
   const newPreviewsRef = useRef<string[]>([]);
-  newPreviewsRef.current = newPreviews;
+  useEffect(() => {
+    newPreviewsRef.current = newPreviews;
+  }, [newPreviews]);
 
   useEffect(() => {
     return () => {
@@ -68,6 +71,8 @@ export default function EditListingPage({
   useEffect(() => {
     params.then(({ id: listingId }) => {
       setId(listingId);
+      // `load` is a hoisted function declaration below; it runs after render, once it exists
+      // eslint-disable-next-line react-hooks/immutability
       load(listingId);
     });
   }, [params]);

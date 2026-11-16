@@ -59,6 +59,8 @@ function QuickPostForm() {
 
   useEffect(() => {
     const urls = images.map((f) => URL.createObjectURL(f));
+    // Object URLs are created and revoked in the same effect so none leak; state only mirrors them
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPreviews(urls);
     return () => urls.forEach((u) => URL.revokeObjectURL(u));
   }, [images]);
