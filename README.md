@@ -22,7 +22,7 @@ npm install
 
 ### 2. Configure environment variables
 
-Create `.env.local` in the project root:
+Copy `.env.example` to `.env.local` (every variable is listed there), or create it with at least:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
@@ -45,7 +45,7 @@ Other variables, set on Vercel (optional locally):
 | `RESEND_API_KEY` | Contact-form emails, listing alerts | Emails aren't sent |
 | `SUPABASE_SERVICE_ROLE_KEY` | Daily listing-alert cron (`/api/cron/alerts`) | Cron returns 500 |
 | `CRON_SECRET` | Authenticates Vercel Cron on `/api/cron/alerts` | Cron returns 401 |
-| `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Analytics | That tracker is off |
+| `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_GADS_ID`, `NEXT_PUBLIC_GADS_LABEL_*`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Analytics, ad conversions, cookie banner — see [docs/analytics.md](docs/analytics.md) | That tracker is off; with none set there is no cookie banner |
 
 `NEXT_PUBLIC_*` values are baked in at build time — after changing one on Vercel, redeploy.
 

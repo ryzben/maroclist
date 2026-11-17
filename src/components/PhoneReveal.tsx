@@ -41,7 +41,7 @@ export default function PhoneReveal({ phone, locale, title, trackParams }: Phone
   if (!revealed) {
     return (
       <button
-        onClick={() => { setRevealed(true); track("contact_phone", { ...trackParams, method: "reveal" }); }}
+        onClick={() => { setRevealed(true); track("show_number", { ...trackParams, placement: "seller_card" }); }}
         className="flex w-full items-center justify-center gap-2.5 rounded-xl border-2 border-orange-200 bg-orange-50 py-3 text-sm font-semibold text-orange-700 transition hover:border-orange-400 hover:bg-orange-100 active:scale-[.98]"
       >
         <Eye className="h-4 w-4" />
@@ -55,7 +55,7 @@ export default function PhoneReveal({ phone, locale, title, trackParams }: Phone
     <div className="flex flex-col gap-2">
       <a
         href={`tel:${phone}`}
-        onClick={() => track("contact_phone", { ...trackParams, method: "call" })}
+        onClick={() => track("call_click", { ...trackParams, placement: "seller_card" })}
         className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 py-3 text-sm font-semibold text-white transition hover:bg-orange-600 active:scale-[.98]"
       >
         <Phone className="h-4 w-4" />
@@ -63,7 +63,7 @@ export default function PhoneReveal({ phone, locale, title, trackParams }: Phone
       </a>
       <a
         href={whatsappUrl(phone, whatsappMsg)}
-        onClick={() => track("whatsapp_buyer_click", { ...trackParams, placement: "seller_card" })}
+        onClick={() => track("whatsapp_click", { ...trackParams, placement: "seller_card" })}
         target="_blank"
         rel="noopener noreferrer"
         className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-sm font-semibold text-white transition hover:bg-[#1ebe5d] active:scale-[.98]"

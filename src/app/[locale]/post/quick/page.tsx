@@ -109,7 +109,7 @@ function QuickPostForm() {
         },
         { source: "quick" }
       );
-      track("post_published", { flow: "quick", listing_id: id, city, property_type: propertyType, transaction_type: transactionType, photos: images.length });
+      track("listing_posted", { flow: "quick", listing_id: id, city, property_type: propertyType, transaction_type: transactionType, photos: images.length });
       setPublishedId(id);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("common.error"));

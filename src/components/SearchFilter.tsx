@@ -8,6 +8,7 @@ import { SlidersHorizontal, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { isPriceRangeInvalid, parsePriceBound } from "@/lib/priceRange";
+import { track } from "@/lib/analytics";
 
 interface SearchFilterProps {
   filters: PropertyFilters;
@@ -33,6 +34,15 @@ export default function SearchFilter({ filters, total }: SearchFilterProps) {
       else params.delete(key);
     }
     params.delete("page");
+    track("search", {
+      placement: "filters",
+      city: params.get("city") ?? undefined,
+      property_type: params.get("property_type") ?? undefined,
+      transaction_type: params.get("transaction_type") ?? undefined,
+      price_min: params.get("price_min") ?? undefined,
+      price_max: params.get("price_max") ?? undefined,
+      bedrooms: params.get("bedrooms") ?? undefined,
+    });
     router.push(`${pathname}?${params.toString()}`);
   }
 

@@ -1,5 +1,6 @@
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { CookieSettingsButton } from "@/components/ConsentBanner";
 
 function l(locale: string, en: string, fr: string, ar: string) {
   if (locale === "ar") return ar;
@@ -105,7 +106,8 @@ export default function Footer() {
               Plateforme développée par Xenova Studio · RFALA Groupe
             </p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <CookieSettingsButton className="text-xs text-gray-400 hover:text-orange-500 transition-colors" />
             <Link href="/privacy" className="text-xs text-gray-400 hover:text-orange-500 transition-colors">
               {l(locale, "Privacy Policy", "Politique de confidentialité", "سياسة الخصوصية")}
             </Link>

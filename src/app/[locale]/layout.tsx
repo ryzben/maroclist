@@ -8,6 +8,7 @@ import "../globals.css";
 import Analytics from "@/components/Analytics";
 import MobilePostButton from "@/components/MobilePostButton";
 import HreflangLinks from "@/components/HreflangLinks";
+import ConsentBanner from "@/components/ConsentBanner";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 const notoArabic = Noto_Sans_Arabic({ subsets: ["arabic"], display: "swap", variable: "--font-arabic" });
@@ -58,6 +59,7 @@ export default async function LocaleLayout({
           <HreflangLinks />
           {children}
           <MobilePostButton />
+          <ConsentBanner />
         </NextIntlClientProvider>
         <Analytics />
       </body>

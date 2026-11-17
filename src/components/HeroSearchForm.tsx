@@ -7,6 +7,7 @@ import { Search } from "lucide-react";
 import { CITIES, PROPERTY_TYPES } from "@/types/property";
 import { cn } from "@/lib/utils";
 import { isPriceRangeInvalid } from "@/lib/priceRange";
+import { track } from "@/lib/analytics";
 
 const PRICE_OPTIONS = [
   { value: "200000",  label: "200 000 DH (~$20K)" },
@@ -34,6 +35,7 @@ export default function HeroSearchForm() {
     if (propertyType) params.set("property_type", propertyType);
     if (minPrice) params.set("price_min", minPrice);
     if (maxPrice) params.set("price_max", maxPrice);
+    track("search", { placement: "home_hero", city, property_type: propertyType, transaction_type: txType, price_min: minPrice, price_max: maxPrice });
     router.push(`/listings?${params.toString()}`);
   }
 

@@ -97,7 +97,7 @@ export default function PostPage() {
     track("post_submit", { flow: "wizard", photos: state.images.length });
     try {
       const { id } = await publishListing(state);
-      track("post_published", {
+      track("listing_posted", {
         flow: "wizard",
         listing_id: id,
         city: state.city,

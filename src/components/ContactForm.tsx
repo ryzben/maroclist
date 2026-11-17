@@ -39,6 +39,7 @@ export default function ContactForm({ propertyId, ownerPhone, trackParams }: Con
         const data = await res.json().catch(() => ({}));
         setEmailSent(data.emailSent !== false);
         setSent(true);
+        track("message_sent", { listing_id: propertyId, ...trackParams });
       } else {
         const data = await res.json().catch(() => ({}));
         setError(data.error || t("errorRetry"));
@@ -64,7 +65,7 @@ export default function ContactForm({ propertyId, ownerPhone, trackParams }: Con
           )}
         </div>
         {ownerPhone && (
-          <a href={`tel:${ownerPhone}`} onClick={() => track("contact_phone", { listing_id: propertyId, ...trackParams, method: "call" })} className="btn-primary mt-2">
+          <a href={`tel:${ownerPhone}`} onClick={() => track("call_click", { listing_id: propertyId, ...trackParams, placement: "contact_form" })} className="btn-primary mt-2">
             {ownerPhone}
           </a>
         )}
@@ -85,7 +86,7 @@ export default function ContactForm({ propertyId, ownerPhone, trackParams }: Con
         {ownerPhone && (
           <a
             href={`https://wa.me/${normalizePhone(ownerPhone).replace(/\D/g, "")}`}
-            onClick={() => track("whatsapp_buyer_click", { listing_id: propertyId, ...trackParams, placement: "contact_form" })}
+            onClick={() => track("whatsapp_click", { listing_id: propertyId, ...trackParams, placement: "contact_form" })}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] py-2.5 text-sm font-semibold text-white transition hover:bg-[#1ebe5d] active:scale-[.98]"

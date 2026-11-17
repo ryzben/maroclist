@@ -542,5 +542,22 @@
     "whatsapp": "Send via WhatsApp",
     "whatsappMessage": "Salam, I want to list my property on Maroclist",
     "trust": "✓ 100% free · ✓ No middleman · ✓ Prices shown in MAD and US dollars"
+  },
+  "cookies": {
+    "title": "Your cookie choices",
+    "body": "With your consent, we use audience-measurement and advertising cookies to see which campaigns brought you here and to improve the site. You can refuse — the site works the same.",
+    "learnMore": "Privacy policy",
+    "accept": "Accept all",
+    "refuse": "Refuse all",
+    "customize": "Customize",
+    "save": "Save my choices",
+    "essential": "Necessary",
+    "essentialDesc": "Signing in to your account, your language, remembering this choice.",
+    "alwaysOn": "Always on",
+    "analytics": "Audience measurement",
+    "analyticsDesc": "Visit statistics (Google Analytics) to understand how the site is used.",
+    "ads": "Advertising",
+    "adsDesc": "Measuring how our ads perform (Google Ads, Meta) and personalised ads.",
+    "settings": "Cookie settings"
   }
 }

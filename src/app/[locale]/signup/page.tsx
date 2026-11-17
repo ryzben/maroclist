@@ -9,6 +9,7 @@ import Navbar from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
 import { safeNext } from "@/lib/utils";
 import { completePendingSave, pendingSaveQuery } from "@/lib/pendingSave";
+import { track } from "@/lib/analytics";
 
 // useSearchParams() needs a Suspense boundary now that the locale layout renders statically
 export default function SignupPage() {
@@ -49,6 +50,7 @@ function SignupPageInner() {
       setError(signUpError.message);
       setLoading(false);
     } else {
+      track("sign_up", { method: "email" });
       // Only saves when signup returns a session (i.e. email confirmation is off); otherwise a no-op
       await completePendingSave(supabase, searchParams);
       router.push(next ?? "/");

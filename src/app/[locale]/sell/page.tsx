@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { ArrowRight, CheckCircle, PlusCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import TrackEvent from "@/components/TrackEvent";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -182,6 +183,7 @@ function FinalCTASection() {
 export default function SellPage() {
   return (
     <>
+      <TrackEvent event="view_seller_landing" />
       <Navbar />
       <main>
         <HeroSection />

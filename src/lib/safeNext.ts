@@ -12,7 +12,6 @@ export const NEXT_MAX_LENGTH = 512;
 const LOCALE_PREFIX = /^\/(?:en|fr|ar)(?=\/|\?|#|$)/;
 // C0 controls, DEL and C1 controls. Browsers silently drop tabs/newlines from URLs, so "/\t/evil.com"
 // would become "//evil.com" — reject all of them outright.
-// eslint-disable-next-line no-control-regex
 const CONTROL_CHARS = /[\u0000-\u001F\u007F-\u009F]/;
 const MAX_DECODE_PASSES = 4;
 

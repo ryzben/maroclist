@@ -542,5 +542,22 @@
     "whatsapp": "Envoyer par WhatsApp",
     "whatsappMessage": "Salam, je veux publier mon bien sur Maroclist",
     "trust": "✓ 100 % gratuit · ✓ Sans intermédiaire · ✓ Prix affichés en DH et en dollars"
+  },
+  "cookies": {
+    "title": "Vos choix sur les cookies",
+    "body": "Avec votre accord, nous utilisons des cookies de mesure d’audience et publicitaires pour savoir quelles campagnes vous ont amené ici et améliorer le site. Vous pouvez refuser : le site fonctionne de la même façon.",
+    "learnMore": "Politique de confidentialité",
+    "accept": "Tout accepter",
+    "refuse": "Tout refuser",
+    "customize": "Personnaliser",
+    "save": "Enregistrer mes choix",
+    "essential": "Nécessaires",
+    "essentialDesc": "Connexion à votre compte, langue, mémorisation de ce choix.",
+    "alwaysOn": "Toujours actifs",
+    "analytics": "Mesure d’audience",
+    "analyticsDesc": "Statistiques de visite (Google Analytics) pour comprendre comment le site est utilisé.",
+    "ads": "Publicité",
+    "adsDesc": "Mesure de l’efficacité de nos publicités (Google Ads, Meta) et publicités personnalisées.",
+    "settings": "Paramètres des cookies"
   }
 }
