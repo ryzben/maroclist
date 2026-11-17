@@ -45,6 +45,7 @@ Other variables, set on Vercel (optional locally):
 | `RESEND_API_KEY` | Contact-form emails, listing alerts | Emails aren't sent |
 | `SUPABASE_SERVICE_ROLE_KEY` | Daily listing-alert cron (`/api/cron/alerts`) | Cron returns 500 |
 | `CRON_SECRET` | Authenticates Vercel Cron on `/api/cron/alerts` | Cron returns 401 |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Captcha on login, sign-up, password reset and quick post — see [docs/captcha.md](docs/captcha.md) | No captcha widget. **Required everywhere once captcha is on in Supabase**, or sign-ins fail |
 | `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_GADS_ID`, `NEXT_PUBLIC_GADS_LABEL_*`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Analytics, ad conversions, cookie banner — see [docs/analytics.md](docs/analytics.md) | That tracker is off; with none set there is no cookie banner |
 
 `NEXT_PUBLIC_*` values are baked in at build time — after changing one on Vercel, redeploy.

@@ -54,7 +54,7 @@ const COPY: Record<Locale, Copy> = {
         "Mesurer l’audience et l’efficacité de nos publicités : votre consentement, que vous pouvez retirer à tout moment.",
       ], p: ["Nous ne vendons pas vos données personnelles."] },
       { h: "4. Destinataires et hébergement", p: [
-        "Vos données sont hébergées par Supabase (base de données et photos) Vercel (hébergement du site) et Resend (envoi des e-mails), sur des serveurs situés dans l’Union européenne et aux États-Unis. Si vous l’acceptez, Google (Analytics, Ads) et Meta (Facebook, Instagram) reçoivent des données de navigation. Ces prestataires peuvent traiter des données hors du Maroc ; nous ne leur transmettons que ce qui est nécessaire.",
+        "Vos données sont hébergées par Supabase (base de données et photos) Vercel (hébergement du site), Resend (envoi des e-mails) et Cloudflare (vérification anti-robots sur les formulaires de connexion et de publication, sans cookie publicitaire), sur des serveurs situés dans l’Union européenne et aux États-Unis. Si vous l’acceptez, Google (Analytics, Ads) et Meta (Facebook, Instagram) reçoivent des données de navigation. Ces prestataires peuvent traiter des données hors du Maroc ; nous ne leur transmettons que ce qui est nécessaire.",
         "Le numéro de téléphone que vous indiquez sur une annonce est visible par les visiteurs.",
       ] },
       { h: "5. Durées de conservation", list: [
@@ -111,7 +111,7 @@ const COPY: Record<Locale, Copy> = {
         "Measuring audience and ad performance: your consent, which you can withdraw at any time.",
       ], p: ["We do not sell your personal data."] },
       { h: "4. Recipients and hosting", p: [
-        "Your data is hosted by Supabase (database and photos) Vercel (website hosting) and Resend (email delivery), on servers in the European Union and the United States. If you accept, Google (Analytics, Ads) and Meta (Facebook, Instagram) receive browsing data. These providers may process data outside Morocco; we share only what is necessary.",
+        "Your data is hosted by Supabase (database and photos) Vercel (website hosting), Resend (email delivery) and Cloudflare (anti-bot check on the sign-in and posting forms, no advertising cookies), on servers in the European Union and the United States. If you accept, Google (Analytics, Ads) and Meta (Facebook, Instagram) receive browsing data. These providers may process data outside Morocco; we share only what is necessary.",
         "The phone number you put on a listing is visible to visitors.",
       ] },
       { h: "5. How long we keep data", list: [
@@ -168,7 +168,7 @@ const COPY: Record<Locale, Copy> = {
         "قياس الزيارات وفعالية الإعلانات: موافقتك، ويمكنك سحبها في أي وقت.",
       ], p: ["نحن لا نبيع معطياتك الشخصية."] },
       { h: "4. المتلقون والاستضافة", p: [
-        "تُستضاف معطياتك لدى Supabase (قاعدة البيانات والصور) وVercel (استضافة الموقع) وResend (إرسال الرسائل الإلكترونية)، على خوادم في الاتحاد الأوروبي والولايات المتحدة. إذا وافقت، تتلقى Google ‏(Analytics وAds) وMeta ‏(Facebook وInstagram) معطيات التصفح. قد يعالج هؤلاء المزودون المعطيات خارج المغرب، ولا نشاركهم إلا ما هو ضروري.",
+        "تُستضاف معطياتك لدى Supabase (قاعدة البيانات والصور) وVercel (استضافة الموقع) وResend (إرسال الرسائل الإلكترونية) وCloudflare (التحقق من أنك لست روبوتًا في نماذج تسجيل الدخول والنشر، دون ملفات تعريف ارتباط إعلانية)، على خوادم في الاتحاد الأوروبي والولايات المتحدة. إذا وافقت، تتلقى Google ‏(Analytics وAds) وMeta ‏(Facebook وInstagram) معطيات التصفح. قد يعالج هؤلاء المزودون المعطيات خارج المغرب، ولا نشاركهم إلا ما هو ضروري.",
         "رقم الهاتف الذي تضعه في الإعلان يظهر للزوار.",
       ] },
       { h: "5. مدة الاحتفاظ بالمعطيات", list: [
