@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import CaptchaWidget, { useCaptcha } from "@/components/Captcha";
 import { supabase } from "@/lib/supabase";
 
 export default function ForgotPasswordPage() {
@@ -14,18 +15,24 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const captcha = useCaptcha();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!captcha.ready) {
+      setError(captcha.requiredMessage);
+      return;
+    }
     setLoading(true);
     setError("");
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/${locale}/reset-password`,
+      ...captcha.options,
     });
 
     if (error) {
-      setError(error.message);
+      setError(captcha.errorMessage(error));
       setLoading(false);
     } else {
       setSent(true);
@@ -62,6 +69,8 @@ export default function ForgotPasswordPage() {
                   autoComplete="email"
                 />
               </div>
+
+              <CaptchaWidget captcha={captcha} />
 
               {error && (
                 <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>

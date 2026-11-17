@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import CaptchaWidget, { useCaptcha } from "@/components/Captcha";
 import { supabase } from "@/lib/supabase";
 import { safeNext } from "@/lib/utils";
 import { completePendingSave, pendingSaveQuery } from "@/lib/pendingSave";
@@ -28,11 +29,16 @@ function SignupPageInner() {
   const [form, setForm] = useState({ fullName: "", email: "", password: "", confirm: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const captcha = useCaptcha();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (form.password !== form.confirm) {
       setError(t("passwordMismatch"));
+      return;
+    }
+    if (!captcha.ready) {
+      setError(captcha.requiredMessage);
       return;
     }
     setLoading(true);
@@ -43,11 +49,12 @@ function SignupPageInner() {
       password: form.password,
       options: {
         data: { full_name: form.fullName },
+        ...captcha.options,
       },
     });
 
     if (signUpError) {
-      setError(signUpError.message);
+      setError(captcha.errorMessage(signUpError));
       setLoading(false);
     } else {
       track("sign_up", { method: "email" });
@@ -115,6 +122,8 @@ function SignupPageInner() {
                 autoComplete="new-password"
               />
             </div>
+
+            <CaptchaWidget captcha={captcha} />
 
             {error && (
               <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>

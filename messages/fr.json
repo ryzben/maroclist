@@ -161,6 +161,12 @@
     "resetPassword": "Réinitialiser",
     "passwordMismatch": "Les mots de passe ne correspondent pas."
   },
+  "captcha": {
+    "label": "Vérification de sécurité",
+    "required": "Veuillez compléter la vérification de sécurité ci-dessus.",
+    "failed": "La vérification de sécurité a échoué ou a expiré. Réessayez.",
+    "loadFailed": "La vérification de sécurité ne s’est pas chargée. Actualisez la page ou désactivez votre bloqueur de publicités."
+  },
   "cities": {
     "casablanca": "Casablanca",
     "rabat": "Rabat",

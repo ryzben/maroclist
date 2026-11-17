@@ -8,6 +8,8 @@ import { ImagePlus, Loader2, X } from "lucide-react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import SuccessScreen from "@/components/post/SuccessScreen";
+import CaptchaWidget, { useCaptcha } from "@/components/Captcha";
+import { isCaptchaError } from "@/lib/captcha";
 import { supabase } from "@/lib/supabase";
 import { publishListing } from "@/lib/post";
 import { track } from "@/lib/analytics";
@@ -51,9 +53,13 @@ function QuickPostForm() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [publishedId, setPublishedId] = useState<string | null>(null);
+  // Captcha is only needed for the anonymous sign-in, i.e. when there's no session yet (null = checking)
+  const [hasSession, setHasSession] = useState<boolean | null>(null);
+  const captcha = useCaptcha();
 
   useEffect(() => {
     track("post_start", { flow: "quick", prefilled: params.size > 0 });
+    supabase.auth.getSession().then(({ data }) => setHasSession(Boolean(data.session)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -85,7 +91,16 @@ function QuickPostForm() {
       // The seller can attach an email later to keep managing the listing from other devices.
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        const { error: anonErr } = await supabase.auth.signInAnonymously();
+        if (!captcha.ready) {
+          setHasSession(false); // session may have expired since load: show the widget
+          setError(captcha.requiredMessage);
+          return;
+        }
+        const { error: anonErr } = await supabase.auth.signInAnonymously({ options: captcha.options });
+        if (anonErr && isCaptchaError(anonErr)) {
+          setError(captcha.errorMessage(anonErr));
+          return;
+        }
         if (anonErr) {
           // Anonymous sign-ins disabled in Supabase → fall back to the normal login
           router.push("/login?next=/post/quick");
@@ -222,6 +237,8 @@ function QuickPostForm() {
             ))}
           </div>
         </div>
+
+        {hasSession === false && <CaptchaWidget captcha={captcha} />}
 
         {error && <p className="text-sm text-red-600">{error}</p>}
 

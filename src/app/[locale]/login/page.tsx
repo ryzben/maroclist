@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import CaptchaWidget, { useCaptcha } from "@/components/Captcha";
 import { supabase } from "@/lib/supabase";
 import { safeNext } from "@/lib/utils";
 import { completePendingSave, pendingSaveQuery } from "@/lib/pendingSave";
@@ -28,15 +29,20 @@ function LoginPageInner() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const captcha = useCaptcha();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!captcha.ready) {
+      setError(captcha.requiredMessage);
+      return;
+    }
     setLoading(true);
     setError("");
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email, password, options: captcha.options });
     if (error) {
-      setError(error.message);
+      setError(captcha.errorMessage(error));
       setLoading(false);
     } else {
       await completePendingSave(supabase, searchParams);
@@ -84,6 +90,8 @@ function LoginPageInner() {
                 autoComplete="current-password"
               />
             </div>
+
+            <CaptchaWidget captcha={captcha} />
 
             {error && (
               <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>

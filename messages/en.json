@@ -161,6 +161,12 @@
     "resetPassword": "Reset password",
     "passwordMismatch": "Passwords do not match."
   },
+  "captcha": {
+    "label": "Security check",
+    "required": "Please complete the security check above.",
+    "failed": "The security check failed or expired. Please try again.",
+    "loadFailed": "The security check didn’t load. Refresh the page or turn off your ad blocker."
+  },
   "cities": {
     "casablanca": "Casablanca",
     "rabat": "Rabat",
