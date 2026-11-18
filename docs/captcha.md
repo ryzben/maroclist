@@ -26,7 +26,7 @@ Adding a new auth call (OTP, magic link, phone…)? Give it the widget and `...c
 
 1. **Create the widget.** Cloudflare dashboard → Turnstile → *Add widget*.
    - Name: `Maroclist`
-   - Hostnames: `maroclist.com` (covers `www.`), `localhost` for local dev, and each Vercel preview hostname you use, e.g. the branch alias `maroclist-p5rq-git-seller-growth-<team>.vercel.app`. No wildcards; 10 hostnames max on the free plan.
+   - Hostnames: `maroclist.com` (covers `www.`), `localhost` for local dev, and the branch alias of each preview branch you test on, e.g. `maroclist-p5rq-git-seller-growth-<team>.vercel.app`. Use the branch alias, not the per-deploy URL: the alias stays the same across pushes, while each deploy gets a new URL that would eat into the limit. No wildcards; 10 hostnames max on the free plan.
    - Widget mode: *Managed*.
    - Copy the **site key** and the **secret key**.
 2. **Add the site key to Vercel** for Production *and* Preview:
