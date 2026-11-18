@@ -1,11 +1,12 @@
 /**
  * Typed event tracking: one call fans out to GA4, Google Ads, Meta Pixel and Plausible — whichever are
- * configured (see analyticsConfig) and, for GA4/Ads/Meta, allowed by the visitor's consent.
+ * configured (see analyticsConfig) and, for GA4/Ads/Meta, allowed by the visitor's consent
+ * (consentedConfig). The tags themselves are loaded by src/lib/tags.ts, also only after consent.
  * With no IDs set, nothing is loaded and track() does nothing. Safe to call during SSR (no-op).
  * The event table below is documented in docs/analytics.md — keep both in sync.
  */
 import { getAttribution } from "./attribution";
-import { readConsent } from "./consent";
+import { readConsent, type Consent } from "./consent";
 
 export type PostStep = 1 | 2 | 3 | 4 | 5 | 6;
 export type GadsLabelKey = "SIGN_UP" | "LISTING_POSTED" | "WHATSAPP_CLICK" | "SHOW_NUMBER" | "MESSAGE_SENT";
@@ -99,6 +100,19 @@ export function needsConsent(cfg: AnalyticsConfig = analyticsConfig()): boolean 
   return Boolean(cfg.ga4Id || cfg.gadsId || cfg.metaPixelId);
 }
 
+/**
+ * The config with every tracker the visitor hasn't consented to blanked out: GA4 needs analytics
+ * consent, Google Ads and Meta need ads consent. Plausible is cookieless and always kept.
+ */
+export function consentedConfig(cfg: AnalyticsConfig, consent: Consent | null): AnalyticsConfig {
+  return {
+    ...cfg,
+    ga4Id: consent?.analytics ? cfg.ga4Id : "",
+    gadsId: consent?.ads ? cfg.gadsId : "",
+    metaPixelId: consent?.ads ? cfg.metaPixelId : "",
+  };
+}
+
 /** Listing fields → consistent event params. */
 export function listingParams(p: {
   id: string;
@@ -155,13 +169,14 @@ export function track(event: AnalyticsEvent, params: AnalyticsParams = {}): void
   if (!needsConsent(cfg) && !cfg.plausibleDomain) return; // nothing configured
   try {
     const spec: EventSpec = EVENTS[event];
+    const consent = readConsent();
     const withContext: AnalyticsParams = {
       locale: document.documentElement.lang || undefined,
-      ...(spec.utm ? getAttribution(readConsent()) : {}),
+      ...(spec.utm ? getAttribution(consent) : {}),
       ...params,
     };
-    const calls = buildCalls(event, withContext, cfg);
-    // gtag applies Consent Mode itself; fbq only exists once ads consent was given
+    // Re-checked on every call, so tracking stops the moment consent is withdrawn (before the reload)
+    const calls = buildCalls(event, withContext, consentedConfig(cfg, consent));
     for (const args of calls.gtag) window.gtag?.(...args);
     if (calls.fbq) window.fbq?.(...calls.fbq);
     if (calls.plausible) window.plausible?.(...calls.plausible);

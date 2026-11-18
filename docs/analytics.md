@@ -1,9 +1,9 @@
 # Analytics, ad tracking and consent
 
 Code: `src/lib/analytics.ts` (events, `track()`), `src/lib/consent.ts` (consent cookie, Consent Mode),
-`src/lib/attribution.ts` (UTM capture), `src/components/Analytics.tsx` (loads the tags),
+`src/lib/attribution.ts` (UTM capture), `src/lib/tags.ts` + `src/components/Analytics.tsx` (load the tags after consent),
 `src/components/ConsentBanner.tsx` (banner + footer "Cookie settings").
-Tests: `src/lib/analytics.test.ts`, `src/lib/consent.test.ts` (`npm test`).
+Tests: `src/lib/analytics.test.ts`, `src/lib/consent.test.ts`, `src/lib/tags.test.ts` (`npm test`).
 
 ## Environment variables
 
@@ -73,14 +73,20 @@ where the same event fires from several places.
   have equal weight; **Customize** offers two categories: *Audience measurement* (GA4) and
   *Advertising* (Google Ads, Meta). The choice is stored in the `ml_consent` cookie for 6 months.
   The footer link "Cookie settings" reopens it.
-- **Google Consent Mode v2:** gtag loads with `ad_storage`, `analytics_storage`, `ad_user_data` and
-  `ad_personalization` all `denied` (plus `ads_data_redaction`), then `update`s them to the visitor's
-  choice. With everything denied Google sets no cookies and only sends cookieless pings, which
-  Google uses for modelled conversions ("advanced" mode). For "basic" mode (no Google request at all
-  before consent), render the Google `<Script>`s in `Analytics.tsx` only when `consent` is set.
-- **Meta Pixel** has no consent mode, so it only loads after *Advertising* is accepted;
-  withdrawing calls `fbq('consent','revoke')`.
-- Withdrawing consent also deletes `_ga*`, `_gcl_*`, `_fbp`, `_fbc` cookies.
+- **Basic Consent Mode — nothing loads before consent.** Until the visitor accepts, no Google or Meta
+  script is injected and no request goes to any Google or Meta domain (`src/lib/tags.ts`).
+  - *Audience measurement* accepted → gtag.js + GA4.
+  - *Advertising* accepted → gtag.js + Google Ads, and the Meta Pixel.
+  - One gtag.js serves both Google IDs; accepting more later adds the missing `config` / Pixel.
+- **Google Consent Mode v2:** when gtag does load, `ad_storage`, `analytics_storage`, `ad_user_data`
+  and `ad_personalization` are first set to `denied` (plus `ads_data_redaction`), then `update`d to
+  `granted` only for the accepted categories. Trade-off: Google can't model conversions from visitors
+  who refuse or ignore the banner.
+- **`track()` re-checks consent on every call**: GA4 events need analytics consent; Ads conversions
+  and Pixel events need advertising consent.
+- **Withdrawing consent** sends `denied` updates, calls `fbq('consent','revoke')`, deletes `_ga*`,
+  `_gcl_*`, `_fbp`, `_fbc` cookies, then **reloads the page**: loaded tags can't be removed, and GA4
+  would otherwise keep sending cookieless page views.
 - GA4 cookies are capped at 13 months (`cookie_expires`).
 
 ## Campaign attribution (UTM capture)
