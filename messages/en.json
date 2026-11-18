@@ -15,7 +15,8 @@
     "delete": "Delete",
     "listingCount": "{count, plural, one {# listing} other {# listings}}",
     "favourites": "Favourites",
-    "editedByMaroclist": "Edited by Maroclist"
+    "editedByMaroclist": "Edited by Maroclist",
+    "menu": "Menu"
   },
   "hero": {
     "title": "Buy property in Morocco",
@@ -120,7 +121,8 @@
     "basicInfo": "Basic information",
     "addPhotos": "Click to add photos",
     "video": "Video",
-    "videoDesc": "Add a YouTube link for a virtual tour (optional)."
+    "videoDesc": "Add a YouTube link for a virtual tour (optional).",
+    "contactSection": "Contact"
   },
   "contact": {
     "title": "Contact the owner",
@@ -251,7 +253,11 @@
     "featured": "Featured",
     "new": "New",
     "mad": "MAD",
-    "sqm": "m²"
+    "sqm": "m²",
+    "breadcrumb": "Breadcrumb",
+    "videoTitle": "Property video",
+    "mapTitle": "Location map",
+    "removePhoto": "Remove photo"
   },
   "sell": {
     "heroLabel": "For sellers & owners",
@@ -565,5 +571,8 @@
     "ads": "Advertising",
     "adsDesc": "Measuring how our ads perform (Google Ads, Meta) and personalised ads.",
     "settings": "Cookie settings"
+  },
+  "footer": {
+    "credit": "Platform developed by Xenova Studio · RFALA Groupe"
   }
 }

@@ -158,7 +158,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
             {property.video_url && getYouTubeEmbedUrl(property.video_url) && (
               <div className="overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
                 <iframe
-                  title="video"
+                  title={t("common.videoTitle")}
                   width="100%"
                   height="360"
                   src={getYouTubeEmbedUrl(property.video_url)!}
@@ -303,7 +303,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                 <h2 className="text-sm font-semibold text-gray-900">{t("property.location")}</h2>
               </div>
               <iframe
-                title="map"
+                title={t("common.mapTitle")}
                 width="100%"
                 height="300"
                 loading="lazy"

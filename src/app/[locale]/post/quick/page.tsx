@@ -199,7 +199,7 @@ function QuickPostForm() {
                   type="button"
                   onClick={() => setImages((prev) => prev.filter((_, j) => j !== i))}
                   className="absolute end-1 top-1 rounded-full bg-black/60 p-0.5 text-white"
-                  aria-label="remove"
+                  aria-label={t("common.removePhoto")}
                 >
                   <X className="h-3 w-3" />
                 </button>

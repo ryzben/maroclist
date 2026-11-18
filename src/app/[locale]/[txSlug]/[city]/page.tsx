@@ -136,7 +136,7 @@ export default async function CityPage({ params }: CityPageProps) {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(jsonLd)} />
       <Navbar />
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <nav className="mb-4 flex flex-wrap items-center gap-1 text-xs text-gray-400" aria-label="breadcrumb">
+        <nav className="mb-4 flex flex-wrap items-center gap-1 text-xs text-gray-400" aria-label={t("common.breadcrumb")}>
           <Link href="/" className="hover:text-orange-500">{t("nav.home")}</Link>
           <span>/</span>
           <Link href="/listings" className="hover:text-orange-500">{t("nav.listings")}</Link>

@@ -400,7 +400,7 @@ export default function EditListingPage({
 
           {/* Contact */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
-            <h2 className="font-semibold text-gray-900">Contact</h2>
+            <h2 className="font-semibold text-gray-900">{t("post.contactSection")}</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="label">{t("post.phone")}</label>
@@ -413,7 +413,7 @@ export default function EditListingPage({
                 />
               </div>
               <div>
-                <label className="label">Email</label>
+                <label className="label">{t("auth.email")}</label>
                 <input type="email" value={form.contact_email} onChange={(e) => set("contact_email", e.target.value)} className="input" />
               </div>
             </div>

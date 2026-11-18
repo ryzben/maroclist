@@ -15,7 +15,8 @@
     "delete": "حذف",
     "listingCount": "{count, plural, zero {لا توجد إعلانات} one {إعلان واحد} two {إعلانان} few {# إعلانات} many {# إعلانًا} other {# إعلان}}",
     "favourites": "المفضلة",
-    "editedByMaroclist": "عدّله فريق Maroclist"
+    "editedByMaroclist": "عدّله فريق Maroclist",
+    "menu": "القائمة"
   },
   "hero": {
     "title": "اشترِ عقاراً في المغرب",
@@ -120,7 +121,8 @@
     "basicInfo": "المعلومات الأساسية",
     "addPhotos": "انقر لإضافة الصور",
     "video": "فيديو",
-    "videoDesc": "أضف رابط يوتيوب لجولة افتراضية (اختياري)."
+    "videoDesc": "أضف رابط يوتيوب لجولة افتراضية (اختياري).",
+    "contactSection": "التواصل"
   },
   "contact": {
     "title": "تواصل مع المالك",
@@ -251,7 +253,11 @@
     "featured": "مميز",
     "new": "جديد",
     "mad": "درهم",
-    "sqm": "م²"
+    "sqm": "م²",
+    "breadcrumb": "مسار التنقل",
+    "videoTitle": "فيديو العقار",
+    "mapTitle": "خريطة الموقع",
+    "removePhoto": "إزالة الصورة"
   },
   "sell": {
     "heroLabel": "للبائعين والملاك",
@@ -565,5 +571,8 @@
     "ads": "الإعلانات",
     "adsDesc": "قياس فعالية إعلاناتنا (Google Ads وMeta) وإعلانات مخصصة.",
     "settings": "إعدادات ملفات تعريف الارتباط"
+  },
+  "footer": {
+    "credit": "منصة من تطوير Xenova Studio · RFALA Groupe"
   }
 }

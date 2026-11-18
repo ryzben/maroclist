@@ -15,7 +15,8 @@
     "delete": "Supprimer",
     "listingCount": "{count, plural, one {# annonce} other {# annonces}}",
     "favourites": "Favoris",
-    "editedByMaroclist": "Modifié par Maroclist"
+    "editedByMaroclist": "Modifié par Maroclist",
+    "menu": "Menu"
   },
   "hero": {
     "title": "Achetez un bien au Maroc",
@@ -120,7 +121,8 @@
     "basicInfo": "Informations principales",
     "addPhotos": "Cliquez pour ajouter des photos",
     "video": "Vidéo",
-    "videoDesc": "Ajoutez un lien YouTube pour une visite virtuelle (optionnel)."
+    "videoDesc": "Ajoutez un lien YouTube pour une visite virtuelle (optionnel).",
+    "contactSection": "Contact"
   },
   "contact": {
     "title": "Contacter le propriétaire",
@@ -251,7 +253,11 @@
     "featured": "À la une",
     "new": "Nouveau",
     "mad": "MAD",
-    "sqm": "m²"
+    "sqm": "m²",
+    "breadcrumb": "Fil d’Ariane",
+    "videoTitle": "Vidéo du bien",
+    "mapTitle": "Carte de l’emplacement",
+    "removePhoto": "Retirer la photo"
   },
   "sell": {
     "heroLabel": "Pour les vendeurs et propriétaires",
@@ -565,5 +571,8 @@
     "ads": "Publicité",
     "adsDesc": "Mesure de l’efficacité de nos publicités (Google Ads, Meta) et publicités personnalisées.",
     "settings": "Paramètres des cookies"
+  },
+  "footer": {
+    "credit": "Plateforme développée par Xenova Studio · RFALA Groupe"
   }
 }

@@ -270,7 +270,9 @@ src/
       contact/          # Contact form → DB + Resend email
       stats/            # Listing count (60s cache)
       agency-leads/     # Agency lead capture
-      city-alerts/      # City alert subscriptions
+      alerts/           # Listing-alert subscriptions (replaces city-alerts)
+      cron/alerts/      # Daily listing-alert emails (Vercel Cron, see vercel.json)
+      admin/import/     # Admin bulk import
   components/
     post/               # Wizard step components
   hooks/                # useCountUp animation hook
