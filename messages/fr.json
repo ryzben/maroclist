@@ -166,8 +166,18 @@
   "captcha": {
     "label": "Vérification de sécurité",
     "required": "Veuillez compléter la vérification de sécurité ci-dessus.",
-    "failed": "La vérification de sécurité a échoué ou a expiré. Réessayez.",
     "loadFailed": "La vérification de sécurité ne s’est pas chargée. Actualisez la page ou désactivez votre bloqueur de publicités."
+  },
+  "authErrors": {
+    "invalidCredentials": "E-mail ou mot de passe incorrect.",
+    "emailNotConfirmed": "Veuillez d’abord confirmer votre e-mail : vérifiez votre boîte de réception.",
+    "userExists": "Un compte existe déjà avec cet e-mail. Connectez-vous plutôt.",
+    "weakPassword": "Ce mot de passe est trop faible. Utilisez au moins 8 caractères avec des lettres et des chiffres.",
+    "samePassword": "Choisissez un nouveau mot de passe différent de l’ancien.",
+    "rateLimit": "Trop de tentatives. Patientez une minute puis réessayez.",
+    "resetLinkInvalid": "Ce lien de réinitialisation est invalide ou a expiré. Demandez-en un nouveau.",
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "captchaFailed": "La vérification de sécurité a échoué ou a expiré. Réessayez."
   },
   "cities": {
     "casablanca": "Casablanca",

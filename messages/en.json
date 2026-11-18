@@ -166,8 +166,18 @@
   "captcha": {
     "label": "Security check",
     "required": "Please complete the security check above.",
-    "failed": "The security check failed or expired. Please try again.",
     "loadFailed": "The security check didn’t load. Refresh the page or turn off your ad blocker."
+  },
+  "authErrors": {
+    "invalidCredentials": "Incorrect email or password.",
+    "emailNotConfirmed": "Please confirm your email first: check your inbox for the confirmation link.",
+    "userExists": "An account already exists with this email. Log in instead.",
+    "weakPassword": "This password is too weak. Use at least 8 characters with letters and numbers.",
+    "samePassword": "Choose a new password that is different from your old one.",
+    "rateLimit": "Too many attempts. Please wait a minute and try again.",
+    "resetLinkInvalid": "This reset link is invalid or has expired. Request a new one.",
+    "generic": "Something went wrong. Please try again.",
+    "captchaFailed": "The security check failed or expired. Please try again."
   },
   "cities": {
     "casablanca": "Casablanca",

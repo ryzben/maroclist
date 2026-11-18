@@ -2,13 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import {
-  TURNSTILE_SCRIPT_URL,
-  captchaOptions,
-  isCaptchaError,
-  turnstileLanguage,
-  turnstileSiteKey,
-} from "@/lib/captcha";
+import { authErrorKey, type AuthErrorLike } from "@/lib/authErrors";
+import { TURNSTILE_SCRIPT_URL, captchaOptions, turnstileLanguage, turnstileSiteKey } from "@/lib/captcha";
 
 interface TurnstileApi {
   render(el: HTMLElement, opts: Record<string, unknown>): string;
@@ -51,10 +46,10 @@ export interface Captcha {
   /** Localized "complete the security check" message for a submit before `ready`. */
   requiredMessage: string;
   /**
-   * Message for a failed auth call. Tokens are single-use, so the widget is reset after every failure;
-   * captcha failures get a localized message instead of Supabase's English one.
+   * Localized message for a failed auth call (see src/lib/authErrors.ts). Tokens are single-use, so
+   * the widget is also reset after every failure.
    */
-  errorMessage: (err: { code?: string; message: string }) => string;
+  errorMessage: (err: AuthErrorLike) => string;
   /** Internal wiring for <CaptchaWidget>. */
   widget: {
     setToken: (token: string | null) => void;
@@ -66,20 +61,21 @@ export interface Captcha {
 
 export function useCaptcha(): Captcha {
   const t = useTranslations("captcha");
+  const tErr = useTranslations("authErrors");
   const enabled = turnstileSiteKey() !== "";
   const [token, setToken] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
   const resetRef = useRef<(() => void) | null>(null);
 
   const errorMessage = useCallback(
-    (err: { code?: string; message: string }) => {
+    (err: AuthErrorLike) => {
       if (enabled) {
         setToken(null);
         resetRef.current?.();
       }
-      return isCaptchaError(err) ? t("failed") : err.message;
+      return tErr(authErrorKey(err));
     },
-    [enabled, t]
+    [enabled, tErr]
   );
 
   return {
