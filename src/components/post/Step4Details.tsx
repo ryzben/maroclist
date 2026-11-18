@@ -2,18 +2,22 @@
 
 import { useTranslations } from "next-intl";
 import StepWrapper from "./StepWrapper";
+import HighlightInput from "@/components/HighlightInput";
 
 interface Step4Props {
   bedrooms: string;
   area: string;
   floor: string;
   description: string;
-  onChange: (field: "bedrooms" | "area" | "floor" | "description", value: string) => void;
+  highlight: string;
+  /** Title generated from type + transaction + neighbourhood + city, in the current language */
+  suggestedTitle: string | null;
+  onChange: (field: "bedrooms" | "area" | "floor" | "description" | "highlight", value: string) => void;
   onNext: () => void;
   onBack: () => void;
 }
 
-export default function Step4Details({ bedrooms, area, floor, description, onChange, onNext, onBack }: Step4Props) {
+export default function Step4Details({ bedrooms, area, floor, description, highlight, suggestedTitle, onChange, onNext, onBack }: Step4Props) {
   const t = useTranslations();
 
   return (
@@ -25,6 +29,14 @@ export default function Step4Details({ bedrooms, area, floor, description, onCha
       onBack={onBack}
     >
       <div className="mb-8 space-y-4">
+        {suggestedTitle && (
+          <div className="rounded-xl border border-orange-100 bg-orange-50 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-orange-600">{t("wizard.suggestedTitle")}</p>
+            <p className="mt-1 font-semibold text-gray-900">{suggestedTitle}</p>
+            {highlight.trim() && <p className="mt-0.5 text-sm text-gray-600">{highlight.trim()}</p>}
+            <p className="mt-1 text-xs text-gray-500">{t("wizard.suggestedTitleHint")}</p>
+          </div>
+        )}
         <div className="grid grid-cols-3 gap-3">
           <div>
             <label className="label">{t("wizard.detailsBedrooms")}</label>
@@ -62,6 +74,8 @@ export default function Step4Details({ bedrooms, area, floor, description, onCha
             />
           </div>
         </div>
+
+        <HighlightInput value={highlight} onChange={(v) => onChange("highlight", v)} />
 
         <div>
           <label className="label">{t("wizard.detailsDescription")}</label>

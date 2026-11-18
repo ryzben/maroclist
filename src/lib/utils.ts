@@ -13,9 +13,7 @@ export function formatPrice(price: number, currency = "MAD", locale = "fr-MA") {
   }).format(price);
 }
 
-export function safeNext(next: string | null): string | null {
-  return next && next.startsWith("/") && !next.startsWith("//") ? next : null;
-}
+export { safeNext } from "./safeNext";
 
 export function normalizePhone(phone: string): string {
   const digits = phone.replace(/\s/g, "");

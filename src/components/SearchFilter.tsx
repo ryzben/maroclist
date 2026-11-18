@@ -7,6 +7,8 @@ import { CITIES, PROPERTY_TYPES, PropertyFilters } from "@/types/property";
 import { SlidersHorizontal, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { isPriceRangeInvalid, parsePriceBound } from "@/lib/priceRange";
+import { track } from "@/lib/analytics";
 
 interface SearchFilterProps {
   filters: PropertyFilters;
@@ -19,25 +21,53 @@ export default function SearchFilter({ filters, total }: SearchFilterProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [showMobile, setShowMobile] = useState(false);
+  // From the URL, not `filters`: the server drops an inverted range, but the visitor should still
+  // see what they entered next to the error
+  const [priceMin, setPriceMin] = useState(searchParams.get("price_min") ?? "");
+  const [priceMax, setPriceMax] = useState(searchParams.get("price_max") ?? "");
+  const priceError = isPriceRangeInvalid(priceMin, priceMax);
 
-  function applyFilter(key: string, value: string) {
+  function applyFilters(updates: Record<string, string>) {
     const params = new URLSearchParams(searchParams.toString());
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
+    for (const [key, value] of Object.entries(updates)) {
+      if (value) params.set(key, value);
+      else params.delete(key);
     }
     params.delete("page");
+    track("search", {
+      placement: "filters",
+      city: params.get("city") ?? undefined,
+      property_type: params.get("property_type") ?? undefined,
+      transaction_type: params.get("transaction_type") ?? undefined,
+      price_min: params.get("price_min") ?? undefined,
+      price_max: params.get("price_max") ?? undefined,
+      bedrooms: params.get("bedrooms") ?? undefined,
+    });
     router.push(`${pathname}?${params.toString()}`);
   }
 
+  function applyFilter(key: string, value: string) {
+    applyFilters({ [key]: value });
+  }
+
+  // Both bounds go together, and never while min > max (the inline error explains why)
+  function applyPrice() {
+    if (priceError) return;
+    const min = parsePriceBound(priceMin)?.toString() ?? "";
+    const max = parsePriceBound(priceMax)?.toString() ?? "";
+    if (min === (searchParams.get("price_min") ?? "") && max === (searchParams.get("price_max") ?? "")) return;
+    applyFilters({ price_min: min, price_max: max });
+  }
+
   function resetFilters() {
+    setPriceMin("");
+    setPriceMax("");
     router.push(pathname);
   }
 
-  const hasActiveFilters = Object.values(filters).some(Boolean);
+  const hasActiveFilters = Object.values(filters).some(Boolean) || priceError;
 
-  const filterContent = (
+  const renderFilterContent = (idPrefix: string) => (
     <div className="space-y-5">
       {/* Transaction type */}
       <div>
@@ -102,25 +132,51 @@ export default function SearchFilter({ filters, total }: SearchFilterProps) {
       {/* Price range */}
       <div>
         <div className="flex items-baseline justify-between mb-1">
-          <label className="label mb-0">{t("filter.priceMin")} – {t("filter.priceMax")}</label>
+          <span className="label mb-0">{t("filter.priceMin")} – {t("filter.priceMax")}</span>
           <span className="text-[10px] text-gray-400">MAD · 10 DH ≈ $1</span>
         </div>
-        <div className="flex gap-2">
+        <form
+          className="flex gap-2"
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            applyPrice();
+          }}
+        >
           <input
             type="number"
+            inputMode="numeric"
+            min={0}
             placeholder="0"
-            defaultValue={filters.price_min || ""}
-            onBlur={(e) => applyFilter("price_min", e.target.value)}
-            className="input"
+            aria-label={t("filter.priceMin")}
+            aria-invalid={priceError || undefined}
+            aria-describedby={priceError ? `${idPrefix}-price-error` : undefined}
+            value={priceMin}
+            onChange={(e) => setPriceMin(e.target.value)}
+            onBlur={applyPrice}
+            className={cn("input", priceError && "border-red-400 focus:border-red-500 focus:ring-red-200")}
           />
           <input
             type="number"
+            inputMode="numeric"
+            min={0}
             placeholder="∞"
-            defaultValue={filters.price_max || ""}
-            onBlur={(e) => applyFilter("price_max", e.target.value)}
-            className="input"
+            aria-label={t("filter.priceMax")}
+            aria-invalid={priceError || undefined}
+            aria-describedby={priceError ? `${idPrefix}-price-error` : undefined}
+            value={priceMax}
+            onChange={(e) => setPriceMax(e.target.value)}
+            onBlur={applyPrice}
+            className={cn("input", priceError && "border-red-400 focus:border-red-500 focus:ring-red-200")}
           />
-        </div>
+          {/* Enter submits */}
+          <button type="submit" hidden aria-hidden tabIndex={-1} />
+        </form>
+        {priceError && (
+          <p id={`${idPrefix}-price-error`} role="alert" className="mt-1.5 text-xs font-medium text-red-600">
+            {t("filter.priceRangeError")}
+          </p>
+        )}
       </div>
 
       {/* Bedrooms */}
@@ -170,7 +226,7 @@ export default function SearchFilter({ filters, total }: SearchFilterProps) {
             <SlidersHorizontal className="h-4 w-4" />
             {t("filter.title")}
           </h2>
-          {filterContent}
+          {renderFilterContent("desktop")}
         </div>
       </aside>
 
@@ -183,7 +239,7 @@ export default function SearchFilter({ filters, total }: SearchFilterProps) {
           <SlidersHorizontal className="h-4 w-4" />
           {t("filter.title")}
           {hasActiveFilters && (
-            <span className="ml-1 rounded-full bg-orange-500 px-1.5 py-0.5 text-xs text-white">
+            <span className="ms-1 rounded-full bg-orange-500 px-1.5 py-0.5 text-xs text-white">
               !
             </span>
           )}
@@ -199,7 +255,7 @@ export default function SearchFilter({ filters, total }: SearchFilterProps) {
                   <X className="h-5 w-5 text-gray-500" />
                 </button>
               </div>
-              {filterContent}
+              {renderFilterContent("mobile")}
             </div>
           </div>
         )}

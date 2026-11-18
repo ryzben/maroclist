@@ -4,13 +4,15 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Send, CheckCircle, MessageSquare, Loader2 } from "lucide-react";
 import { normalizePhone } from "@/lib/utils";
+import { track, type AnalyticsParams } from "@/lib/analytics";
 
 interface ContactFormProps {
   propertyId: string;
   ownerPhone: string | null;
+  trackParams?: AnalyticsParams;
 }
 
-export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps) {
+export default function ContactForm({ propertyId, ownerPhone, trackParams }: ContactFormProps) {
   const t = useTranslations("contact");
   const [sent, setSent] = useState(false);
   const [emailSent, setEmailSent] = useState(true);
@@ -37,6 +39,7 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
         const data = await res.json().catch(() => ({}));
         setEmailSent(data.emailSent !== false);
         setSent(true);
+        track("message_sent", { listing_id: propertyId, ...trackParams });
       } else {
         const data = await res.json().catch(() => ({}));
         setError(data.error || t("errorRetry"));
@@ -62,7 +65,7 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
           )}
         </div>
         {ownerPhone && (
-          <a href={`tel:${ownerPhone}`} className="btn-primary mt-2">
+          <a href={`tel:${ownerPhone}`} onClick={() => track("call_click", { listing_id: propertyId, ...trackParams, placement: "contact_form" })} className="btn-primary mt-2">
             {ownerPhone}
           </a>
         )}
@@ -83,6 +86,7 @@ export default function ContactForm({ propertyId, ownerPhone }: ContactFormProps
         {ownerPhone && (
           <a
             href={`https://wa.me/${normalizePhone(ownerPhone).replace(/\D/g, "")}`}
+            onClick={() => track("whatsapp_click", { listing_id: propertyId, ...trackParams, placement: "contact_form" })}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] py-2.5 text-sm font-semibold text-white transition hover:bg-[#1ebe5d] active:scale-[.98]"

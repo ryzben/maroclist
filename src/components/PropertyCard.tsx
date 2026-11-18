@@ -1,14 +1,18 @@
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { MapPin, BedDouble, Bath, Maximize2 } from "lucide-react";
+import { MapPin, BedDouble, Bath, Maximize2, BadgeCheck } from "lucide-react";
 import { Property } from "@/types/property";
 import { formatPrice, timeAgo, madToUsd } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { imgCard } from "@/lib/imageUrl";
+import { listingTitle, formatLocation } from "@/lib/listingTitle";
+import { isWithinDays } from "@/lib/inventory";
 
 interface PropertyCardProps {
   property: Property;
+  /** Hide the posted date once the listing is older than this many days */
+  hideDateAfterDays?: number;
 }
 
 const TRANSACTION_COLORS = {
@@ -23,40 +27,14 @@ const TRANSACTION_LABELS: Record<string, string> = {
   holiday_rental: "hero.forHoliday",
 };
 
-function generateTitle(property: Property, locale: string, t: ReturnType<typeof useTranslations>): string {
-  const typeLabel = t(`property.types.${property.property_type}`);
-  const cityLabel = t(`cities.${property.city}`);
-  if (locale === "ar") {
-    return property.bedrooms
-      ? `${typeLabel} ${property.bedrooms} غرف في ${cityLabel}`
-      : `${typeLabel} في ${cityLabel}`;
-  }
-  if (locale === "en") {
-    return property.bedrooms
-      ? `${property.bedrooms}-bed ${typeLabel} in ${cityLabel}`
-      : `${typeLabel} in ${cityLabel}`;
-  }
-  return property.bedrooms
-    ? `${typeLabel} ${property.bedrooms} chambres à ${cityLabel}`
-    : `${typeLabel} à ${cityLabel}`;
-}
-
-function needsAutoTitle(title: string): boolean {
-  // Auto-generate if title is very short OR contains no French/Arabic chars (likely English)
-  if (title.length < 15) return true;
-  const hasFrenchOrArabic = /[àâäéèêëïîôùûüçضصثقفغعهخحجدذرزسشيبلاتنمكطئءؤرىةو]/i.test(title);
-  const startsWithLatinOnly = /^[A-Za-z0-9]/.test(title) && !hasFrenchOrArabic;
-  return startsWithLatinOnly;
-}
-
-export default function PropertyCard({ property }: PropertyCardProps) {
+export default function PropertyCard({ property, hideDateAfterDays }: PropertyCardProps) {
   const t = useTranslations();
   const locale = useLocale();
 
-  const storedTitle = locale === "ar" && property.title_ar ? property.title_ar : property.title;
-  const title = needsAutoTitle(storedTitle) ? generateTitle(property, locale, t) : storedTitle;
-  const cityLabel = t(`cities.${property.city}`);
+  const title = listingTitle(property, locale);
+  const location = formatLocation(property, locale);
   const mainImage = property.images?.[0] ? imgCard(property.images[0]) : null;
+  const showDate = hideDateAfterDays == null || isWithinDays(property.created_at, hideDateAfterDays);
 
   return (
     <Link href={`/listings/${property.id}`} className="group block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover">
@@ -88,6 +66,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           <span className={cn("badge text-xs shadow-sm", TRANSACTION_COLORS[property.transaction_type])}>
             {t(TRANSACTION_LABELS[property.transaction_type])}
           </span>
+          {property.is_verified_partner && (
+            <span className="badge inline-flex items-center gap-1 bg-emerald-600 text-white shadow-sm">
+              <BadgeCheck className="h-3 w-3" />
+              {t("property.verifiedPartner")}
+            </span>
+          )}
           {property.is_featured && (
             <span className="badge bg-amber-400 text-amber-900 shadow-sm">
               ★ {t("common.featured")}
@@ -136,12 +120,15 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         <h3 className="mt-1.5 line-clamp-2 text-sm font-semibold leading-snug text-gray-800 transition-colors group-hover:text-orange-600">
           {title}
         </h3>
+        {property.highlight && (
+          <p dir="auto" className="mt-0.5 truncate text-xs font-medium text-orange-700">{property.highlight}</p>
+        )}
 
         {/* Location */}
         <div className="mt-2 flex items-center gap-1 text-xs text-gray-400">
           <MapPin className="h-3.5 w-3.5 shrink-0 text-gray-300" />
           <span className="truncate">
-            {cityLabel}{property.neighborhood ? `, ${property.neighborhood}` : ""}
+            {location}
           </span>
         </div>
 
@@ -166,9 +153,11 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 {property.area_sqm} m²
               </span>
             ) : null}
-            <span className="ms-auto text-xs text-gray-300">
-              {timeAgo(property.created_at, locale)}
-            </span>
+            {showDate && (
+              <span className="ms-auto text-xs text-gray-300">
+                {timeAgo(property.created_at, locale)}
+              </span>
+            )}
           </div>
         )}
       </div>

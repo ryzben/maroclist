@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { listingTitle } from "@/lib/listingTitle";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
-import { PlusCircle, Pencil, Trash2, Eye, MapPin, BedDouble, Bath, Maximize2 } from "lucide-react";
+import { PlusCircle, Pencil, Trash2, Eye, MapPin, BedDouble, Bath, Maximize2, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
@@ -76,7 +77,7 @@ export default function MyListingsPage() {
         ) : (
           <div className="space-y-4">
             {listings.map((listing) => {
-              const title = locale === "ar" && listing.title_ar ? listing.title_ar : listing.title;
+              const title = listingTitle(listing, locale);
               const mainImage = listing.images?.[0];
               return (
                 <div key={listing.id} className="flex gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md">
@@ -122,7 +123,15 @@ export default function MyListingsPage() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-400">{timeAgo(listing.created_at, locale)}</span>
+                      <span className="flex flex-wrap items-center gap-x-2 text-xs text-gray-400">
+                        {timeAgo(listing.created_at, locale)}
+                        {listing.updated_by && listing.updated_by !== listing.user_id && (
+                          <span className="inline-flex items-center gap-1 font-medium text-amber-700" title={new Date(listing.updated_at).toLocaleString(locale)}>
+                            <ShieldCheck className="h-3.5 w-3.5" />
+                            {t("nav.editedByMaroclist")}
+                          </span>
+                        )}
+                      </span>
                       <div className="flex items-center gap-2">
                         <span className={`badge text-xs ${listing.is_active ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
                           {listing.is_active ? t("nav.active") : t("nav.inactive")}

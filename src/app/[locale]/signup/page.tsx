@@ -1,15 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import CaptchaWidget, { useCaptcha } from "@/components/Captcha";
 import { supabase } from "@/lib/supabase";
 import { safeNext } from "@/lib/utils";
+import { completePendingSave, pendingSaveQuery } from "@/lib/pendingSave";
+import { track } from "@/lib/analytics";
 
+// useSearchParams() needs a Suspense boundary now that the locale layout renders statically
 export default function SignupPage() {
+  return (
+    <Suspense>
+      <SignupPageInner />
+    </Suspense>
+  );
+}
+
+function SignupPageInner() {
   const t = useTranslations("auth");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -17,11 +29,16 @@ export default function SignupPage() {
   const [form, setForm] = useState({ fullName: "", email: "", password: "", confirm: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const captcha = useCaptcha();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (form.password !== form.confirm) {
       setError(t("passwordMismatch"));
+      return;
+    }
+    if (!captcha.ready) {
+      setError(captcha.requiredMessage);
       return;
     }
     setLoading(true);
@@ -32,13 +49,17 @@ export default function SignupPage() {
       password: form.password,
       options: {
         data: { full_name: form.fullName },
+        ...captcha.options,
       },
     });
 
     if (signUpError) {
-      setError(signUpError.message);
+      setError(captcha.errorMessage(signUpError));
       setLoading(false);
     } else {
+      track("sign_up", { method: "email" });
+      // Only saves when signup returns a session (i.e. email confirmation is off); otherwise a no-op
+      await completePendingSave(supabase, searchParams);
       router.push(next ?? "/");
     }
   }
@@ -102,6 +123,8 @@ export default function SignupPage() {
               />
             </div>
 
+            <CaptchaWidget captcha={captcha} />
+
             {error && (
               <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>
             )}
@@ -114,7 +137,7 @@ export default function SignupPage() {
 
           <p className="mt-4 text-center text-sm text-gray-600">
             {t("hasAccount")}{" "}
-            <Link href={next ? `/login?next=${encodeURIComponent(next)}` : "/login"} className="font-medium text-brand-600 hover:text-brand-700">
+            <Link href={next ? `/login?next=${encodeURIComponent(next)}${pendingSaveQuery(searchParams)}` : "/login"} className="font-medium text-brand-600 hover:text-brand-700">
               {t("login")}
             </Link>
           </p>

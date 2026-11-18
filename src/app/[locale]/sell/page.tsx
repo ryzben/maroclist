@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { ArrowRight, CheckCircle, PlusCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import TrackEvent from "@/components/TrackEvent";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -21,6 +22,7 @@ export async function generateMetadata({
 
 function HeroSection() {
   const t = useTranslations("sell");
+  const tq = useTranslations("quickPost");
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 text-white">
       {/* Zellige pattern */}
@@ -51,6 +53,12 @@ function HeroSection() {
           >
             <PlusCircle className="h-5 w-5" />
             {t("cta")}
+          </Link>
+          <Link
+            href="/post/quick"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-8 py-4 text-base font-bold text-white backdrop-blur-sm transition hover:bg-white/20"
+          >
+            {tq("cta")}
           </Link>
         </div>
         {/* Free reassurance */}
@@ -175,6 +183,7 @@ function FinalCTASection() {
 export default function SellPage() {
   return (
     <>
+      <TrackEvent event="view_seller_landing" />
       <Navbar />
       <main>
         <HeroSection />

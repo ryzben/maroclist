@@ -1,15 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import CaptchaWidget, { useCaptcha } from "@/components/Captcha";
 import { supabase } from "@/lib/supabase";
 import { safeNext } from "@/lib/utils";
+import { completePendingSave, pendingSaveQuery } from "@/lib/pendingSave";
 
+// useSearchParams() needs a Suspense boundary now that the locale layout renders statically
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginPageInner />
+    </Suspense>
+  );
+}
+
+function LoginPageInner() {
   const t = useTranslations("auth");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -18,17 +29,23 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const captcha = useCaptcha();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!captcha.ready) {
+      setError(captcha.requiredMessage);
+      return;
+    }
     setLoading(true);
     setError("");
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email, password, options: captcha.options });
     if (error) {
-      setError(error.message);
+      setError(captcha.errorMessage(error));
       setLoading(false);
     } else {
+      await completePendingSave(supabase, searchParams);
       router.push(next ?? "/my-listings");
     }
   }
@@ -74,6 +91,8 @@ export default function LoginPage() {
               />
             </div>
 
+            <CaptchaWidget captcha={captcha} />
+
             {error && (
               <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>
             )}
@@ -86,7 +105,7 @@ export default function LoginPage() {
 
           <p className="mt-4 text-center text-sm text-gray-600">
             {t("noAccount")}{" "}
-            <Link href={next ? `/signup?next=${encodeURIComponent(next)}` : "/signup"} className="font-medium text-brand-600 hover:text-brand-700">
+            <Link href={next ? `/signup?next=${encodeURIComponent(next)}${pendingSaveQuery(searchParams)}` : "/signup"} className="font-medium text-brand-600 hover:text-brand-700">
               {t("signup")}
             </Link>
           </p>

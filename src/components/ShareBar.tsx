@@ -3,17 +3,23 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link2, Check } from "lucide-react";
+import { track, type AnalyticsParams } from "@/lib/analytics";
 
 interface ShareBarProps {
   title: string;
   url: string;
+  priceText?: string;
+  location?: string;
+  trackParams?: AnalyticsParams;
 }
 
-export default function ShareBar({ title, url }: ShareBarProps) {
+export default function ShareBar({ title, url, priceText, location, trackParams }: ShareBarProps) {
   const t = useTranslations("property");
   const [copied, setCopied] = useState(false);
 
-  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${t("shareText")}\n${title}\n${url}`)}`;
+  // WhatsApp shows the og:image preview from the URL; the text carries the essentials for people who don't tap
+  const lines = [t("shareText"), `🏠 ${title}`, priceText && `💰 ${priceText}`, location && `📍 ${location}`, url];
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(lines.filter(Boolean).join("\n"))}`;
 
   async function copyLink() {
     await navigator.clipboard.writeText(url);
@@ -25,6 +31,7 @@ export default function ShareBar({ title, url }: ShareBarProps) {
     <div className="flex items-center gap-2">
       <a
         href={whatsappUrl}
+        onClick={() => track("share_whatsapp", { ...trackParams, placement: "listing" })}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center gap-1.5 rounded-lg bg-[#25D366] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#1fba59]"

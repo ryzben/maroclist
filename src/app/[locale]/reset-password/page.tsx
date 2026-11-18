@@ -6,9 +6,11 @@ import { useRouter } from "@/i18n/navigation";
 import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
+import { authErrorKey } from "@/lib/authErrors";
 
 export default function ResetPasswordPage() {
   const t = useTranslations("auth");
+  const tErr = useTranslations("authErrors");
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -26,7 +28,7 @@ export default function ResetPasswordPage() {
 
     const { error } = await supabase.auth.updateUser({ password });
     if (error) {
-      setError(error.message);
+      setError(tErr(authErrorKey(error)));
       setLoading(false);
     } else {
       router.push("/");

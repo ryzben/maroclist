@@ -8,10 +8,13 @@ import SearchFilter from "@/components/SearchFilter";
 import SortSelect from "@/components/SortSelect";
 import CityEmptyState from "@/components/CityEmptyState";
 import FavouriteButton from "@/components/FavouriteButton";
+import AlertSignup from "@/components/AlertSignup";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { PropertyFilters, City, PropertyType, TransactionType } from "@/types/property";
 import { CITY_DATA, type CityKey } from "@/lib/cityData";
 import type { Metadata } from "next";
+import { localeAlternates, cityPagePath, isCityPageCity } from "@/lib/seo";
+import { priceFilterBounds } from "@/lib/priceRange";
 
 export async function generateMetadata({
   params,
@@ -34,14 +37,11 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: {
-      canonical: `https://maroclist.com/${locale}/listings${city ? `?city=${city}` : ""}`,
-      languages: {
-        en: `https://maroclist.com/en/listings${city ? `?city=${city}` : ""}`,
-        fr: `https://maroclist.com/fr/listings${city ? `?city=${city}` : ""}`,
-        ar: `https://maroclist.com/ar/listings${city ? `?city=${city}` : ""}`,
-      },
-    },
+    // Filtered result pages canonicalise to the matching static city page; everything else to /listings
+    alternates:
+      city && isCityPageCity(city) && (sp.transaction_type === "sale" || sp.transaction_type === "rent")
+        ? localeAlternates(locale, (l) => cityPagePath(l, sp.transaction_type as "sale" | "rent", city))
+        : localeAlternates(locale, () => `/listings${city ? `?city=${city}` : ""}`),
   };
 }
 
@@ -93,12 +93,16 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
   const page = Math.max(1, Number(sp.page) || 1);
   const sort = sp.sort || "newest";
 
+  // min > max can never match: drop both bounds and say so, rather than show a silent "no results"
+  const price = priceFilterBounds(sp.price_min, sp.price_max);
+  const priceInvalid = price.invalid;
+
   const filters: PropertyFilters = {
     city: (sp.city as City) || "",
     property_type: (sp.property_type as PropertyType) || "",
     transaction_type: (sp.transaction_type as TransactionType) || "",
-    price_min: sp.price_min ? Number(sp.price_min) : undefined,
-    price_max: sp.price_max ? Number(sp.price_max) : undefined,
+    price_min: price.min,
+    price_max: price.max,
     bedrooms: sp.bedrooms ? Number(sp.bedrooms) : undefined,
     search: sp.search || "",
   };
@@ -146,12 +150,18 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Navbar />
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex gap-8">
+        {/* Mobile: Filter button above full-width results. Desktop (lg+): sidebar beside results. */}
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
           <Suspense>
             <SearchFilter filters={filters} total={total} />
           </Suspense>
 
-          <div className="flex-1 min-w-0">
+          <div className="w-full flex-1 min-w-0">
+            {priceInvalid && (
+              <p role="alert" className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">
+                {t("filter.priceRangeError")}
+              </p>
+            )}
             {/* Header row: count + sort */}
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-gray-500">
@@ -184,11 +194,6 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
                         marketTitle: t("cityEmpty.marketTitle", { city: cityLabel }),
                         pricesTitle: t("cityEmpty.pricesTitle"),
                         neighborhoodsTitle: t("cityEmpty.neighborhoodsTitle"),
-                        alertTitle: t("cityEmpty.alertTitle"),
-                        alertDesc: t("cityEmpty.alertDesc", { city: cityLabel }),
-                        alertPlaceholder: t("cityEmpty.alertPlaceholder"),
-                        alertSubmit: t("cityEmpty.alertSubmit"),
-                        alertSuccess: t("cityEmpty.alertSuccess"),
                       }}
                     />
                   );
@@ -200,6 +205,14 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
                 </svg>
                 <h3 className="mt-4 font-semibold text-gray-900">{t("property.noResults")}</h3>
                 <p className="mt-1 text-sm text-gray-500">{t("property.noResultsDesc")}</p>
+                <AlertSignup
+                  city={filters.city}
+                  propertyType={filters.property_type}
+                  transactionType={filters.transaction_type}
+                  budgetMax={filters.price_max}
+                  source="listings_empty"
+                  className="mt-8 w-full max-w-2xl text-start"
+                />
               </div>)
             ) : (
               <>
@@ -262,6 +275,18 @@ export default async function ListingsPage({ params, searchParams }: ListingsPag
                       </Link>
                     )}
                   </div>
+                )}
+
+                {/* Thin inventory: capture the buyer instead of losing them */}
+                {page === totalPages && (
+                  <AlertSignup
+                    city={filters.city}
+                    propertyType={filters.property_type}
+                    transactionType={filters.transaction_type}
+                    budgetMax={filters.price_max}
+                    source="listings_end"
+                    className="mt-10"
+                  />
                 )}
               </>
             )}

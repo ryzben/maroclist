@@ -13,8 +13,10 @@
     "view": "Voir",
     "edit": "Modifier",
     "delete": "Supprimer",
-    "listingCount": "{count} annonce(s)",
-    "favourites": "Favoris"
+    "listingCount": "{count, plural, one {# annonce} other {# annonces}}",
+    "favourites": "Favoris",
+    "editedByMaroclist": "Modifié par Maroclist",
+    "menu": "Menu"
   },
   "hero": {
     "title": "Achetez un bien au Maroc",
@@ -67,7 +69,8 @@
     "shareWhatsApp": "Partager sur WhatsApp",
     "copyLink": "Copier le lien",
     "linkCopied": "Copié !",
-    "shareText": "Découvrez ce bien sur Maroclist :"
+    "shareText": "Découvrez ce bien sur Maroclist :",
+    "verifiedPartner": "Partenaire vérifié"
   },
   "filter": {
     "title": "Filtrer",
@@ -85,10 +88,11 @@
     "anyPrice": "Tous les prix",
     "apply": "Appliquer",
     "reset": "Réinitialiser",
-    "results": "{count} annonces",
+    "results": "{count, plural, one {# annonce} other {# annonces}}",
     "sortNewest": "Plus récent",
     "sortPriceAsc": "Prix croissant",
-    "sortPriceDesc": "Prix décroissant"
+    "sortPriceDesc": "Prix décroissant",
+    "priceRangeError": "Le prix maximum doit être supérieur au prix minimum"
   },
   "post": {
     "title": "Déposer une annonce",
@@ -117,7 +121,8 @@
     "basicInfo": "Informations principales",
     "addPhotos": "Cliquez pour ajouter des photos",
     "video": "Vidéo",
-    "videoDesc": "Ajoutez un lien YouTube pour une visite virtuelle (optionnel)."
+    "videoDesc": "Ajoutez un lien YouTube pour une visite virtuelle (optionnel).",
+    "contactSection": "Contact"
   },
   "contact": {
     "title": "Contacter le propriétaire",
@@ -157,6 +162,22 @@
     "newPassword": "Nouveau mot de passe",
     "resetPassword": "Réinitialiser",
     "passwordMismatch": "Les mots de passe ne correspondent pas."
+  },
+  "captcha": {
+    "label": "Vérification de sécurité",
+    "required": "Veuillez compléter la vérification de sécurité ci-dessus.",
+    "loadFailed": "La vérification de sécurité ne s’est pas chargée. Actualisez la page ou désactivez votre bloqueur de publicités."
+  },
+  "authErrors": {
+    "invalidCredentials": "E-mail ou mot de passe incorrect.",
+    "emailNotConfirmed": "Veuillez d’abord confirmer votre e-mail : vérifiez votre boîte de réception.",
+    "userExists": "Un compte existe déjà avec cet e-mail. Connectez-vous plutôt.",
+    "weakPassword": "Ce mot de passe est trop faible. Utilisez au moins 8 caractères avec des lettres et des chiffres.",
+    "samePassword": "Choisissez un nouveau mot de passe différent de l’ancien.",
+    "rateLimit": "Trop de tentatives. Patientez une minute puis réessayez.",
+    "resetLinkInvalid": "Ce lien de réinitialisation est invalide ou a expiré. Demandez-en un nouveau.",
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "captchaFailed": "La vérification de sécurité a échoué ou a expiré. Réessayez."
   },
   "cities": {
     "casablanca": "Casablanca",
@@ -242,7 +263,11 @@
     "featured": "À la une",
     "new": "Nouveau",
     "mad": "MAD",
-    "sqm": "m²"
+    "sqm": "m²",
+    "breadcrumb": "Fil d’Ariane",
+    "videoTitle": "Vidéo du bien",
+    "mapTitle": "Carte de l’emplacement",
+    "removePhoto": "Retirer la photo"
   },
   "sell": {
     "heroLabel": "Pour les vendeurs et propriétaires",
@@ -288,7 +313,7 @@
     "diasporaPoint3": "Pas besoin de voyager pour commencer",
     "quickSearch": "Recherches populaires",
     "heroMsg": "Maroclist vous permet de rechercher, comparer et contacter des propriétaires au Maroc. Même depuis l'étranger. Notre plateforme est conçue pour aider les acheteurs internationaux à investir en toute confiance.",
-    "cityListings": "annonces",
+    "cityListings": "{count, plural, one {annonce} other {annonces}}",
     "searchCity": "Ville",
     "searchType": "Type de bien",
     "searchMaxPrice": "Budget max",
@@ -320,7 +345,7 @@
     "featuredTitle": "⭐ Annonces à la une",
     "recentLabel": "Récent",
     "recentTitle": "Dernières annonces",
-    "counter": "annonces disponibles au Maroc",
+    "counter": "{count, plural, one {annonce disponible au Maroc} other {annonces disponibles au Maroc}}",
     "trust1Title": "Publication gratuite",
     "trust1Desc": "Sans abonnement ni commission, jamais",
     "trust2Title": "Annonces vérifiées",
@@ -330,7 +355,8 @@
     "trust4Title": "Diaspora MRE",
     "trust4Desc": "Conçu pour les Marocains aux USA, Canada et Europe",
     "trust5Title": "Prix en USD",
-    "trust5Desc": "Tous les prix affichés en MAD et en dollars américains"
+    "trust5Desc": "Tous les prix affichés en MAD et en dollars américains",
+    "newThisWeek": "{count, plural, one {# nouvelle cette semaine} other {# nouvelles cette semaine}}"
   },
   "agences": {
     "heroLabel": "Pour les agences immobilières",
@@ -364,10 +390,12 @@
   },
   "favourites": {
     "title": "Mes favoris",
-    "count": "{count} annonce(s) sauvegardée(s)",
+    "count": "{count, plural, one {# annonce sauvegardée} other {# annonces sauvegardées}}",
     "empty": "Aucun favori pour l'instant",
     "emptyDesc": "Cliquez sur le ♡ sur une annonce pour la sauvegarder ici.",
-    "browseCta": "Parcourir les annonces"
+    "browseCta": "Parcourir les annonces",
+    "save": "Enregistrer l'annonce",
+    "remove": "Retirer des favoris"
   },
   "wizard": {
     "step1Title": "Que souhaitez-vous publier ?",
@@ -401,7 +429,7 @@
     "photoLimit": "Maximum {max} photos",
     "photoTypeError": "Format non supporté. Utilisez JPEG, PNG ou WebP.",
     "photoSizeError": "Fichier trop volumineux. Maximum 10 Mo.",
-    "continueWithPhotos": "Continuer avec {count} photo(s)",
+    "continueWithPhotos": "{count, plural, one {Continuer avec # photo} other {Continuer avec # photos}}",
     "addAtLeastOne": "Ajoutez au moins 1 photo",
     "phonePlaceholder": "6XX XXX XXX",
     "phoneRequired": "Entrez votre numéro WhatsApp",
@@ -418,7 +446,14 @@
     "addDetailsDesc": "Ajoutez la surface, les chambres, la description et plus de photos pour attirer davantage d'acheteurs.",
     "addDetailsCta": "Compléter l'annonce →",
     "viewListing": "Voir votre annonce",
-    "backToHome": "Retour à l'accueil"
+    "backToHome": "Retour à l'accueil",
+    "neighborhoodIsCity": "« {name} » est une ville, pas un quartier. Saisissez le quartier, ou revenez en arrière pour changer de ville.",
+    "neighborhoodOtherCity": "Ce quartier se trouve à {city}. Revenez en arrière pour changer de ville, ou saisissez un autre quartier.",
+    "suggestedTitle": "Titre de votre annonce",
+    "suggestedTitleHint": "Généré automatiquement à partir du type, du quartier et de la ville — traduit pour chaque langue.",
+    "highlightLabel": "Point fort (facultatif)",
+    "highlightPlaceholder": "Ex. : Vue mer, à 5 min de la plage",
+    "highlightHint": "Une courte phrase affichée sous le titre — 60 caractères max."
   },
   "cityEmpty": {
     "title": "Immobilier à {city} — Aucune annonce pour le moment",
@@ -427,12 +462,7 @@
     "browseCta": "Voir toutes les annonces",
     "marketTitle": "À propos du marché immobilier à {city}",
     "pricesTitle": "Prix indicatifs au m²",
-    "neighborhoodsTitle": "Quartiers populaires",
-    "alertTitle": "Recevoir une alerte",
-    "alertDesc": "Soyez notifié dès qu'une annonce est publiée à {city}.",
-    "alertPlaceholder": "Votre email",
-    "alertSubmit": "Me prévenir",
-    "alertSuccess": "Vous serez prévenu dès qu'une annonce est disponible !"
+    "neighborhoodsTitle": "Quartiers populaires"
   },
   "listings": {
     "metaTitle": "Immobilier à {city} — Annonces au Maroc | Maroclist",
@@ -443,5 +473,116 @@
     "activeListings": "Annonces actives",
     "viewProfile": "Voir le profil du vendeur",
     "notFound": "Vendeur introuvable"
+  },
+  "cityPage": {
+    "filterCta": "Filtrer ces annonces",
+    "rentIn": "Louer à {city}",
+    "buyIn": "Acheter à {city}",
+    "seeAll": "{count, plural, one {Voir l'annonce} other {Voir les # annonces}}",
+    "otherCities": "Autres villes"
+  },
+  "admin": {
+    "title": "Import groupé d'annonces",
+    "subtitle": "Intégrez toutes les annonces d'une agence en une fois. Chaque ligne est vérifiée avant publication.",
+    "notAdmin": "Cette page est réservée aux administrateurs Maroclist.",
+    "partnerSection": "Agence partenaire",
+    "partnerName": "Nom de l'agence",
+    "partnerPhone": "Numéro WhatsApp par défaut (si la ligne n'en a pas)",
+    "verified": "Afficher le badge « Partenaire vérifié » sur ces annonces",
+    "tabCsv": "CSV",
+    "tabForm": "Formulaire",
+    "csvHelp": "Collez un CSV ou importez un fichier (virgule ou point-virgule). Colonnes requises : property_type, transaction_type, city, price. Séparez plusieurs URL d'images par |. Les valeurs en français ou en arabe (appartement, vente, الدار البيضاء…) sont acceptées.",
+    "downloadTemplate": "Télécharger le modèle",
+    "uploadCsv": "Importer un CSV",
+    "csvEmpty": "Aucune ligne trouvée.",
+    "headerError": "Colonnes manquantes : {cols}",
+    "parse": "Vérifier les lignes",
+    "imageUrls": "URL des images (séparées par |)",
+    "addRow": "Ajouter à la liste",
+    "rowsSummary": "{valid} prêtes · {invalid} avec erreurs",
+    "resultSummary": "{ok} publiées, {failed} en échec",
+    "clear": "Vider",
+    "import": "{count, plural, one {Publier # annonce} other {Publier # annonces}}",
+    "importing": "Publication {done}/{total}…",
+    "photos": "{count, plural, one {# photo} other {# photos}}",
+    "view": "Voir",
+    "failed": "Échec",
+    "imagesSkipped": "{count, plural, one {# image n'a pas pu être téléchargée} other {# images n'ont pas pu être téléchargées}}",
+    "alertsTitle": "Alertes acheteurs",
+    "alertsSubtitle": "{count, plural, one {# alerte active} other {# alertes actives}}",
+    "demand": "Demande par ville",
+    "whatsappQueue": "Abonnés WhatsApp avec nouvelles annonces ({count})",
+    "noMatches": "Aucun abonné WhatsApp n'a de nouvelle annonce pour le moment.",
+    "matches": "{count, plural, one {# nouvelle annonce} other {# nouvelles annonces}}",
+    "sendWhatsApp": "Envoyer sur WhatsApp",
+    "markSent": "Marquer comme envoyé",
+    "featuredLabel": "Admin · Mise en avant",
+    "featuredOn": "À la une",
+    "featuredOff": "Mettre à la une",
+    "featuredError": "Échec de l'enregistrement"
+  },
+  "quickPost": {
+    "title": "Publiez votre bien en 1 minute",
+    "subtitle": "Juste votre numéro WhatsApp, la ville, le prix et quelques photos. Vous pourrez compléter plus tard.",
+    "phone": "Votre numéro WhatsApp",
+    "chooseCity": "Choisir une ville",
+    "price": "Prix",
+    "photos": "Photos (au moins 1)",
+    "optional": "Facultatif — modifiez si besoin",
+    "missing": "Ajoutez votre numéro, la ville, le prix et au moins une photo.",
+    "submit": "Publier gratuitement",
+    "fullFormHint": "Vous voulez ajouter plus de détails ?",
+    "fullFormLink": "Formulaire complet",
+    "cta": "Annonce express (1 min)"
+  },
+  "alerts": {
+    "title": "Alertez-moi des nouvelles annonces",
+    "desc": "De nouveaux biens arrivent chaque semaine. Dites-nous ce que vous cherchez, nous vous prévenons dès qu'une annonce correspond.",
+    "anyCity": "Toutes les villes",
+    "buyOrRent": "Achat ou location",
+    "buy": "Acheter",
+    "rent": "Louer",
+    "anyType": "Tous types",
+    "budget": "Budget max (MAD)",
+    "email": "Email",
+    "emailPlaceholder": "vous@exemple.com",
+    "whatsappPlaceholder": "06 12 34 56 78",
+    "submit": "Créer mon alerte",
+    "success": "C'est noté ! Nous vous prévenons dès qu'une annonce correspond.",
+    "consent": "Gratuit. Désabonnement à tout moment.",
+    "error": "Une erreur est survenue — veuillez réessayer.",
+    "invalidContact": "Saisissez un email ou un numéro WhatsApp valide.",
+    "unsubscribedTitle": "Vous êtes désabonné",
+    "unsubscribedDesc": "Vous ne recevrez plus cette alerte.",
+    "unsubscribeInvalid": "Ce lien est invalide ou a déjà été utilisé.",
+    "browse": "Voir les annonces"
+  },
+  "sellerHero": {
+    "headline": "Vendez votre bien aux Marocains du monde — gratuitement",
+    "sub": "Publiez votre appartement, villa, riad ou terrain en 3 minutes. Des acheteurs MRE aux USA, au Canada et en Europe vous contactent directement sur WhatsApp. Zéro commission.",
+    "cta": "Publier mon annonce gratuite",
+    "whatsapp": "Envoyer par WhatsApp",
+    "whatsappMessage": "Salam, je veux publier mon bien sur Maroclist",
+    "trust": "✓ 100 % gratuit · ✓ Sans intermédiaire · ✓ Prix affichés en DH et en dollars"
+  },
+  "cookies": {
+    "title": "Vos choix sur les cookies",
+    "body": "Avec votre accord, nous utilisons des cookies de mesure d’audience et publicitaires pour savoir quelles campagnes vous ont amené ici et améliorer le site. Vous pouvez refuser : le site fonctionne de la même façon.",
+    "learnMore": "Politique de confidentialité",
+    "accept": "Tout accepter",
+    "refuse": "Tout refuser",
+    "customize": "Personnaliser",
+    "save": "Enregistrer mes choix",
+    "essential": "Nécessaires",
+    "essentialDesc": "Connexion à votre compte, langue, mémorisation de ce choix.",
+    "alwaysOn": "Toujours actifs",
+    "analytics": "Mesure d’audience",
+    "analyticsDesc": "Statistiques de visite (Google Analytics) pour comprendre comment le site est utilisé.",
+    "ads": "Publicité",
+    "adsDesc": "Mesure de l’efficacité de nos publicités (Google Ads, Meta) et publicités personnalisées.",
+    "settings": "Paramètres des cookies"
+  },
+  "footer": {
+    "credit": "Plateforme développée par Xenova Studio · RFALA Groupe"
   }
 }

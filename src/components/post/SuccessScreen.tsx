@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { CheckCircle, Share2, Pencil, Eye } from "lucide-react";
+import { track } from "@/lib/analytics";
 
 interface SuccessScreenProps {
   listingId: string;
@@ -15,6 +16,7 @@ export default function SuccessScreen({ listingId }: SuccessScreenProps) {
   const listingUrl = `https://maroclist.com/${locale}/listings/${listingId}`;
 
   function shareWhatsApp() {
+    track("share_whatsapp", { listing_id: listingId, placement: "post_success" });
     const text = encodeURIComponent(`${t("wizard.shareText")} ${listingUrl}`);
     window.open(`https://wa.me/?text=${text}`, "_blank");
   }

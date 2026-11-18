@@ -1,11 +1,16 @@
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
-import { MapPin, BedDouble, Bath, Maximize2, Layers, Calendar, ShieldCheck, User, Tag, ArrowRight } from "lucide-react";
+import { MapPin, BedDouble, Bath, Maximize2, Layers, Calendar, ShieldCheck, User, Tag, ArrowRight, BadgeCheck } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import ShareBar from "@/components/ShareBar";
+import AlertSignup from "@/components/AlertSignup";
+import TrackEvent from "@/components/TrackEvent";
+import { listingParams } from "@/lib/analytics";
 import PhoneReveal from "@/components/PhoneReveal";
 import FavouriteButton from "@/components/FavouriteButton";
+import FeaturedToggle from "@/components/FeaturedToggle";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
@@ -13,13 +18,17 @@ import ImageLightbox from "@/components/ImageLightbox";
 import PropertyCard from "@/components/PropertyCard";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { formatPrice, formatArea, timeAgo, madToUsd } from "@/lib/utils";
+import { listingTitle, formatLocation, cleanNeighborhood } from "@/lib/listingTitle";
+import { listingMetaDescription, listingJsonLd, priceLine } from "@/lib/listingMeta";
+import { SITE_URL, OG_LOCALE, asLocale, localeAlternates, jsonLdHtml } from "@/lib/seo";
 import type { Metadata } from "next";
 
 interface PropertyDetailPageProps {
   params: Promise<{ id: string; locale: string }>;
 }
 
-async function getProperty(id: string) {
+// cache(): generateMetadata and the page share one query per request
+const getProperty = cache(async function getProperty(id: string) {
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("properties")
@@ -28,7 +37,7 @@ async function getProperty(id: string) {
     .eq("is_active", true)
     .single();
   return data;
-}
+});
 
 async function getSimilarListings(id: string, city: string, propertyType: string) {
   const supabase = await createSupabaseServerClient();
@@ -65,24 +74,23 @@ export async function generateMetadata({ params }: PropertyDetailPageProps): Pro
   const property = await getProperty(id);
   if (!property) {
     const t = await getTranslations({ locale, namespace: "property" });
-    return { title: t("notFound") };
+    return { title: t("notFound"), robots: { index: false } };
   }
-  const title = locale === "ar" && property.title_ar ? property.title_ar : property.title;
+  const title = listingTitle(property, locale);
+  const description = listingMetaDescription(property, locale);
   return {
     title,
-    description: property.description ?? undefined,
-    alternates: {
-      canonical: `https://maroclist.com/${locale}/listings/${id}`,
-      languages: {
-        en: `https://maroclist.com/en/listings/${id}`,
-        fr: `https://maroclist.com/fr/listings/${id}`,
-        ar: `https://maroclist.com/ar/listings/${id}`,
-      },
-    },
+    description,
+    alternates: localeAlternates(locale, () => `/listings/${id}`),
     openGraph: {
       title,
-      images: property.images?.[0] ? [property.images[0]] : [],
+      description,
+      url: `${SITE_URL}/${locale}/listings/${id}`,
+      type: "website",
+      locale: OG_LOCALE[asLocale(locale)],
+      // images come from ./opengraph-image.tsx (photo + MAD/USD price + city)
     },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
@@ -105,50 +113,37 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
     supabase.from("profiles").select("full_name").eq("id", property.user_id).maybeSingle(),
   ]);
   const isSaved = !!savedRow?.data;
-  const sellerName = sellerRow?.data?.full_name ?? null;
+  // Imported agency listings are owned by the admin account, so show the agency, not the admin's name
+  const sellerName = property.partner_name || sellerRow?.data?.full_name || null;
 
-  const title = locale === "ar" && property.title_ar ? property.title_ar : property.title;
+  const title = listingTitle(property, locale);
   const description =
     locale === "ar" && property.description_ar
       ? property.description_ar
       : property.description;
 
   const cityLabel = t(`cities.${property.city}`);
+  const location = formatLocation(property, locale);
+  const neighborhood = cleanNeighborhood(property);
   const mapQuery = encodeURIComponent(
-    `${property.neighborhood ? property.neighborhood + ", " : ""}${cityLabel}, Maroc`
+    `${neighborhood ? neighborhood + ", " : ""}${formatLocation({ city: property.city }, "fr")}, Maroc`
   );
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "RealEstateListing",
-    name: title,
-    description: description ?? undefined,
-    url: `https://maroclist.com/${locale}/listings/${id}`,
-    image: property.images ?? [],
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: cityLabel,
-      addressCountry: "MA",
-      ...(property.neighborhood ? { streetAddress: property.neighborhood } : {}),
-    },
-    offers: {
-      "@type": "Offer",
-      price: property.price,
-      priceCurrency: property.currency ?? "MAD",
-    },
-    ...(property.area_sqm ? { floorSize: { "@type": "QuantitativeValue", value: property.area_sqm, unitCode: "MTK" } } : {}),
-    ...(property.bedrooms ? { numberOfRooms: property.bedrooms } : {}),
-  };
+  const jsonLd = listingJsonLd(property, locale, property.images ?? []);
+  const trackParams = listingParams(property);
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(jsonLd)} />
+      <TrackEvent event="view_listing" params={trackParams} />
       <Navbar />
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
 
           {/* ── Left column: images + details ── */}
           <div className="lg:col-span-2 space-y-6">
+
+            <FeaturedToggle propertyId={property.id} initialFeatured={property.is_featured} />
 
             {/* Image gallery */}
             {property.images?.length > 0 ? (
@@ -163,7 +158,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
             {property.video_url && getYouTubeEmbedUrl(property.video_url) && (
               <div className="overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
                 <iframe
-                  title="video"
+                  title={t("common.videoTitle")}
                   width="100%"
                   height="360"
                   src={getYouTubeEmbedUrl(property.video_url)!}
@@ -190,7 +185,12 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
               {/* Title */}
               <div className="flex items-start justify-between gap-3">
-                <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">{title}</h1>
+                <div>
+                  <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">{title}</h1>
+                  {property.highlight && (
+                    <p dir="auto" className="mt-1 text-base font-medium text-orange-700">{property.highlight}</p>
+                  )}
+                </div>
                 <FavouriteButton
                   propertyId={id}
                   initialSaved={isSaved}
@@ -201,7 +201,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
               {/* Location */}
               <p className="flex items-center gap-1.5 text-sm text-gray-500">
                 <MapPin className="h-4 w-4 flex-shrink-0 text-orange-400" />
-                {cityLabel}{property.neighborhood ? `, ${property.neighborhood}` : ""}
+                {location}
               </p>
 
               {/* Price block */}
@@ -237,7 +237,10 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
               {/* Share */}
               <ShareBar
                 title={title}
+                priceText={priceLine(property, locale)}
+                location={location}
                 url={`https://maroclist.com/${locale}/listings/${id}`}
+                trackParams={trackParams}
               />
             </div>
 
@@ -300,7 +303,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                 <h2 className="text-sm font-semibold text-gray-900">{t("property.location")}</h2>
               </div>
               <iframe
-                title="map"
+                title={t("common.mapTitle")}
                 width="100%"
                 height="300"
                 loading="lazy"
@@ -324,6 +327,12 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                   <p className="truncate font-semibold text-gray-900">
                     {sellerName ?? t("property.privateSeller")}
                   </p>
+                  {property.is_verified_partner && (
+                    <p className="mt-0.5 inline-flex items-center gap-1 text-xs font-semibold text-emerald-600">
+                      <BadgeCheck className="h-3.5 w-3.5" />
+                      {t("property.verifiedPartner")}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -332,22 +341,26 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                   phone={property.contact_phone}
                   locale={locale}
                   title={title}
+                  trackParams={trackParams}
                 />
               )}
 
-              <Link
-                href={`/profile/${property.user_id}`}
-                className="mt-3 flex items-center gap-1 text-xs font-medium text-orange-500 hover:text-orange-600"
-              >
-                {t("profile.viewProfile")}
-                <ArrowRight className="h-3 w-3" />
-              </Link>
+              {!property.partner_name && (
+                <Link
+                  href={`/profile/${property.user_id}`}
+                  className="mt-3 flex items-center gap-1 text-xs font-medium text-orange-500 hover:text-orange-600"
+                >
+                  {t("profile.viewProfile")}
+                  <ArrowRight className="h-3 w-3" />
+                </Link>
+              )}
             </div>
 
             {/* Contact / message form */}
             <ContactForm
               propertyId={property.id}
               ownerPhone={property.contact_phone}
+              trackParams={trackParams}
             />
 
             {/* Trust notice */}
@@ -357,6 +370,15 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
             </div>
           </div>
         </div>
+
+        <AlertSignup
+          city={property.city}
+          propertyType={property.property_type}
+          transactionType={property.transaction_type}
+          budgetMax={Number(property.price) * 1.2}
+          source="listing"
+          className="mt-12"
+        />
 
         {/* Similar listings */}
         {similar.length > 0 && (

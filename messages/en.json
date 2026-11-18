@@ -13,8 +13,10 @@
     "view": "View",
     "edit": "Edit",
     "delete": "Delete",
-    "listingCount": "{count} listing(s)",
-    "favourites": "Favourites"
+    "listingCount": "{count, plural, one {# listing} other {# listings}}",
+    "favourites": "Favourites",
+    "editedByMaroclist": "Edited by Maroclist",
+    "menu": "Menu"
   },
   "hero": {
     "title": "Buy property in Morocco",
@@ -67,7 +69,8 @@
     "shareWhatsApp": "Share on WhatsApp",
     "copyLink": "Copy link",
     "linkCopied": "Copied!",
-    "shareText": "Check out this property on Maroclist:"
+    "shareText": "Check out this property on Maroclist:",
+    "verifiedPartner": "Verified Partner"
   },
   "filter": {
     "title": "Filter",
@@ -85,10 +88,11 @@
     "anyPrice": "Any price",
     "apply": "Apply",
     "reset": "Reset",
-    "results": "{count} listings",
+    "results": "{count, plural, one {# listing} other {# listings}}",
     "sortNewest": "Newest first",
     "sortPriceAsc": "Price: low to high",
-    "sortPriceDesc": "Price: high to low"
+    "sortPriceDesc": "Price: high to low",
+    "priceRangeError": "The maximum price must be higher than the minimum price"
   },
   "post": {
     "title": "Post a listing",
@@ -117,7 +121,8 @@
     "basicInfo": "Basic information",
     "addPhotos": "Click to add photos",
     "video": "Video",
-    "videoDesc": "Add a YouTube link for a virtual tour (optional)."
+    "videoDesc": "Add a YouTube link for a virtual tour (optional).",
+    "contactSection": "Contact"
   },
   "contact": {
     "title": "Contact the owner",
@@ -157,6 +162,22 @@
     "newPassword": "New password",
     "resetPassword": "Reset password",
     "passwordMismatch": "Passwords do not match."
+  },
+  "captcha": {
+    "label": "Security check",
+    "required": "Please complete the security check above.",
+    "loadFailed": "The security check didn’t load. Refresh the page or turn off your ad blocker."
+  },
+  "authErrors": {
+    "invalidCredentials": "Incorrect email or password.",
+    "emailNotConfirmed": "Please confirm your email first: check your inbox for the confirmation link.",
+    "userExists": "An account already exists with this email. Log in instead.",
+    "weakPassword": "This password is too weak. Use at least 8 characters with letters and numbers.",
+    "samePassword": "Choose a new password that is different from your old one.",
+    "rateLimit": "Too many attempts. Please wait a minute and try again.",
+    "resetLinkInvalid": "This reset link is invalid or has expired. Request a new one.",
+    "generic": "Something went wrong. Please try again.",
+    "captchaFailed": "The security check failed or expired. Please try again."
   },
   "cities": {
     "casablanca": "Casablanca",
@@ -242,7 +263,11 @@
     "featured": "Featured",
     "new": "New",
     "mad": "MAD",
-    "sqm": "m²"
+    "sqm": "m²",
+    "breadcrumb": "Breadcrumb",
+    "videoTitle": "Property video",
+    "mapTitle": "Location map",
+    "removePhoto": "Remove photo"
   },
   "sell": {
     "heroLabel": "For sellers & owners",
@@ -288,7 +313,7 @@
     "diasporaPoint3": "No travel required to get started",
     "quickSearch": "Popular searches",
     "heroMsg": "Maroclist makes it easy to search, compare, and connect with property owners in Morocco. Even if you are abroad. Our platform is designed to help international buyers invest with confidence.",
-    "cityListings": "listings",
+    "cityListings": "{count, plural, one {listing} other {listings}}",
     "searchCity": "City",
     "searchType": "Property type",
     "searchMaxPrice": "Max budget",
@@ -320,7 +345,7 @@
     "featuredTitle": "⭐ Featured listings",
     "recentLabel": "Recent",
     "recentTitle": "Latest listings",
-    "counter": "listings available in Morocco",
+    "counter": "{count, plural, one {listing available in Morocco} other {listings available in Morocco}}",
     "trust1Title": "Free to list",
     "trust1Desc": "No subscription, no commission, ever",
     "trust2Title": "Verified listings",
@@ -330,7 +355,8 @@
     "trust4Title": "MRE Diaspora",
     "trust4Desc": "Built for Moroccans in the US, Canada and Europe",
     "trust5Title": "USD prices",
-    "trust5Desc": "All prices displayed in MAD and US dollars"
+    "trust5Desc": "All prices displayed in MAD and US dollars",
+    "newThisWeek": "{count, plural, one {# new this week} other {# new this week}}"
   },
   "agences": {
     "heroLabel": "For real estate agencies",
@@ -364,10 +390,12 @@
   },
   "favourites": {
     "title": "My favourites",
-    "count": "{count} saved listing(s)",
+    "count": "{count, plural, one {# saved listing} other {# saved listings}}",
     "empty": "No favourites yet",
     "emptyDesc": "Tap the ♡ on any listing to save it here.",
-    "browseCta": "Browse listings"
+    "browseCta": "Browse listings",
+    "save": "Save listing",
+    "remove": "Remove from saved listings"
   },
   "wizard": {
     "step1Title": "What are you listing?",
@@ -401,7 +429,7 @@
     "photoLimit": "Maximum {max} photos",
     "photoTypeError": "Unsupported format. Use JPEG, PNG or WebP.",
     "photoSizeError": "File too large. Maximum 10 MB.",
-    "continueWithPhotos": "Continue with {count} photo(s)",
+    "continueWithPhotos": "{count, plural, one {Continue with # photo} other {Continue with # photos}}",
     "addAtLeastOne": "Add at least 1 photo",
     "phonePlaceholder": "6XX XXX XXX",
     "phoneRequired": "Enter your WhatsApp number",
@@ -418,7 +446,14 @@
     "addDetailsDesc": "Add surface area, bedrooms, description and more photos to attract more buyers.",
     "addDetailsCta": "Complete your listing →",
     "viewListing": "View your listing",
-    "backToHome": "Back to homepage"
+    "backToHome": "Back to homepage",
+    "neighborhoodIsCity": "“{name}” is a city, not a neighborhood. Enter the neighborhood, or go back to change the city.",
+    "neighborhoodOtherCity": "That neighborhood is in {city}. Go back to change the city, or enter a different neighborhood.",
+    "suggestedTitle": "Your listing title",
+    "suggestedTitleHint": "Generated from the type, neighborhood and city — translated for each language.",
+    "highlightLabel": "Highlight (optional)",
+    "highlightPlaceholder": "E.g. Sea view, 5 min from the beach",
+    "highlightHint": "A short line shown under the title — 60 characters max."
   },
   "cityEmpty": {
     "title": "Real estate in {city} — No listings yet",
@@ -427,12 +462,7 @@
     "browseCta": "Browse all listings",
     "marketTitle": "About the {city} real estate market",
     "pricesTitle": "Indicative prices per m²",
-    "neighborhoodsTitle": "Popular neighborhoods",
-    "alertTitle": "Get notified",
-    "alertDesc": "Be the first to know when a listing is posted in {city}.",
-    "alertPlaceholder": "Your email",
-    "alertSubmit": "Notify me",
-    "alertSuccess": "You'll be notified as soon as a listing is available!"
+    "neighborhoodsTitle": "Popular neighborhoods"
   },
   "listings": {
     "metaTitle": "Real estate in {city} — Properties in Morocco | Maroclist",
@@ -443,5 +473,116 @@
     "activeListings": "Active listings",
     "viewProfile": "View seller profile",
     "notFound": "Seller not found"
+  },
+  "cityPage": {
+    "filterCta": "Filter these listings",
+    "rentIn": "Rent in {city}",
+    "buyIn": "Buy in {city}",
+    "seeAll": "{count, plural, one {See the listing} other {See all # listings}}",
+    "otherCities": "Other cities"
+  },
+  "admin": {
+    "title": "Bulk import listings",
+    "subtitle": "Onboard an agency's listings in one go. Every row is checked before anything is published.",
+    "notAdmin": "This page is for Maroclist admins only.",
+    "partnerSection": "Partner agency",
+    "partnerName": "Agency name",
+    "partnerPhone": "Default WhatsApp number (used when a row has none)",
+    "verified": "Show the “Verified Partner” badge on these listings",
+    "tabCsv": "CSV",
+    "tabForm": "Form",
+    "csvHelp": "Paste CSV or upload a file (comma or semicolon). Required columns: property_type, transaction_type, city, price. Separate several image URLs with |. French and Arabic values (appartement, vente, الدار البيضاء…) are accepted.",
+    "downloadTemplate": "Download template",
+    "uploadCsv": "Upload CSV",
+    "csvEmpty": "No rows found.",
+    "headerError": "Missing columns: {cols}",
+    "parse": "Check rows",
+    "imageUrls": "Image URLs (separate with |)",
+    "addRow": "Add to import list",
+    "rowsSummary": "{valid} ready · {invalid} with errors",
+    "resultSummary": "{ok} published, {failed} failed",
+    "clear": "Clear",
+    "import": "{count, plural, one {Publish # listing} other {Publish # listings}}",
+    "importing": "Publishing {done}/{total}…",
+    "photos": "{count, plural, one {# photo} other {# photos}}",
+    "view": "View",
+    "failed": "Failed",
+    "imagesSkipped": "{count, plural, one {# image could not be downloaded} other {# images could not be downloaded}}",
+    "alertsTitle": "Buyer alerts",
+    "alertsSubtitle": "{count, plural, one {# active alert} other {# active alerts}}",
+    "demand": "Demand by city",
+    "whatsappQueue": "WhatsApp subscribers with new matches ({count})",
+    "noMatches": "No WhatsApp subscriber has new matches right now.",
+    "matches": "{count, plural, one {# new match} other {# new matches}}",
+    "sendWhatsApp": "Send on WhatsApp",
+    "markSent": "Mark as sent",
+    "featuredLabel": "Admin · Featured",
+    "featuredOn": "Featured",
+    "featuredOff": "Mark as featured",
+    "featuredError": "Couldn't save"
+  },
+  "quickPost": {
+    "title": "Post your property in 1 minute",
+    "subtitle": "Just your WhatsApp number, the city, the price and a few photos. You can add details later.",
+    "phone": "Your WhatsApp number",
+    "chooseCity": "Choose a city",
+    "price": "Price",
+    "photos": "Photos (at least 1)",
+    "optional": "Optional — change if needed",
+    "missing": "Add your number, city, price and at least one photo.",
+    "submit": "Publish for free",
+    "fullFormHint": "Want to add more details now?",
+    "fullFormLink": "Use the full form",
+    "cta": "Quick post (1 min)"
+  },
+  "alerts": {
+    "title": "Alert me when new listings match",
+    "desc": "New properties are added every week. Tell us what you're looking for and we'll message you as soon as a match is posted.",
+    "anyCity": "Any city",
+    "buyOrRent": "Buy or rent",
+    "buy": "Buy",
+    "rent": "Rent",
+    "anyType": "Any type",
+    "budget": "Max budget (MAD)",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "whatsappPlaceholder": "06 12 34 56 78",
+    "submit": "Create my alert",
+    "success": "Done! We'll message you as soon as a matching listing is posted.",
+    "consent": "Free. Unsubscribe anytime.",
+    "error": "Something went wrong — please try again.",
+    "invalidContact": "Enter a valid email or WhatsApp number.",
+    "unsubscribedTitle": "You're unsubscribed",
+    "unsubscribedDesc": "You won't receive this alert anymore.",
+    "unsubscribeInvalid": "This link is invalid or was already used.",
+    "browse": "Browse listings"
+  },
+  "sellerHero": {
+    "headline": "Sell your property to Moroccans worldwide — for free",
+    "sub": "List your apartment, villa, riad or land in 3 minutes. Moroccan buyers in the US, Canada and Europe contact you directly on WhatsApp. Zero commission.",
+    "cta": "Post my free listing",
+    "whatsapp": "Send via WhatsApp",
+    "whatsappMessage": "Salam, I want to list my property on Maroclist",
+    "trust": "✓ 100% free · ✓ No middleman · ✓ Prices shown in MAD and US dollars"
+  },
+  "cookies": {
+    "title": "Your cookie choices",
+    "body": "With your consent, we use audience-measurement and advertising cookies to see which campaigns brought you here and to improve the site. You can refuse — the site works the same.",
+    "learnMore": "Privacy policy",
+    "accept": "Accept all",
+    "refuse": "Refuse all",
+    "customize": "Customize",
+    "save": "Save my choices",
+    "essential": "Necessary",
+    "essentialDesc": "Signing in to your account, your language, remembering this choice.",
+    "alwaysOn": "Always on",
+    "analytics": "Audience measurement",
+    "analyticsDesc": "Visit statistics (Google Analytics) to understand how the site is used.",
+    "ads": "Advertising",
+    "adsDesc": "Measuring how our ads perform (Google Ads, Meta) and personalised ads.",
+    "settings": "Cookie settings"
+  },
+  "footer": {
+    "credit": "Platform developed by Xenova Studio · RFALA Groupe"
   }
 }

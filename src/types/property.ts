@@ -93,6 +93,8 @@ export interface Property {
   title_ar: string | null;
   description: string | null;
   description_ar: string | null;
+  /** Optional seller one-liner (≤ 60 chars, sanitized), shown under the generated title */
+  highlight?: string | null;
   price: number;
   currency: string;
   property_type: PropertyType;
@@ -109,8 +111,13 @@ export interface Property {
   contact_email: string | null;
   is_active: boolean;
   is_featured: boolean;
+  is_verified_partner?: boolean;
+  partner_name?: string | null;
+  source?: "wizard" | "quick" | "import";
   created_at: string;
   updated_at: string;
+  /** Last editor (set by the audit trigger); differs from user_id when an admin edited the listing */
+  updated_by?: string | null;
 }
 
 export interface PropertyFilters {

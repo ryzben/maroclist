@@ -1,5 +1,6 @@
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { CookieSettingsButton } from "@/components/ConsentBanner";
 
 function l(locale: string, en: string, fr: string, ar: string) {
   if (locale === "ar") return ar;
@@ -9,6 +10,7 @@ function l(locale: string, en: string, fr: string, ar: string) {
 
 export default function Footer() {
   const locale = useLocale();
+  const t = useTranslations("footer");
 
   const links = {
     explore: [
@@ -102,10 +104,11 @@ export default function Footer() {
               © {new Date().getFullYear()} Maroclist. {l(locale, "All rights reserved.", "Tous droits réservés.", "جميع الحقوق محفوظة.")}
             </p>
             <p className="mt-1 text-[11px] text-gray-300">
-              Plateforme développée par Xenova Studio · RFALA Groupe
+              {t("credit")}
             </p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <CookieSettingsButton className="text-xs text-gray-400 hover:text-orange-500 transition-colors" />
             <Link href="/privacy" className="text-xs text-gray-400 hover:text-orange-500 transition-colors">
               {l(locale, "Privacy Policy", "Politique de confidentialité", "سياسة الخصوصية")}
             </Link>

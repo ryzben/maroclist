@@ -1,22 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Menu, X, PlusCircle, Globe, LayoutList, LogOut, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import type { User } from "@supabase/supabase-js";
-
-const LOCALES = [
-  { code: "fr", short: "FR", full: "Français" },
-  { code: "en", short: "EN", full: "English" },
-  { code: "ar", short: "عر", full: "العربية" },
-];
 
 export default function Navbar() {
   const t = useTranslations("nav");
-  const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -86,22 +80,7 @@ export default function Navbar() {
             {/* Language switcher */}
             <div className="hidden sm:flex items-center gap-1 rounded-xl border border-gray-200 bg-gray-50 p-1">
               <Globe className="h-3.5 w-3.5 shrink-0 text-gray-400 ms-0.5" />
-              {LOCALES.map(({ code, short, full }) => (
-                <Link
-                  key={code}
-                  href={pathname}
-                  locale={code}
-                  className={cn(
-                    "rounded-lg px-2.5 py-1 text-sm font-semibold transition whitespace-nowrap",
-                    locale === code
-                      ? "bg-orange-500 text-white shadow-sm"
-                      : "text-gray-500 hover:bg-white hover:text-gray-800 hover:shadow-sm"
-                  )}
-                >
-                  <span className="hidden lg:inline">{full}</span>
-                  <span className="lg:hidden">{short}</span>
-                </Link>
-              ))}
+              <LanguageSwitcher variant="desktop" />
             </div>
 
             {/* Auth – desktop */}
@@ -163,7 +142,7 @@ export default function Navbar() {
             <button
               className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 md:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Menu"
+              aria-label={t("menu")}
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -196,22 +175,7 @@ export default function Navbar() {
               {/* Language switcher mobile */}
               <div className="flex items-center gap-1.5 px-4 py-2">
                 <Globe className="h-4 w-4 text-gray-400 me-1 shrink-0" />
-                {LOCALES.map(({ code, short, full }) => (
-                  <Link
-                    key={code}
-                    href={pathname}
-                    locale={code}
-                    onClick={() => setMobileOpen(false)}
-                    className={cn(
-                      "flex-1 rounded-lg py-2 text-center text-sm font-semibold transition",
-                      locale === code
-                        ? "bg-orange-500 text-white"
-                        : "border border-gray-200 text-gray-600 hover:bg-gray-50"
-                    )}
-                  >
-                    {full}
-                  </Link>
-                ))}
+                <LanguageSwitcher variant="mobile" onPick={() => setMobileOpen(false)} />
               </div>
 
               {user ? (
